@@ -54,7 +54,7 @@ const Header = () => {
           message={"Logged out"}
         />
       )}
-      <div className="shadow-md w-full fixed top-0 left-0">
+      <div className="shadow-md w-full top-0 left-0 relative z-10">
         <div className="md:flex items-center justify-between py-4 md:px-10 px-7">
           <Link to={"/"}>
             <div className="flex items-center font-bold cursor-pointer text-xl">

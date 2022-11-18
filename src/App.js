@@ -20,7 +20,7 @@ export const useAuth = () => {
 };
 
 function App() {
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     setTimeout(() => {
@@ -31,13 +31,13 @@ function App() {
   return (
     <>
       <div
-        className={`z-10 bg-green-600 absolute w-full h-screen flex justify-center items-center transition-all duration-1000 ${
+        className={`z-10 bg-indigo-500 absolute w-full h-screen flex justify-center items-center transition-all duration-1000 ${
           loading ? "top-[-1px]" : "top-[-900px] opacity-0"
         }`}
       >
         <RingLoader color={"#ffffff"} loading={loading} size={80} />
       </div>
-      <div className="flex flex-col h-screen justify-between">
+      <div className="flex flex-col justify-between">
         <Header />
         <div className="container mx-auto overflow-hidden">
           <Routes>
