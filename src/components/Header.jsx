@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { FaMagnet, FaWindowClose, FaHamburger, FaCheck } from "react-icons/fa";
+import { FaGem, FaWindowClose, FaHamburger, FaCheck } from "react-icons/fa";
 import Button from "./Button";
 import { useEffect } from "react";
 import { useAuth } from "../App";
@@ -58,10 +58,10 @@ const Header = () => {
         <div className="md:flex items-center justify-between py-4 md:px-10 px-7">
           <Link to={"/"}>
             <div className="flex items-center font-bold cursor-pointer text-xl">
-              <span className="mr-1 text-green-500">
-                <FaMagnet />
+              <span className="mr-1 text-indigo-500">
+                <FaGem />
               </span>
-              <p>Majesco</p>
+              <p>CakeS</p>
             </div>
           </Link>
 
