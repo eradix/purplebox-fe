@@ -1,6 +1,6 @@
 import React from "react";
 import almond from "../assets/img/almond.jpg";
-import { FaGem, FaFunnelDollar } from "react-icons/fa";
+import { FaFunnelDollar } from "react-icons/fa";
 
 const ListProducts = () => {
   const products = [
@@ -40,7 +40,9 @@ const ListProducts = () => {
     <>
       <div className="py-6">
         <div className=" py-4">
-          <p className="font-bold text-xl text-indigo-500">List of Cakes</p>
+          <p className="text-xl text-indigo-500 font-light italic">
+            List of Cakes
+          </p>
           <p className="text-gray-700">
             Lorem ipsum dolor sit amet consectetur adipisicing elit. Asperiores,
             consequuntur obcaecati? Tempora nostrum veritatis, vitae voluptatem
@@ -77,7 +79,7 @@ const ListProducts = () => {
                   <div>
                     <img src={item.img} alt="almond" />
                     <div className="mt-3">
-                      <h1 className="font-bold">{item.name}</h1>
+                      <h1 className="">{item.name}</h1>
                       <p className="text-gray-700 text-sm">₱{item.price}</p>
                     </div>
                   </div>
