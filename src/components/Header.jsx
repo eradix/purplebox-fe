@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { FaGem, FaWindowClose, FaHamburger, FaCheck } from "react-icons/fa";
+import { FaBox, FaWindowClose, FaHamburger, FaCheck } from "react-icons/fa";
 import Button from "./Button";
 import { useEffect } from "react";
 import { useAuth } from "../App";
@@ -59,9 +59,9 @@ const Header = () => {
           <Link to={"/"}>
             <div className="flex items-center font-bold cursor-pointer text-xl">
               <span className="mr-1 text-indigo-500">
-                <FaGem />
+                <FaBox />
               </span>
-              <p>CakeS</p>
+              <p>PurpleBox</p>
             </div>
           </Link>
 

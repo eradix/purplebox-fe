@@ -1,6 +1,7 @@
 import React from "react";
 import almond from "../assets/img/almond.jpg";
 import { FaFunnelDollar } from "react-icons/fa";
+import { Link } from "react-router-dom";
 
 const ListProducts = () => {
   const products = [
@@ -11,7 +12,7 @@ const ListProducts = () => {
     },
     {
       img: almond,
-      name: "Black Forest Cake",
+      name: "Vanilla Cake",
       price: 999.0,
     },
     {
@@ -52,7 +53,7 @@ const ListProducts = () => {
         </div>
 
         <div>
-          <div className="bg-indigo-500 py-4 px-2 flex justify-between items-center">
+          <div className="bg-red-400 py-4 px-2 flex justify-between items-center">
             <div className="flex items-center">
               <FaFunnelDollar className="text-white mr-1" />
               <p className="text-white">Filters</p>
@@ -76,13 +77,15 @@ const ListProducts = () => {
                   key={index}
                   className="border shadow-md px-4 py-4 flex flex-col justify-center items-center hover:scale-105 transition-all duration-200"
                 >
-                  <div>
-                    <img src={item.img} alt="almond" />
-                    <div className="mt-3">
-                      <h1 className="">{item.name}</h1>
-                      <p className="text-gray-700 text-sm">₱{item.price}</p>
+                  <Link to={item.name}>
+                    <div>
+                      <img src={item.img} alt="almond" />
+                      <div className="mt-3">
+                        <h1 className="">{item.name}</h1>
+                        <p className="text-gray-700 text-sm">₱{item.price}</p>
+                      </div>
                     </div>
-                  </div>
+                  </Link>
                 </div>
               ))}
           </div>
