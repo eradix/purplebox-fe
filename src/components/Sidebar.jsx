@@ -4,17 +4,11 @@ import {
   FaCar,
   FaHandHolding,
   FaRegNewspaper,
-  FaBookmark,
 } from "react-icons/fa";
 import { Link } from "react-router-dom";
 
 const Sidebar = () => {
   const navs = [
-    {
-      name: "Dashboard",
-      logo: <FaBookmark className="text-md" />,
-      path: "/dashboard",
-    },
     {
       name: "Accounts",
       logo: <FaUserFriends className="text-md" />,
@@ -38,7 +32,7 @@ const Sidebar = () => {
   ];
 
   return (
-    <div className=" md:pl-10 md:pr-5 md:w-1/5">
+    <div className=" md:pl-10 md:pr-5 md:w-3/12">
       <ul className="flex justify-between items-center md:block">
         {navs.map((item, id) => (
           <Link key={id} to={item.path} className="w-full">
