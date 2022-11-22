@@ -1,7 +1,6 @@
 import React from "react";
 import { useParams } from "react-router";
 import almond from "../assets/img/almond.jpg";
-import Footer from "../components/Footer";
 
 const Product = () => {
   const { product_id } = useParams();

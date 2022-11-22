@@ -1,17 +1,18 @@
 import React from "react";
+import almond from "../assets/img/almond.jpg";
 
-const Account = () => {
-  const header = ["Name", "Address", "Email", "Actions"];
+const ListProducts = () => {
+  const header = ["Image", "Name", "Price", "Actions"];
 
   return (
     <>
       <div className=" md:pr-10 md:pl-5 md:w-9/12">
         <div className="flex justify-between">
           <div className="flex items-center font-bold cursor-pointer text-xl mb-3">
-            <p>Account Management</p>
+            <p>Product Management</p>
           </div>
           <button className="py-2 px-4 bg-indigo-500 text-white rounded">
-            Add Account
+            Add Product
           </button>
         </div>
         <div className="flex flex-col">
@@ -35,13 +36,13 @@ const Account = () => {
                   <tbody className="divide-y divide-gray-200 relative">
                     <tr>
                       <td className="px-6 py-4 text-sm font-medium text-gray-800 whitespace-nowrap">
-                        Charles
+                        <img src={almond} className="w-24 h-24" alt="" />
                       </td>
                       <td className="px-6 py-4 text-sm text-gray-800 whitespace-nowrap">
-                        haha
+                        Black Forest
                       </td>
                       <td className="px-6 py-4 text-sm text-gray-800 whitespace-nowrap">
-                        Pitagan
+                        1200.00
                       </td>
 
                       <td className="px-6 py-4 text-sm font-medium whitespace-nowrap">
@@ -67,4 +68,4 @@ const Account = () => {
   );
 };
 
-export default Account;
+export default ListProducts;

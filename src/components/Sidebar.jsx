@@ -3,7 +3,7 @@ import {
   FaUserFriends,
   FaCar,
   FaHandHolding,
-  FaRegNewspaper,
+  FaBirthdayCake,
 } from "react-icons/fa";
 import { Link } from "react-router-dom";
 
@@ -15,9 +15,9 @@ const Sidebar = () => {
       path: "/accounts",
     },
     {
-      name: "Cakes",
-      logo: <FaRegNewspaper className="text-md" />,
-      path: "/policies",
+      name: "Products",
+      logo: <FaBirthdayCake className="text-md" />,
+      path: "/list-products",
     },
     {
       name: "Orders",

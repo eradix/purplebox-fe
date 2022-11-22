@@ -5,7 +5,7 @@ import Register from "./pages/Register";
 import Index from "./pages/Index";
 import Dashboard from "./pages/Dashboard";
 import Account from "./pages/Account";
-import Policy from "./pages/Policy";
+import ListProducts from "./pages/ListProducts";
 import PrivateRoutes from "./utils/PrivateRoutes";
 import PublicRoutes from "./utils/PublicRoutes";
 import Footer from "./components/Footer";
@@ -49,7 +49,7 @@ function App() {
             <Route element={<PrivateRoutes />}>
               <Route index path="/dashboard" element={<Dashboard />} exact />
               <Route path="/accounts" element={<Account />} />
-              <Route path="/policies" element={<Policy />} />
+              <Route path="/list-products" element={<ListProducts />} />
             </Route>
 
             <Route element={<PublicRoutes />}>
