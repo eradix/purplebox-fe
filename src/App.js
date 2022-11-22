@@ -15,7 +15,7 @@ import { RingLoader } from "react-spinners";
 import Product from "./pages/Product";
 
 export const useAuth = () => {
-  const token = localStorage.getItem("token");
+  const token = "asdasdas";
 
   return token;
 };

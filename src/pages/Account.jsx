@@ -20,7 +20,7 @@ const Account = () => {
 
   return (
     <>
-      <div className="md:w-4/5 md:mt-24 md:pr-10 md:pl-5">
+      <div className="md:w-4/5 md:pr-10 md:pl-5">
         <div className="ml-2">
           <h1 className="font-bold text-xl mb-3">Manage Accounts</h1>
         </div>

@@ -21,24 +21,24 @@ const Sidebar = () => {
       path: "/accounts",
     },
     {
-      name: "Policies",
+      name: "Cakes",
       logo: <FaRegNewspaper className="text-md" />,
       path: "/policies",
     },
     {
-      name: "Policy Holder",
+      name: "Orders",
       logo: <FaHandHolding className="text-md" />,
       path: "/accounts",
     },
     {
-      name: "Claims",
+      name: "Logout",
       logo: <FaCar className="text-md" />,
       path: "/accounts",
     },
   ];
 
   return (
-    <div className="md:mt-24 mt-16 md:pl-10 md:pr-5 md:w-1/5">
+    <div className=" md:pl-10 md:pr-5 md:w-1/5">
       <ul className="flex justify-between items-center md:block">
         {navs.map((item, id) => (
           <Link key={id} to={item.path} className="w-full">

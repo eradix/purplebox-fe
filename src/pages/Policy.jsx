@@ -3,7 +3,7 @@ import React from "react";
 const Policy = () => {
   return (
     <>
-      <div className="md:w-4/5 md:mt-24">
+      <div className="md:w-4/5">
         <p>Policy</p>
         <p>
           Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ut eligendi
