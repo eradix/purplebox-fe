@@ -1,6 +1,12 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { FaBox, FaWindowClose, FaHamburger, FaCheck } from "react-icons/fa";
+import {
+  FaBox,
+  FaWindowClose,
+  FaHamburger,
+  FaCheck,
+  FaCartPlus,
+} from "react-icons/fa";
 import Button from "./Button";
 import { useEffect } from "react";
 import { useAuth } from "../App";
@@ -39,7 +45,6 @@ const Header = () => {
     { name: "Login", link: "/login" },
     {
       name: "Register",
-
       link: "/register",
     },
   ];
@@ -89,6 +94,14 @@ const Header = () => {
                 <Link to={item.link}>{item.name}</Link>
               </li>
             ))}
+            <div className="ml-8 relative">
+              <Link to={`/cart/1`}>
+                <FaCartPlus className="text-2xl" />
+              </Link>
+              <p className=" text-white bg-red-500 rounded-full text-center text-sm absolute -top-2 right-0 font-bold">
+                1
+              </p>
+            </div>
             {!token ? (
               <Button btnName={"Get Started"} />
             ) : (

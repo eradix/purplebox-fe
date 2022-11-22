@@ -13,6 +13,7 @@ import { useState } from "react";
 import { useEffect } from "react";
 import { RingLoader } from "react-spinners";
 import Product from "./pages/Product";
+import Cart from "./pages/Cart";
 
 export const useAuth = () => {
   const token = "asdasdas";
@@ -44,6 +45,7 @@ function App() {
           <Routes>
             <Route path="/" element={<Index />}></Route>
             <Route path="/:product_id" element={<Product />}></Route>
+            <Route path="/cart/:user_id" element={<Cart />}></Route>
             <Route element={<PrivateRoutes />}>
               <Route index path="/dashboard" element={<Dashboard />} exact />
               <Route path="/accounts" element={<Account />} />
