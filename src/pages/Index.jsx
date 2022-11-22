@@ -1,4 +1,4 @@
-import Footer from "../components/Footer";
+
 import ListProducts from "../components/ListProducts";
 import Showcase from "../components/Showcase";
 

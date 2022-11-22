@@ -7,8 +7,8 @@ const Product = () => {
   const { product_id } = useParams();
   return (
     <>
-      <div className="h-screen flex items-center">
-        <div className="md:flex items-center gap-10">
+      <div className="md:h-screen flex items-center">
+        <div className="md:flex items-center gap-10 my-12 md:my-0">
           <img src={almond} alt="cake" className="mb-3 md:mb-0" />
           <div className="">
             <p className="font-bold text-2xl text-indigo-500">{product_id}</p>
