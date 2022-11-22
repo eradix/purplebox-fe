@@ -62,8 +62,11 @@ const Cart = () => {
                   </tbody>
                 </table>
               </div>
-              <div className="float-right">
-                <button className="bg-indigo-500 text-white py-2 rounded px-4 mt-3">
+              <div className="float-right mt-3">
+                <p className="mr-2 mb-2">
+                  Total (0 item): <span className="text-red-500">₱ 12,000</span>
+                </p>
+                <button className="bg-indigo-500 text-white py-2 rounded px-14">
                   Checkout
                 </button>
               </div>

@@ -98,7 +98,7 @@ const Header = () => {
               <Link to={`/cart/1`}>
                 <FaCartPlus className="text-2xl" />
               </Link>
-              <p className=" text-white bg-red-500 rounded-full text-center text-sm absolute -top-2 right-0 font-bold">
+              <p className=" text-white bg-red-500 rounded-full text-center text-sm absolute -top-3 -right-2 font-bold px-1">
                 1
               </p>
             </div>
