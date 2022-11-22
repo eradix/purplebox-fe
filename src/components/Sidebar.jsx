@@ -1,10 +1,5 @@
 import React from "react";
-import {
-  FaUserFriends,
-  FaCar,
-  FaHandHolding,
-  FaBirthdayCake,
-} from "react-icons/fa";
+import { FaUserFriends, FaHandHolding, FaBirthdayCake } from "react-icons/fa";
 import { Link } from "react-router-dom";
 
 const Sidebar = () => {
@@ -22,12 +17,7 @@ const Sidebar = () => {
     {
       name: "Orders",
       logo: <FaHandHolding className="text-md" />,
-      path: "/accounts",
-    },
-    {
-      name: "Logout",
-      logo: <FaCar className="text-md" />,
-      path: "/accounts",
+      path: "/orders",
     },
   ];
 
