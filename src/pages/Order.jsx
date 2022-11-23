@@ -1,5 +1,9 @@
 import React from "react";
+import { useDispatch, useSelector } from "react-redux";
 import almond from "../assets/img/almond.jpg";
+import FormModal from "../components/FormModal";
+import { orderFields } from "../helper/OrderField";
+import { orderActions } from "../store/order-slice";
 
 const Order = () => {
   const header = [
@@ -11,8 +15,28 @@ const Order = () => {
     "Status",
     "Actions",
   ];
+
+  const showModal = useSelector((state) => state.order.showModal);
+  const dispatch = useDispatch();
+
+  const form = useSelector((state) => state.order.form);
+
+  const editOrder = () => {
+    dispatch(orderActions.setShowModal(true));
+  };
+
   return (
     <>
+      {showModal && (
+        <FormModal
+          updateTitle={"Update Order"}
+          fields={orderFields}
+          actions={orderActions}
+          form={form}
+          edit={true}
+        />
+      )}
+
       <div className=" md:pr-10 md:pl-5 md:w-9/12">
         <div className="flex justify-between">
           <div className="flex items-center font-bold cursor-pointer text-xl mb-3">
@@ -58,15 +82,13 @@ const Order = () => {
                         Pending
                       </td>
                       <td className="px-6 py-4 text-sm font-medium whitespace-nowrap">
-                        <a
+                        <button
+                          onClick={editOrder}
                           className="text-green-500 hover:text-red-700 mr-3"
                           href="#"
                         >
                           Edit
-                        </a>
-                        <a className="text-red-500 hover:text-red-700" href="#">
-                          Delete
-                        </a>
+                        </button>
                       </td>
                     </tr>
                   </tbody>
