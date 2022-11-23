@@ -1,5 +1,5 @@
 import React from "react";
-import { FaUserFriends, FaHandHolding, FaBirthdayCake } from "react-icons/fa";
+import { FaUserFriends, FaHandHolding, FaBirthdayCake, FaPowerOff } from "react-icons/fa";
 import { Link } from "react-router-dom";
 
 const Sidebar = () => {
@@ -18,6 +18,11 @@ const Sidebar = () => {
       name: "Orders",
       logo: <FaHandHolding className="text-md" />,
       path: "/orders",
+    },
+    {
+      name: "Logout",
+      logo: <FaPowerOff className="text-md" />,
+      path: "/login",
     },
   ];
 

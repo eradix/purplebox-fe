@@ -17,7 +17,7 @@ import Cart from "./pages/Cart";
 import Order from "./pages/Order";
 
 export const useAuth = () => {
-  const token = "asdasdas";
+  const token = "asdsa";
 
   return token;
 };

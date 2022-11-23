@@ -94,18 +94,16 @@ const Header = () => {
                 <Link to={item.link}>{item.name}</Link>
               </li>
             ))}
-            <div className="ml-8 relative">
-              <Link to={`/cart/1`}>
-                <FaCartPlus className="text-2xl" />
-              </Link>
-              <p className=" text-white bg-red-500 rounded-full text-center text-sm absolute -top-3 -right-2 font-bold px-1">
-                1
-              </p>
-            </div>
-            {!token ? (
-              <Button btnName={"Get Started"} />
-            ) : (
-              <Button btnName={"Logout"} action={() => logout()} />
+
+            {token && (
+              <div className="ml-8 relative">
+                <Link to={`/cart/1`}>
+                  <FaCartPlus className="text-2xl" />
+                </Link>
+                <p className=" text-white bg-red-500 rounded-full text-center text-sm absolute -top-3 -right-2 font-bold px-1">
+                  1
+                </p>
+              </div>
             )}
           </ul>
         </div>
