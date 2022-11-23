@@ -7,7 +7,7 @@ const Product = () => {
   return (
     <>
       <div className="md:h-screen flex items-center">
-        <div className="md:flex items-center gap-10 my-12 md:my-0">
+        <div className="md:flex items-center gap-10 my-12 md:my-0 md:mx-24">
           <img src={almond} alt="cake" className="mb-3 md:mb-0" />
           <div className="">
             <p className="font-bold text-2xl text-indigo-500">{product_id}</p>
