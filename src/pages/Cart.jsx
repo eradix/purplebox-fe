@@ -1,18 +1,27 @@
-import React from "react";
+import React, { useState } from "react";
 import { FaBox } from "react-icons/fa";
+import { useDispatch, useSelector } from "react-redux";
 import almond from "../assets/img/almond.jpg";
+import PaymentModal from "../components/PaymentModal";
+import { cartActions } from "../store/cart-slice";
 
 const Cart = () => {
+  const showModal = useSelector((state) => state.cart.showModal);
+  const dispatch = useDispatch();
+
   const header = [
     "Product",
     "Unit Price",
     "Quantity",
     "Total Price",
+    "Status",
     "Actions",
   ];
 
   return (
     <>
+      {showModal && <PaymentModal />}
+
       <div className="md:w-full md:pr-10 md:pl-5 h-screen mt-12 ">
         <div className="flex items-center font-bold cursor-pointer text-xl mb-3">
           <span className="mr-1 text-indigo-500">
@@ -52,7 +61,9 @@ const Cart = () => {
                       <td className="px-6 py-4 text-sm text-gray-800 whitespace-nowrap">
                         100000
                       </td>
-
+                      <td className="px-6 py-4 text-sm text-yellow-500 whitespace-nowrap">
+                        To Pay
+                      </td>
                       <td className="px-6 py-4 text-sm font-medium whitespace-nowrap">
                         <a className="text-red-500 hover:text-red-700" href="#">
                           Delete
@@ -66,7 +77,10 @@ const Cart = () => {
                 <p className="mr-2 mb-2">
                   Total (0 item): <span className="text-red-500">₱ 12,000</span>
                 </p>
-                <button className="bg-indigo-500 text-white py-2 rounded px-14">
+                <button
+                  onClick={() => dispatch(cartActions.setShowModal(true))}
+                  className="bg-indigo-500 text-white py-2 rounded px-14"
+                >
                   Checkout
                 </button>
               </div>
