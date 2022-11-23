@@ -12,10 +12,10 @@ const TextBox = ({
 }) => {
   return (
     <>
-      <div className="flex items-center focus-within:text-gray-600 relative">
+      <div className="flex items-center focus-within:text-gray-700 relative">
         <input
           type={type}
-          className={`border py-2 pr-3 pl-10 rounded-md shadow-md w-full focus:outline-none ${
+          className={`text-gray-600 border py-2 pr-3 pl-10 rounded-md shadow-md w-full focus:outline-none ${
             errorMsg && "border-red-500"
           }`}
           placeholder={placeholder}

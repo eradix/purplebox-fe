@@ -5,6 +5,7 @@ export const productFields = [
     ph: "Image",
     icon: <FaImage />,
     field: "image",
+    file: true
   },
   {
     ph: "Name",

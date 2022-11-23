@@ -33,13 +33,35 @@ const FormModal = ({ addTitle, updateTitle, fields, actions, form, edit }) => {
           <div>
             {fields.map((item, index) => (
               <div key={index} className="mb-2">
-                <TextBox
-                  placeholder={item.ph}
-                  icon={item.icon}
-                  field={item.field}
-                  value={form[item.field]}
-                  handleChange={handleChange}
-                />
+                {!item.file && !item.dropdown && (
+                  <TextBox
+                    placeholder={item.ph}
+                    icon={item.icon}
+                    field={item.field}
+                    value={form[item.field]}
+                    handleChange={handleChange}
+                  />
+                )}
+                {item.file && (
+                  <input
+                    type="file"
+                    placeholder="Upload Image"
+                    className="text-gray-500 border py-3 pr-3 pl-10 rounded-md shadow-md w-full focus:outline-none"
+                  />
+                )}
+
+                {item.dropdown && (
+                  <select
+                    name="cars"
+                    id="cars"
+                    className="text-gray-500 border py-3 pr-3 pl-10 rounded-md shadow-md w-full focus:outline-none"
+                  >
+                    <option defaultValue="Select Status">Select Status</option>
+                    <option value="saab">To Pay</option>
+                    <option value="mercedes">Pending</option>
+                    <option value="audi">Completed</option>
+                  </select>
+                )}
               </div>
             ))}
 

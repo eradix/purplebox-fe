@@ -30,5 +30,6 @@ export const orderFields = [
     ph: "Status",
     icon: <FaPenFancy />,
     field: "status",
+    dropdown: true
   },
 ];
