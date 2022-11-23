@@ -40,7 +40,7 @@ const Header = () => {
       .catch((err) => console.log(err));
   };
 
-  const publicRoutes = [{ name: "Dashboard", link: "/accounts" }];
+  const publicRoutes = [{ name: "Dashboard", link: "/users" }];
   const privateRoutes = [
     { name: "Login", link: "/login" },
     {

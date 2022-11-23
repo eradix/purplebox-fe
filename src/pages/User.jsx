@@ -1,17 +1,25 @@
 import React from "react";
+import { useDispatch, useSelector } from "react-redux";
+import FormModal from "../components/FormModal";
+import { userActions } from "../store/user-slice";
 
-const Account = () => {
+const User = () => {
   const header = ["Name", "Address", "Email", "Actions"];
+
+  const showModal = useSelector(state => state.user.showModal)
+  const dispatch = useDispatch()
 
   return (
     <>
+      {showModal && <FormModal />}
+
       <div className=" md:pr-10 md:pl-5 md:w-9/12">
         <div className="flex justify-between">
           <div className="flex items-center font-bold cursor-pointer text-xl mb-3">
-            <p>Account Management</p>
+            <p>Users Management</p>
           </div>
-          <button className="py-2 px-4 bg-indigo-500 text-white rounded">
-            Add Account
+          <button onClick={() => dispatch(userActions.setShowModal(true))} className="py-2 px-4 bg-indigo-500 text-white rounded">
+            Add User
           </button>
         </div>
         <div className="flex flex-col">
@@ -67,4 +75,4 @@ const Account = () => {
   );
 };
 
-export default Account;
+export default User;

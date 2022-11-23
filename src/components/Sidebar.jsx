@@ -5,9 +5,9 @@ import { Link } from "react-router-dom";
 const Sidebar = () => {
   const navs = [
     {
-      name: "Accounts",
+      name: "Users",
       logo: <FaUserFriends className="text-md" />,
-      path: "/accounts",
+      path: "/users",
     },
     {
       name: "Products",

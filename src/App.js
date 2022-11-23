@@ -4,7 +4,7 @@ import { Route, Routes } from "react-router-dom";
 import Register from "./pages/Register";
 import Index from "./pages/Index";
 import Dashboard from "./pages/Dashboard";
-import Account from "./pages/Account";
+import User from "./pages/User";
 import ListProducts from "./pages/ListProducts";
 import PrivateRoutes from "./utils/PrivateRoutes";
 import PublicRoutes from "./utils/PublicRoutes";
@@ -49,7 +49,7 @@ function App() {
             <Route path="/cart/:user_id" element={<Cart />}></Route>
             <Route element={<PrivateRoutes />}>
               <Route index path="/dashboard" element={<Dashboard />} exact />
-              <Route path="/accounts" element={<Account />} />
+              <Route path="/users" element={<User />} />
               <Route path="/list-products" element={<ListProducts />} />
               <Route path="/orders" element={<Order />} />
             </Route>
