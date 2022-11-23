@@ -2,12 +2,16 @@ import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import FormModal from "../components/FormModal";
 import { userActions } from "../store/user-slice";
+import { userFields } from "../helper/UserField";
 
 const User = () => {
   const header = ["Name", "Address", "Email", "Actions"];
 
   const showModal = useSelector((state) => state.user.showModal);
   const dispatch = useDispatch();
+
+  const form = useSelector((state) => state.user.form);
+  const edit = useSelector((state) => state.user.edit);
 
   const editUser = () => {
     dispatch(userActions.setEdit(true));
@@ -16,7 +20,16 @@ const User = () => {
 
   return (
     <>
-      {showModal && <FormModal />}
+      {showModal && (
+        <FormModal
+          addTitle={"Add Account"}
+          updateTitle={"Update Account"}
+          fields={userFields}
+          actions={userActions}
+          form={form}
+          edit={edit}
+        />
+      )}
 
       <div className=" md:pr-10 md:pl-5 md:w-9/12">
         <div className="flex justify-between">

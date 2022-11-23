@@ -1,24 +1,20 @@
 import React from "react";
 import { motion } from "framer-motion";
 import TextBox from "./TextBox";
-import { useDispatch, useSelector } from "react-redux";
-import { userActions } from "../store/user-slice";
-import { userFields } from "../helper/UserField";
+import { useDispatch } from "react-redux";
 
-const FormModal = () => {
-  const form = useSelector((state) => state.user.form);
-  const edit = useSelector((state) => state.user.edit);
+const FormModal = ({ addTitle, updateTitle, fields, actions, form, edit }) => {
   const dispatch = useDispatch();
 
   const handleChange = (e) => {
     e.preventDefault();
     const { name, value } = e.target;
-    dispatch(userActions.setForm({ name, value }));
+    dispatch(actions.setForm({ name, value }));
   };
 
   const closeModal = () => {
-    dispatch(userActions.setShowModal(false));
-    dispatch(userActions.setEdit(false));
+    dispatch(actions.setShowModal(false));
+    dispatch(actions.setEdit(false));
   };
 
   return (
@@ -28,16 +24,16 @@ const FormModal = () => {
           initial={{ y: "-1000px" }}
           animate={{ y: "-100px" }}
           transition={{ type: "spring", duration: 0.5 }}
-          className="bg-white rounded-xl py-6 px-24 flex flex-col justify-center w-6/12"
+          className="bg-white rounded-xl py-6 px-12 flex flex-col justify-center w-4/12"
         >
           <p className="font-bold text-2xl text-gray-900 mb-3">
-            {edit ? "Edit Account" : "Add Account"}
+            {edit ? updateTitle : addTitle}
           </p>
 
           <div>
-            {userFields.map((item, index) => (
+            {fields.map((item, index) => (
               <div key={index} className="mb-2">
-                <TextBox  
+                <TextBox
                   placeholder={item.ph}
                   icon={item.icon}
                   field={item.field}
