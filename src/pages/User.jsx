@@ -6,8 +6,13 @@ import { userActions } from "../store/user-slice";
 const User = () => {
   const header = ["Name", "Address", "Email", "Actions"];
 
-  const showModal = useSelector(state => state.user.showModal)
-  const dispatch = useDispatch()
+  const showModal = useSelector((state) => state.user.showModal);
+  const dispatch = useDispatch();
+
+  const editUser = () => {
+    dispatch(userActions.setEdit(true));
+    dispatch(userActions.setShowModal(true));
+  };
 
   return (
     <>
@@ -18,7 +23,10 @@ const User = () => {
           <div className="flex items-center font-bold cursor-pointer text-xl mb-3">
             <p>Users Management</p>
           </div>
-          <button onClick={() => dispatch(userActions.setShowModal(true))} className="py-2 px-4 bg-indigo-500 text-white rounded">
+          <button
+            onClick={() => dispatch(userActions.setShowModal(true))}
+            className="py-2 px-4 bg-indigo-500 text-white rounded"
+          >
             Add User
           </button>
         </div>
@@ -53,15 +61,19 @@ const User = () => {
                       </td>
 
                       <td className="px-6 py-4 text-sm font-medium whitespace-nowrap">
-                        <a
+                        <button
+                          onClick={() => editUser()}
                           className="text-green-500 hover:text-red-700 mr-3"
                           href="#"
                         >
                           Edit
-                        </a>
-                        <a className="text-red-500 hover:text-red-700" href="#">
+                        </button>
+                        <button
+                          className="text-red-500 hover:text-red-700"
+                          href="#"
+                        >
                           Delete
-                        </a>
+                        </button>
                       </td>
                     </tr>
                   </tbody>

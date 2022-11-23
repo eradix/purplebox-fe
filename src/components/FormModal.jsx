@@ -7,12 +7,18 @@ import { userFields } from "../helper/UserField";
 
 const FormModal = () => {
   const form = useSelector((state) => state.user.form);
+  const edit = useSelector((state) => state.user.edit);
   const dispatch = useDispatch();
 
   const handleChange = (e) => {
     e.preventDefault();
     const { name, value } = e.target;
     dispatch(userActions.setForm({ name, value }));
+  };
+
+  const closeModal = () => {
+    dispatch(userActions.setShowModal(false));
+    dispatch(userActions.setEdit(false));
   };
 
   return (
@@ -24,12 +30,14 @@ const FormModal = () => {
           transition={{ type: "spring", duration: 0.5 }}
           className="bg-white rounded-xl py-6 px-24 flex flex-col justify-center w-6/12"
         >
-          <p className="font-bold text-2xl text-gray-900 mb-3">Add Account</p>
+          <p className="font-bold text-2xl text-gray-900 mb-3">
+            {edit ? "Edit Account" : "Add Account"}
+          </p>
 
           <div>
             {userFields.map((item, index) => (
               <div key={index} className="mb-2">
-                <TextBox
+                <TextBox  
                   placeholder={item.ph}
                   icon={item.icon}
                   field={item.field}
@@ -41,14 +49,20 @@ const FormModal = () => {
 
             <div className="text-right mt-3">
               <button
-                onClick={() => dispatch(userActions.setShowModal(false))}
+                onClick={closeModal}
                 className="bg-red-500 text-white py-2 px-4 rounded mr-2"
               >
                 Close
               </button>
-              <button className="bg-indigo-500 text-white py-2 px-4 rounded">
-                Save
-              </button>
+              {!edit ? (
+                <button className="bg-indigo-500 text-white py-2 px-4 rounded">
+                  Save
+                </button>
+              ) : (
+                <button className="bg-indigo-500 text-white py-2 px-4 rounded">
+                  Update
+                </button>
+              )}
             </div>
           </div>
         </motion.div>

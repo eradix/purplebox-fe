@@ -13,6 +13,7 @@ const userSlice = createSlice({
       password: "",
     },
     showModal: false,
+    edit: false,
   },
   reducers: {
     setForm(state, action) {
@@ -20,6 +21,9 @@ const userSlice = createSlice({
     },
     setShowModal(state, action) {
       state.showModal = action.payload;
+    },
+    setEdit(state, action) {
+      state.edit = action.payload;
     },
     getAllUsers(state, action) {
       state.allUsers = action.payload;
