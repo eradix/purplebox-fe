@@ -23,13 +23,13 @@ const Login = () => {
         localStorage.setItem("token", res.data.token);
         axios.defaults.headers.common[
           "Authorization"
-        ] = `Bearer ${res.data.token}`;
+        ] = `Bearer ${res.data.access_token}`;
         setSuccess(true);
         setFailed(false);
         setTimeout(() => {
           setSuccess(false);
           dispatch(authActions.resetLoginForm());
-          navigate("/dashboard");
+          navigate("/users");
         }, 2000);
       })
       .catch((err) => {
