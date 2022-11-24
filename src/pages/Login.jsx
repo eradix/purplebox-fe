@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { FaEnvelope, FaLock, FaCheck } from "react-icons/fa";
+import { FaEnvelope, FaLock, FaCheck, FaBox } from "react-icons/fa";
 import TextBox from "../components/TextBox";
 import { Link, useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
@@ -55,9 +55,12 @@ const Login = () => {
 
       <div className="h-screen flex items-center justify-center">
         <div className="shadow-md pt-12 px-12 w-full md:w-1/2 lg:w-1/3">
-          <h1 className="font-bold text-center uppercase">
-            Policy Administration System
-          </h1>
+          <div className="flex items-center font-bold cursor-pointer text-xl justify-center mb-6">
+            <span className="mr-1 text-indigo-500">
+              <FaBox />
+            </span>
+            <p>Sign In</p>
+          </div>
           {failed && <ErrorMessage message={"Invalid Credentials"} />}
           <form action="" className="my-3">
             <div className="mb-1">
