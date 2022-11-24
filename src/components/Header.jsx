@@ -25,21 +25,6 @@ const Header = () => {
   const [open, setOpen] = useState(false);
   const [loggedOut, setLoggedOut] = useState(false);
 
-  const logout = async () => {
-    await axios
-      .post(`${process.env.REACT_APP_API_URL}/api/logout`)
-      .then((res) => {
-        localStorage.removeItem("token");
-        setLoggedOut(true);
-        dispatch(userActions.resetAllUser());
-        setTimeout(() => {
-          setLoggedOut(false);
-          navigate("/login");
-        }, 2000);
-      })
-      .catch((err) => console.log(err));
-  };
-
   const publicRoutes = [{ name: "Dashboard", link: "/users" }];
   const privateRoutes = [
     { name: "Login", link: "/login" },

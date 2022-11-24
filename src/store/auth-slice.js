@@ -5,12 +5,14 @@ const authSlice = createSlice({
   initialState: {
     isLoggedIn: true,
     registerForm: {
-      firstName: "",
-      middleName: "",
-      lastName: "",
+      first_name: "",
+      middle_name: "",
+      last_name: "",
       address: "",
+      role: "user",
       email: "",
       password: "",
+      password_confirmation: "",
     },
     loginForm: {
       email: "",

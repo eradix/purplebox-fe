@@ -15,10 +15,11 @@ import { RingLoader } from "react-spinners";
 import Product from "./pages/Product";
 import Cart from "./pages/Cart";
 import Order from "./pages/Order";
+import axios from "axios";
 
 export const useAuth = () => {
   const token = localStorage.getItem("token");
-
+  // const token = "";
   return token;
 };
 
@@ -26,6 +27,10 @@ function App() {
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
+    axios.defaults.headers.common[
+      "Authorization"
+    ] = `Bearer ${localStorage.getItem("token")}`;
+
     setTimeout(() => {
       setLoading(false);
     }, 2000);

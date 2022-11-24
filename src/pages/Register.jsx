@@ -23,12 +23,13 @@ const Register = () => {
   const [success, setSuccess] = useState(false);
   const [failed, setFailed] = useState(false);
   const [errors, setErrors] = useState({
-    firstName: "",
-    middleName: "",
-    lastName: "",
+    first_name: "",
+    last_name: "",
     address: "",
+    role: "",
     email: "",
     password: "",
+    password_confirmation: "",
   });
 
   const register = async (e) => {
@@ -49,11 +50,10 @@ const Register = () => {
         setErrors(resetErr);
         if (err.response.status === 500) setFailed(true);
         if (err.response.status === 400) {
-          err.response.data.errors.map((item) => {
-            const { defaultMessage, field } = item;
+          Object.keys(err.response.data).map((item) => {
             setErrors((prev) => ({
               ...prev,
-              [field]: defaultMessage,
+              [item]: err.response.data[item],
             }));
           });
         }
@@ -99,10 +99,10 @@ const Register = () => {
               <TextBox
                 placeholder={"Firstname"}
                 icon={<FaUser />}
-                field={"firstName"}
-                value={form.firstName}
+                field={"first_name"}
+                value={form.first_name}
                 handleChange={handleChange}
-                errorMsg={errors.firstName}
+                errorMsg={errors.first_name}
               />
             </div>
 
@@ -110,8 +110,8 @@ const Register = () => {
               <TextBox
                 placeholder={"Middlename"}
                 icon={<FaUser />}
-                field={"middleName"}
-                value={form.middleName}
+                field={"middle_name"}
+                value={form.middle_name}
                 handleChange={handleChange}
               />
             </div>
@@ -120,10 +120,10 @@ const Register = () => {
               <TextBox
                 placeholder={"Lastname"}
                 icon={<FaUser />}
-                field={"lastName"}
-                value={form.lastName}
+                field={"last_name"}
+                value={form.last_name}
                 handleChange={handleChange}
-                errorMsg={errors.lastName}
+                errorMsg={errors.last_name}
               />
             </div>
 
@@ -158,6 +158,18 @@ const Register = () => {
                 value={form.password}
                 handleChange={handleChange}
                 errorMsg={errors.password}
+              />
+            </div>
+            
+            <div className="mb-2">
+              <TextBox
+                type={"password"}
+                placeholder={"Confirm Password"}
+                icon={<FaLock />}
+                field={"password_confirmation"}
+                value={form.password_confirmation}
+                handleChange={handleChange}
+                errorMsg={errors.password_confirmation}
               />
             </div>
 
