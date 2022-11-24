@@ -33,7 +33,8 @@ const Login = () => {
         setTimeout(() => {
           setSuccess(false);
           dispatch(authActions.resetLoginForm());
-          navigate("/users");
+          if(res.data.data.role === "admin") navigate("/users"); 
+          else navigate("/"); 
         }, 2000);
       })
       .catch((err) => {

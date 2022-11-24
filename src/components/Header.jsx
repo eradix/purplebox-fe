@@ -7,17 +7,14 @@ import {
   FaCheck,
   FaCartPlus,
 } from "react-icons/fa";
-import Button from "./Button";
 import { useEffect } from "react";
 import { useAuth } from "../App";
 import Modal from "./AlertModal";
-import { userActions } from "../store/user-slice";
-import { useDispatch } from "react-redux";
-import axios from "axios";
 
 const Header = () => {
-
   const token = useAuth();
+  const authUser = JSON.parse(localStorage.getItem("authUser"));
+
   useEffect(() => {}, [token]);
 
   const [open, setOpen] = useState(false);
@@ -25,7 +22,7 @@ const Header = () => {
 
   const publicRoutes = [{ name: "Dashboard", link: "/users" }];
   const privateRoutes = [
-    { name: "Login", link: "/login" },
+    { name: "Login", link: "/login"},
     {
       name: "Register",
       link: "/register",
@@ -78,7 +75,7 @@ const Header = () => {
               </li>
             ))}
 
-            {token && (
+            {token ? (
               <div className="ml-8 relative">
                 <Link to={`/cart/1`}>
                   <FaCartPlus className="text-2xl" />
@@ -87,6 +84,8 @@ const Header = () => {
                   1
                 </p>
               </div>
+            ) : (
+              ""
             )}
           </ul>
         </div>
