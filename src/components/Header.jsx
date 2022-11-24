@@ -10,19 +10,35 @@ import {
 import { useEffect } from "react";
 import { useAuth } from "../App";
 import Modal from "./AlertModal";
+import axios from "axios";
 
 const Header = () => {
   const token = useAuth();
   const authUser = JSON.parse(localStorage.getItem("authUser"));
+  const navigate = useNavigate();
 
   useEffect(() => {}, [token]);
 
   const [open, setOpen] = useState(false);
   const [loggedOut, setLoggedOut] = useState(false);
 
-  const publicRoutes = [{ name: "Dashboard", link: "/users" }];
+  const logout = async () => {
+    await axios
+      .post(`${process.env.REACT_APP_API_URL}/api/logout`)
+      .then((res) => {
+        localStorage.removeItem("token");
+        localStorage.removeItem("authUser");
+        setLoggedOut(true);
+        navigate("/login");
+        window.location.reload();
+      })
+      .catch((err) => console.log(err.response.data));
+  };
+
+  const pblicRoute = [{ name: "Dashboard", link: "/users" }];
+  const publicRoutes = authUser?.role === "admin" ? pblicRoute : [];
   const privateRoutes = [
-    { name: "Login", link: "/login"},
+    { name: "Login", link: "/login" },
     {
       name: "Register",
       link: "/register",
@@ -66,6 +82,12 @@ const Header = () => {
               : "top-[-490px] md:opacity-100 opacity-0"
           }`}
           >
+            {token && (
+              <li className="text-indigo-500 cursor-pointer my-7 md:my-0 md:ml-8 text-md  hover:text-green-500 transition-all duration-100 font-thin">
+                Hi {authUser?.first_name}!
+              </li>
+            )}
+
             {navs.map((item, id) => (
               <li
                 className="my-7 md:my-0 md:ml-8 text-md text-gray-600 hover:text-green-500 transition-all duration-100 font-thin"
@@ -75,7 +97,7 @@ const Header = () => {
               </li>
             ))}
 
-            {token ? (
+            {token && authUser?.role !== "admin" ? (
               <div className="ml-8 relative">
                 <Link to={`/cart/1`}>
                   <FaCartPlus className="text-2xl" />
@@ -86,6 +108,15 @@ const Header = () => {
               </div>
             ) : (
               ""
+            )}
+
+            {authUser?.role === "user" && (
+              <li
+                onClick={logout}
+                className="cursor-pointer my-7 md:my-0 md:ml-8 text-md text-gray-600 hover:text-green-500 transition-all duration-100 font-thin"
+              >
+                Logout
+              </li>
             )}
           </ul>
         </div>

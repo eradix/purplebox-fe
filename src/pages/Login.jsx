@@ -30,12 +30,11 @@ const Login = () => {
 
         setSuccess(true);
         setFailed(false);
-        setTimeout(() => {
-          setSuccess(false);
-          dispatch(authActions.resetLoginForm());
-          if(res.data.data.role === "admin") navigate("/users"); 
-          else navigate("/"); 
-        }, 2000);
+        setSuccess(false);
+        dispatch(authActions.resetLoginForm());
+        if (res.data.data.role === "admin") navigate("/users");
+        else navigate("/");
+        window.location.reload()
       })
       .catch((err) => {
         setFailed(true);

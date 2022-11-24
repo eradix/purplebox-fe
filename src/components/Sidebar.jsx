@@ -40,9 +40,8 @@ const Sidebar = () => {
         localStorage.removeItem("token");
         localStorage.removeItem("authUser");
         setLoggedout(true);
-        setTimeout(() => {
-          navigate("/login");
-        }, 2000);
+        navigate("/login");
+        window.location.reload();
       })
       .catch((err) => console.log(err.response.data));
   };
