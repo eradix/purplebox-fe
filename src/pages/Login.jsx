@@ -21,9 +21,13 @@ const Login = () => {
       .post(`${process.env.REACT_APP_API_URL}/api/login`, form)
       .then((res) => {
         localStorage.setItem("token", res.data.access_token);
+        const authUser = JSON.stringify(res.data.data);
+        localStorage.setItem("authUser", authUser);
+
         axios.defaults.headers.common[
           "Authorization"
         ] = `Bearer ${res.data.access_token}`;
+
         setSuccess(true);
         setFailed(false);
         setTimeout(() => {

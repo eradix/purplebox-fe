@@ -38,6 +38,7 @@ const Sidebar = () => {
       .post(`${process.env.REACT_APP_API_URL}/api/logout`)
       .then((res) => {
         localStorage.removeItem("token");
+        localStorage.removeItem("authUser");
         setLoggedout(true);
         setTimeout(() => {
           navigate("/login");

@@ -16,8 +16,6 @@ import { useDispatch } from "react-redux";
 import axios from "axios";
 
 const Header = () => {
-  const navigate = useNavigate();
-  const dispatch = useDispatch();
 
   const token = useAuth();
   useEffect(() => {}, [token]);
