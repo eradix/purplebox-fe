@@ -41,6 +41,11 @@ const User = () => {
     }, 1000);
   };
 
+  const addUser = () => {
+    dispatch(userActions.setShowModal(true));
+    dispatch(userActions.resetForm());
+  };
+
   return (
     <>
       {showModal && (
@@ -68,7 +73,7 @@ const User = () => {
             <p>Users Management</p>
           </div>
           <button
-            onClick={() => dispatch(userActions.setShowModal(true))}
+            onClick={() => addUser()}
             className="py-2 px-4 bg-indigo-500 text-white rounded"
           >
             Add User
