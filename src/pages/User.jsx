@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import FormModal from "../components/FormModal";
 import { userActions } from "../store/user-slice";
 import { userFields } from "../helper/UserField";
+import useFetch from "../hooks/useFetch";
 
 const User = () => {
   const header = ["Name", "Address", "Email", "Actions"];
@@ -18,6 +19,10 @@ const User = () => {
     dispatch(userActions.setShowModal(true));
   };
 
+  const { data, isPending, error } = useFetch(
+    `${process.env.REACT_APP_API_URL}/api/users`
+  );
+
   return (
     <>
       {showModal && (
@@ -31,7 +36,7 @@ const User = () => {
         />
       )}
 
-      <div className=" md:pr-10 md:pl-5 md:w-9/12">
+      <div className=" md:pr-10 md:pl-5 md:w-9/12 mt-3 md:mt-0">
         <div className="flex justify-between">
           <div className="flex items-center font-bold cursor-pointer text-xl mb-3">
             <p>Users Management</p>
@@ -62,33 +67,39 @@ const User = () => {
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-gray-200 relative">
-                    <tr>
-                      <td className="px-6 py-4 text-sm font-medium text-gray-800 whitespace-nowrap">
-                        Charles
-                      </td>
-                      <td className="px-6 py-4 text-sm text-gray-800 whitespace-nowrap">
-                        haha
-                      </td>
-                      <td className="px-6 py-4 text-sm text-gray-800 whitespace-nowrap">
-                        Pitagan
-                      </td>
+                    {data && (
+                      <>
+                        {data.data.map((item, index) => (
+                          <tr key={index}>
+                            <td className="px-6 py-4 text-sm font-medium text-gray-800 whitespace-nowrap">
+                              {item.first_name + " " + item.last_name}
+                            </td>
+                            <td className="px-6 py-4 text-sm text-gray-800 whitespace-nowrap">
+                              {item.address}
+                            </td>
+                            <td className="px-6 py-4 text-sm text-gray-800 whitespace-nowrap">
+                              {item.email}
+                            </td>
 
-                      <td className="px-6 py-4 text-sm font-medium whitespace-nowrap">
-                        <button
-                          onClick={() => editUser()}
-                          className="text-green-500 hover:text-red-700 mr-3"
-                          href="#"
-                        >
-                          Edit
-                        </button>
-                        <button
-                          className="text-red-500 hover:text-red-700"
-                          href="#"
-                        >
-                          Delete
-                        </button>
-                      </td>
-                    </tr>
+                            <td className="px-6 py-4 text-sm font-medium whitespace-nowrap">
+                              <button
+                                onClick={() => editUser()}
+                                className="text-green-500 hover:text-red-700 mr-3"
+                                href="#"
+                              >
+                                Edit
+                              </button>
+                              <button
+                                className="text-red-500 hover:text-red-700"
+                                href="#"
+                              >
+                                Delete
+                              </button>
+                            </td>
+                          </tr>
+                        ))}
+                      </>
+                    )}
                   </tbody>
                 </table>
               </div>
