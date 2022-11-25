@@ -2,6 +2,7 @@ import React from "react";
 import { motion } from "framer-motion";
 import TextBox from "./TextBox";
 import { useDispatch } from "react-redux";
+import { fetchUsers } from "../store/user-slice";
 
 const FormModal = ({ addTitle, updateTitle, fields, actions, form, edit }) => {
   const dispatch = useDispatch();
@@ -15,6 +16,16 @@ const FormModal = ({ addTitle, updateTitle, fields, actions, form, edit }) => {
   const closeModal = () => {
     dispatch(actions.setShowModal(false));
     dispatch(actions.setEdit(false));
+  };
+
+  const save = () => {
+    dispatch(actions.save({ form }));
+    dispatch(actions.setShowModal(false));
+    dispatch(actions.resetForm());
+    dispatch(actions.setSuccessTrue());
+    setTimeout(() => {
+      dispatch(actions.setSuccessFalse());
+    }, 2000);
   };
 
   return (
@@ -73,7 +84,10 @@ const FormModal = ({ addTitle, updateTitle, fields, actions, form, edit }) => {
                 Close
               </button>
               {!edit ? (
-                <button className="bg-indigo-500 text-white py-2 px-4 rounded">
+                <button
+                  className="bg-indigo-500 text-white py-2 px-4 rounded"
+                  onClick={save}
+                >
                   Save
                 </button>
               ) : (

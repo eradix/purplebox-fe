@@ -1,25 +1,36 @@
-import { FaUser, FaLock, FaEnvelope, FaAddressBook } from "react-icons/fa";
+import {
+  FaUser,
+  FaLock,
+  FaEnvelope,
+  FaAddressBook,
+  FaAdjust,
+} from "react-icons/fa";
 
 export const userFields = [
   {
     ph: "FirstName",
     icon: <FaUser />,
-    field: "firstName",
+    field: "first_name",
   },
   {
     ph: "MiddleName",
     icon: <FaUser />,
-    field: "middleName",
+    field: "middle_name",
   },
   {
     ph: "LastName",
     icon: <FaUser />,
-    field: "lastName",
+    field: "last_name",
   },
   {
     ph: "Address",
     icon: <FaAddressBook />,
     field: "address",
+  },
+  {
+    ph: "Role",
+    icon: <FaAdjust />,
+    field: "role",
   },
   {
     ph: "Email",
