@@ -23,9 +23,13 @@ const User = () => {
   const form = useSelector((state) => state.user.form);
   const edit = useSelector((state) => state.user.edit);
 
-  const editUser = () => {
+  const editUser = (e, id) => {
+    e.preventDefault();
     dispatch(userActions.setEdit(true));
     dispatch(userActions.setShowModal(true));
+    const data = allUsers.find((item) => item.id === id);
+
+    dispatch(userActions.fillForm(data));
   };
 
   const deleteUser = (e, id) => {
@@ -105,7 +109,7 @@ const User = () => {
 
                             <td className="px-6 py-4 text-sm font-medium whitespace-nowrap">
                               <button
-                                onClick={() => editUser()}
+                                onClick={(e) => editUser(e, item.id)}
                                 className="text-green-500 hover:text-red-700 mr-3"
                                 href="#"
                               >

@@ -68,6 +68,11 @@ const userSlice = createSlice({
     setForm(state, action) {
       state.form[action.payload.name] = action.payload.value;
     },
+    fillForm(state, action) {
+      Object.keys(action.payload).forEach((item) => {
+        state.form[item] = action.payload[item];
+      });
+    },
     setShowModal(state, action) {
       state.showModal = action.payload;
     },

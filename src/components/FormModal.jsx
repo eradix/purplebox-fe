@@ -13,9 +13,9 @@ const FormModal = ({ addTitle, updateTitle, fields, actions, form, edit }) => {
     dispatch(actions.setForm({ name, value }));
   };
 
-  useEffect(() => {
-    dispatch(actions.resetForm())
-  }, [])
+  // useEffect(() => {
+  //   dispatch(actions.resetForm())
+  // }, [])
   
   const closeModal = () => {
     dispatch(actions.setShowModal(false));
