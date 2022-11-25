@@ -89,8 +89,11 @@ const userSlice = createSlice({
       Object.keys(action.payload).forEach((item) => {
         state.form[item] = action.payload[item];
       });
-      
-      delete state.form["password"]
+      delete state.form["password"];
+    },
+    updateRole(state, action) {
+      console.log(action.payload);
+      state.form["role"] = action.payload;
     },
     setShowModal(state, action) {
       state.showModal = action.payload;

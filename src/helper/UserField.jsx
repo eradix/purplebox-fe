@@ -31,6 +31,7 @@ export const userFields = [
     ph: "Role",
     icon: <FaAdjust />,
     field: "role",
+    dropdown: "role-dropdown"
   },
   {
     ph: "Email",

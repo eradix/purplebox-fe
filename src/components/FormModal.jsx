@@ -16,7 +16,7 @@ const FormModal = ({ addTitle, updateTitle, fields, actions, form, edit }) => {
   // useEffect(() => {
   //   dispatch(actions.resetForm())
   // }, [])
-  
+
   const closeModal = () => {
     dispatch(actions.setShowModal(false));
     dispatch(actions.setEdit(false));
@@ -28,6 +28,11 @@ const FormModal = ({ addTitle, updateTitle, fields, actions, form, edit }) => {
 
   const update = () => {
     dispatch(updateUser(form));
+  };
+
+  const handleSelect = (e) => {
+    const value = e.target.value;
+    dispatch(actions.updateRole(value));
   };
 
   return (
@@ -63,7 +68,20 @@ const FormModal = ({ addTitle, updateTitle, fields, actions, form, edit }) => {
                   />
                 )}
 
-                {item.dropdown && (
+                {item.dropdown === "role-dropdown" && (
+                  <select
+                    name="role"
+                    value={form.role}
+                    onChange={(e) => handleSelect(e)}
+                    className="text-gray-500 border py-3 pr-3 pl-10 rounded-md shadow-md w-full focus:outline-none"
+                  >
+                    <option value="Select Status">Select Role</option>
+                    <option value="Admin">Admin</option>
+                    <option value="User">User</option>
+                  </select>
+                )}
+
+                {item.dropdown === "dropdown" && (
                   <select
                     name="cars"
                     id="cars"
@@ -93,7 +111,10 @@ const FormModal = ({ addTitle, updateTitle, fields, actions, form, edit }) => {
                   Save
                 </button>
               ) : (
-                <button onClick={update} className="bg-indigo-500 text-white py-2 px-4 rounded">
+                <button
+                  onClick={update}
+                  className="bg-indigo-500 text-white py-2 px-4 rounded"
+                >
                   Update
                 </button>
               )}
