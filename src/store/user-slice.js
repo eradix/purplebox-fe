@@ -31,11 +31,28 @@ export const saveUser = createAsyncThunk(
   }
 );
 
+export const updateUser = createAsyncThunk(
+  "user/updateUser",
+  async (payload, thunkAPI) => {
+    try {
+      const resp = await axios.put(
+        `${process.env.REACT_APP_API_URL}/api/users/${payload.id}`,
+        payload
+      );
+      thunkAPI.dispatch(fetchUsers());
+      return resp.data;
+    } catch (err) {
+      return err;
+    }
+  }
+);
+
 const userSlice = createSlice({
   name: "user",
   initialState: {
     allUsers: [],
     form: {
+      id: "",
       first_name: "",
       middle_name: "",
       last_name: "",
@@ -72,6 +89,8 @@ const userSlice = createSlice({
       Object.keys(action.payload).forEach((item) => {
         state.form[item] = action.payload[item];
       });
+      
+      delete state.form["password"]
     },
     setShowModal(state, action) {
       state.showModal = action.payload;
@@ -117,6 +136,15 @@ const userSlice = createSlice({
       state.showModal = false;
     },
     [saveUser.rejected]: (state) => {
+      console.log("rejected");
+    },
+    [updateUser.pending]: (state) => {
+      console.log("loading");
+    },
+    [updateUser.fulfilled]: (state, action) => {
+      state.showModal = false;
+    },
+    [updateUser.rejected]: (state) => {
       console.log("rejected");
     },
   },

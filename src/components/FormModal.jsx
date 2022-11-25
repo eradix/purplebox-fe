@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { motion } from "framer-motion";
 import TextBox from "./TextBox";
 import { useDispatch } from "react-redux";
-import { fetchUsers, saveUser } from "../store/user-slice";
+import { fetchUsers, saveUser, updateUser } from "../store/user-slice";
 
 const FormModal = ({ addTitle, updateTitle, fields, actions, form, edit }) => {
   const dispatch = useDispatch();
@@ -24,6 +24,10 @@ const FormModal = ({ addTitle, updateTitle, fields, actions, form, edit }) => {
 
   const save = () => {
     dispatch(saveUser(form));
+  };
+
+  const update = () => {
+    dispatch(updateUser(form));
   };
 
   return (
@@ -89,7 +93,7 @@ const FormModal = ({ addTitle, updateTitle, fields, actions, form, edit }) => {
                   Save
                 </button>
               ) : (
-                <button className="bg-indigo-500 text-white py-2 px-4 rounded">
+                <button onClick={update} className="bg-indigo-500 text-white py-2 px-4 rounded">
                   Update
                 </button>
               )}
