@@ -1,8 +1,8 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { motion } from "framer-motion";
 import TextBox from "./TextBox";
 import { useDispatch } from "react-redux";
-import { fetchUsers } from "../store/user-slice";
+import { fetchUsers, saveUser } from "../store/user-slice";
 
 const FormModal = ({ addTitle, updateTitle, fields, actions, form, edit }) => {
   const dispatch = useDispatch();
@@ -13,19 +13,17 @@ const FormModal = ({ addTitle, updateTitle, fields, actions, form, edit }) => {
     dispatch(actions.setForm({ name, value }));
   };
 
+  useEffect(() => {
+    dispatch(actions.resetForm())
+  }, [])
+  
   const closeModal = () => {
     dispatch(actions.setShowModal(false));
     dispatch(actions.setEdit(false));
   };
 
   const save = () => {
-    dispatch(actions.save({ form }));
-    dispatch(actions.setShowModal(false));
-    dispatch(actions.resetForm());
-    dispatch(actions.setSuccess(true));
-    setTimeout(() => {
-      dispatch(actions.setSuccess(false));
-    }, 2000);
+    dispatch(saveUser(form));
   };
 
   return (

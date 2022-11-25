@@ -15,6 +15,22 @@ export const fetchUsers = createAsyncThunk(
   }
 );
 
+export const saveUser = createAsyncThunk(
+  "user/addUser",
+  async (payload, thunkAPI) => {
+    try {
+      const resp = await axios.post(
+        `${process.env.REACT_APP_API_URL}/api/users`,
+        payload
+      );
+      thunkAPI.dispatch(fetchUsers());
+      return resp.data;
+    } catch (err) {
+      return err;
+    }
+  }
+);
+
 const userSlice = createSlice({
   name: "user",
   initialState: {
@@ -87,6 +103,15 @@ const userSlice = createSlice({
       state.allUsers = action.payload.data;
     },
     [fetchUsers.rejected]: (state) => {
+      console.log("rejected");
+    },
+    [saveUser.pending]: (state) => {
+      console.log("loading");
+    },
+    [saveUser.fulfilled]: (state, action) => {
+      state.showModal = false;
+    },
+    [saveUser.rejected]: (state) => {
       console.log("rejected");
     },
   },
