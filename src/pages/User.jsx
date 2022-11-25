@@ -28,6 +28,14 @@ const User = () => {
     dispatch(userActions.setShowModal(true));
   };
 
+  const deleteUser = (e, id) => {
+    e.preventDefault();
+    dispatch(userActions.delete(id));
+    dispatch(userActions.setSuccess(true));
+    setTimeout(() => {
+      dispatch(userActions.setSuccess(false));
+    }, 1000);
+  };
 
   return (
     <>
@@ -104,6 +112,7 @@ const User = () => {
                                 Edit
                               </button>
                               <button
+                                onClick={(e) => deleteUser(e, item.id)}
                                 className="text-red-500 hover:text-red-700"
                                 href="#"
                               >

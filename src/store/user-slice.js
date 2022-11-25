@@ -41,6 +41,14 @@ const userSlice = createSlice({
         })
         .catch((err) => console.log(err.response.data));
     },
+    delete(state, action) {
+      axios
+        .delete(`${process.env.REACT_APP_API_URL}/api/users/${action.payload}`)
+        .then((res) => {
+          console.log(res.data);
+        })
+        .catch((err) => console.log(err.response.data));
+    },
     setForm(state, action) {
       state.form[action.payload.name] = action.payload.value;
     },
@@ -67,11 +75,8 @@ const userSlice = createSlice({
         password: "",
       };
     },
-    setSuccessTrue(state) {
-      state.success = true;
-    },
-    setSuccessFalse(state) {
-      state.success = false;
+    setSuccess(state, action) {
+      state.success = action.payload;
     },
   },
   extraReducers: {

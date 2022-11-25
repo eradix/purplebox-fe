@@ -22,9 +22,9 @@ const FormModal = ({ addTitle, updateTitle, fields, actions, form, edit }) => {
     dispatch(actions.save({ form }));
     dispatch(actions.setShowModal(false));
     dispatch(actions.resetForm());
-    dispatch(actions.setSuccessTrue());
+    dispatch(actions.setSuccess(true));
     setTimeout(() => {
-      dispatch(actions.setSuccessFalse());
+      dispatch(actions.setSuccess(false));
     }, 2000);
   };
 
