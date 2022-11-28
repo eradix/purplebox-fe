@@ -34,6 +34,21 @@ export const saveProduct = createAsyncThunk(
   }
 );
 
+export const deleteProduct = createAsyncThunk(
+  "product/deleteProducts",
+  async (id, thunkAPI) => {
+    try {
+      const resp = await axios.delete(
+        `${process.env.REACT_APP_API_URL}/api/products/${id}`
+      );
+      thunkAPI.dispatch(fetchProducts())
+      return resp.data;
+    } catch (err) {
+      return err;
+    }
+  }
+);
+
 const productSlice = createSlice({
   name: "product",
   initialState: {
@@ -47,6 +62,7 @@ const productSlice = createSlice({
     },
     showModal: false,
     edit: false,
+    success: false,
   },
   reducers: {
     setForm(state, action) {
@@ -86,6 +102,16 @@ const productSlice = createSlice({
       state.showModal = false;
     },
     [saveProduct.rejected]: (state) => {
+      console.log("rejected");
+    },
+
+    [deleteProduct.pending]: (state) => {
+      console.log("loading");
+    },
+    [deleteProduct.fulfilled]: (state, action) => {
+      console.log("fulfilled")
+    },
+    [deleteProduct.rejected]: (state) => {
       console.log("rejected");
     },
   },

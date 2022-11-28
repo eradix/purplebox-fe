@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import none from "../assets/img/none.jpg";
 import FormModal from "../components/FormModal";
 import { productFields } from "../helper/ProductField";
-import { fetchProducts, productActions } from "../store/product-slice";
+import { deleteProduct, fetchProducts, productActions } from "../store/product-slice";
 
 const ListProducts = () => {
   const header = ["Image", "Name", "Price", "Actions"];
@@ -17,7 +17,7 @@ const ListProducts = () => {
 
   useEffect(() => {
     dispatch(fetchProducts());
-  }, []);
+  }, [showModal]);
 
   const editProduct = () => {
     dispatch(productActions.setEdit(true));
@@ -106,6 +106,7 @@ const ListProducts = () => {
                             Edit
                           </button>
                           <button
+                            onClick={() => dispatch(deleteProduct(item.id))}
                             className="text-red-500 hover:text-red-700"
                             href="#"
                           >
