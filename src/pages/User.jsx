@@ -45,7 +45,7 @@ const User = () => {
     dispatch(userActions.setShowModal(true));
     dispatch(userActions.resetForm());
   };
-
+  
   return (
     <>
       {showModal && (

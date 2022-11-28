@@ -1,18 +1,23 @@
 import React from "react";
+import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import almond from "../assets/img/almond.jpg";
 import FormModal from "../components/FormModal";
 import { productFields } from "../helper/ProductField";
-import { productActions } from "../store/product-slice";
+import { fetchProducts, productActions } from "../store/product-slice";
 
 const ListProducts = () => {
   const header = ["Image", "Name", "Price", "Actions"];
 
-  const showModal = useSelector((state) => state.product.showModal);
+  const { showModal, allProducts } = useSelector((state) => state.product);
   const dispatch = useDispatch();
 
   const form = useSelector((state) => state.product.form);
   const edit = useSelector((state) => state.product.edit);
+
+  useEffect(() => {
+    dispatch(fetchProducts());
+  }, []);
 
   const editProduct = () => {
     dispatch(productActions.setEdit(true));
@@ -63,30 +68,39 @@ const ListProducts = () => {
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-gray-200 relative">
-                    <tr>
-                      <td className="px-6 py-4 text-sm font-medium text-gray-800 whitespace-nowrap">
-                        <img src={almond} className="w-24 h-24" alt="" />
-                      </td>
-                      <td className="px-6 py-4 text-sm text-gray-800 whitespace-nowrap">
-                        Black Forest
-                      </td>
-                      <td className="px-6 py-4 text-sm text-gray-800 whitespace-nowrap">
-                        1200.00
-                      </td>
+                    {allProducts?.map((item, index) => (
+                      <tr key={index}>
+                        <td className="px-6 py-4 text-sm font-medium text-gray-800 whitespace-nowrap">
+                          <img
+                            src={`${process.env.REACT_APP_API_URL}/storage/${item.image}`}
+                            className="w-24 h-24"
+                            alt=""
+                          />
+                        </td>
+                        <td className="px-6 py-4 text-sm text-gray-800 whitespace-nowrap">
+                          {item.name}
+                        </td>
+                        <td className="px-6 py-4 text-sm text-gray-800 whitespace-nowrap">
+                          {item.price}
+                        </td>
 
-                      <td className="px-6 py-4 text-sm font-medium whitespace-nowrap">
-                        <button
-                          onClick={editProduct}
-                          className="text-green-500 hover:text-red-700 mr-3"
-                          href="#"
-                        >
-                          Edit
-                        </button>
-                        <button className="text-red-500 hover:text-red-700" href="#">
-                          Delete
-                        </button>
-                      </td>
-                    </tr>
+                        <td className="px-6 py-4 text-sm font-medium whitespace-nowrap">
+                          <button
+                            onClick={editProduct}
+                            className="text-green-500 hover:text-red-700 mr-3"
+                            href="#"
+                          >
+                            Edit
+                          </button>
+                          <button
+                            className="text-red-500 hover:text-red-700"
+                            href="#"
+                          >
+                            Delete
+                          </button>
+                        </td>
+                      </tr>
+                    ))}
                   </tbody>
                 </table>
               </div>
