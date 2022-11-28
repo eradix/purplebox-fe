@@ -24,6 +24,7 @@ const FormModal = ({ addTitle, updateTitle, fields, actions, form, edit }) => {
 
   const save = () => {
     dispatch(saveUser(form));
+    console.log(addTitle.includes("User"))
   };
 
   const update = () => {

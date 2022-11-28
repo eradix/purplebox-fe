@@ -50,8 +50,8 @@ const User = () => {
     <>
       {showModal && (
         <FormModal
-          addTitle={"Add Account"}
-          updateTitle={"Update Account"}
+          addTitle={"Add User"}
+          updateTitle={"Update User"}
           fields={userFields}
           actions={userActions}
           form={form}
@@ -63,7 +63,7 @@ const User = () => {
         <AlertModal
           icon={<FaCheck className="text-green-500 text-4xl" />}
           status={"Success"}
-          message={"User has been added"}
+          message={"User has been deleted"}
         />
       )}
 
