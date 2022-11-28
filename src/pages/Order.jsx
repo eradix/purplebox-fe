@@ -83,7 +83,7 @@ const Order = () => {
                       </td>
                       <td className="px-6 py-4 text-sm font-medium whitespace-nowrap">
                         <button
-                          onClick={editOrder}
+                          onClick={() => editOrder}
                           className="text-green-500 hover:text-red-700 mr-3"
                           href="#"
                         >

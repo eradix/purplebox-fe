@@ -2,6 +2,9 @@ import React from "react";
 import almond from "../assets/img/almond.jpg";
 import { FaFunnelDollar } from "react-icons/fa";
 import { Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { useEffect } from "react";
+import { fetchProducts } from "../store/product-slice";
 
 const ListProducts = () => {
   const products = [
@@ -37,6 +40,14 @@ const ListProducts = () => {
     },
   ];
 
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(fetchProducts());
+  }, []);
+
+  const { allProducts } = useSelector((state) => state.product);
+
   return (
     <>
       <div className="py-6">
@@ -71,15 +82,18 @@ const ListProducts = () => {
             </div>
           </div>
           <div className="grid md:grid-cols-4 md:gap-3 gap-5 my-3 ">
-            {products &&
-              products.map((item, index) => (
+            {allProducts &&
+              allProducts.map((item, index) => (
                 <div
                   key={index}
                   className="border shadow-md px-4 py-4 flex flex-col justify-center items-center hover:scale-105 transition-all duration-200"
                 >
                   <Link to={item.name}>
                     <div>
-                      <img src={item.img} alt="almond" />
+                      <img
+                        src={`${process.env.REACT_APP_API_URL}/storage/${item.image}`}
+                        alt="almond"
+                      />
                       <div className="mt-3">
                         <h1 className="">{item.name}</h1>
                         <p className="text-gray-700 text-sm">₱{item.price}</p>
