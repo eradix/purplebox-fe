@@ -4,6 +4,7 @@ import TextBox from "./TextBox";
 import { useDispatch } from "react-redux";
 import { fetchUsers, saveUser, updateUser } from "../store/user-slice";
 import { saveProduct } from "../store/product-slice";
+import { useState } from "react";
 
 const FormModal = ({ addTitle, updateTitle, fields, actions, form, edit }) => {
   const dispatch = useDispatch();
@@ -25,23 +26,24 @@ const FormModal = ({ addTitle, updateTitle, fields, actions, form, edit }) => {
 
   const formData = new FormData();
 
+  const getFile = async (e) => {
+    e.preventDefault();
+    await formData.append("image", e.target.files[0]);
+  };
+
   const save = () => {
     if (addTitle.includes("User")) dispatch(saveUser(form));
     else if (addTitle.includes("Product")) {
-      Object.keys(form).map(item => {
-        if(item !== "image") formData.append(item, form[item])
-      })
-      dispatch(saveProduct(formData))
-    };
+      Object.keys(form).map((item) => {
+        if (item !== "image") formData.append(item, form[item]);
+      });
+      formData.append("enctype", "multipart/form-data");
+      dispatch(saveProduct(formData));
+    }
   };
 
   const update = () => {
     dispatch(updateUser(form));
-  };
-
-  const getFile = (e) => {
-    e.preventDefault();
-    formData.append("image", e.target.files[0]);
   };
 
   const handleSelect = (e) => {

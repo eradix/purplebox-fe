@@ -2,12 +2,6 @@ import { FaImage, FaUser, FaDollarSign, FaVrCardboard } from "react-icons/fa";
 
 export const productFields = [
   {
-    ph: "Image",
-    icon: <FaImage />,
-    field: "image",
-    file: true,
-  },
-  {
     ph: "Name",
     icon: <FaUser />,
     field: "name",
@@ -16,11 +10,17 @@ export const productFields = [
     ph: "Type",
     icon: <FaVrCardboard />,
     field: "type",
-    dropdown: ["Cakes", "Drinks", "Pastries"]
+    dropdown: ["Cakes", "Drinks", "Pastries"],
   },
   {
     ph: "Price",
     icon: <FaDollarSign />,
     field: "price",
+  },
+  {
+    ph: "Image",
+    icon: <FaImage />,
+    field: "image",
+    file: true,
   },
 ];

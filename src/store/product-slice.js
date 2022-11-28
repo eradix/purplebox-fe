@@ -19,10 +19,13 @@ export const saveProduct = createAsyncThunk(
   "product/saveProducts",
   async (payload, thunkAPI) => {
     try {
+      // console.log(payload.get("image"));
       const resp = await axios.post(
         `${process.env.REACT_APP_API_URL}/api/products`,
         payload,
-        { headers: { "Content-Type": "multipart/form-data" } }
+        {
+          headers: { "Content-Type": "multipart/form-data" },
+        }
       );
       return resp.data;
     } catch (err) {
