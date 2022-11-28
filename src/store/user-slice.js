@@ -92,7 +92,6 @@ const userSlice = createSlice({
       delete state.form["password"];
     },
     updateRole(state, action) {
-      console.log(action.payload);
       state.form["role"] = action.payload;
     },
     setShowModal(state, action) {

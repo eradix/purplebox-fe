@@ -23,18 +23,31 @@ const FormModal = ({ addTitle, updateTitle, fields, actions, form, edit }) => {
     dispatch(actions.setEdit(false));
   };
 
+  const formData = new FormData();
+
   const save = () => {
     if (addTitle.includes("User")) dispatch(saveUser(form));
-    else if (addTitle.includes("Product")) dispatch(saveProduct(form));
+    else if (addTitle.includes("Product")) {
+      Object.keys(form).map(item => {
+        if(item !== "image") formData.append(item, form[item])
+      })
+      dispatch(saveProduct(formData))
+    };
   };
 
   const update = () => {
     dispatch(updateUser(form));
   };
 
+  const getFile = (e) => {
+    e.preventDefault();
+    formData.append("image", e.target.files[0]);
+  };
+
   const handleSelect = (e) => {
     const value = e.target.value;
-    dispatch(actions.updateRole(value));
+    if (addTitle.includes("User")) dispatch(actions.updateRole(value));
+    if (addTitle.includes("Product")) dispatch(actions.setType(value));
   };
 
   return (
@@ -66,6 +79,9 @@ const FormModal = ({ addTitle, updateTitle, fields, actions, form, edit }) => {
                   <input
                     type="file"
                     placeholder="Upload Image"
+                    name="image"
+                    onChange={(e) => getFile(e)}
+                    accept="image/png, image/gif, image/jpeg"
                     className="text-gray-500 border py-3 pr-3 pl-10 rounded-md shadow-md w-full focus:outline-none"
                   />
                 )}

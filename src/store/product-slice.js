@@ -17,17 +17,12 @@ export const fetchProducts = createAsyncThunk(
 
 export const saveProduct = createAsyncThunk(
   "product/saveProducts",
-  async (thunkAPI) => {
-    const payload = {
-      name: "Strawberry",
-      type: "cake",
-      price: 999.0,
-    };
-
+  async (payload, thunkAPI) => {
     try {
       const resp = await axios.post(
         `${process.env.REACT_APP_API_URL}/api/products`,
-        payload
+        payload,
+        { headers: { "Content-Type": "multipart/form-data" } }
       );
       return resp.data;
     } catch (err) {
@@ -45,7 +40,7 @@ const productSlice = createSlice({
       name: "",
       description: "",
       price: "",
-      address: "",
+      type: "",
     },
     showModal: false,
     edit: false,
@@ -66,6 +61,9 @@ const productSlice = createSlice({
     reset(state) {
       state.allUsers = [];
     },
+    setType(state, action) {
+      state.form["type"] = action.payload;
+    },
   },
   extraReducers: {
     [fetchProducts.pending]: (state) => {
@@ -82,7 +80,7 @@ const productSlice = createSlice({
       console.log("loading");
     },
     [saveProduct.fulfilled]: (state, action) => {
-      console.log("fullfilled");
+      state.showModal = false;
     },
     [saveProduct.rejected]: (state) => {
       console.log("rejected");
