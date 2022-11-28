@@ -1,7 +1,7 @@
 import React from "react";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import almond from "../assets/img/almond.jpg";
+import none from "../assets/img/none.jpg";
 import FormModal from "../components/FormModal";
 import { productFields } from "../helper/ProductField";
 import { fetchProducts, productActions } from "../store/product-slice";
@@ -24,6 +24,11 @@ const ListProducts = () => {
     dispatch(productActions.setShowModal(true));
   };
 
+  const addProduct = (e) => {
+    e.preventDefault();
+    dispatch(productActions.setShowModal(true));
+  };
+
   return (
     <>
       {showModal && (
@@ -43,7 +48,7 @@ const ListProducts = () => {
             <p>Product Management</p>
           </div>
           <button
-            onClick={() => dispatch(productActions.setShowModal(true))}
+            onClick={(e) => addProduct(e)}
             className="py-2 px-4 bg-indigo-500 text-white rounded"
           >
             Add Product
@@ -71,11 +76,19 @@ const ListProducts = () => {
                     {allProducts?.map((item, index) => (
                       <tr key={index}>
                         <td className="px-6 py-4 text-sm font-medium text-gray-800 whitespace-nowrap">
-                          <img
-                            src={`${process.env.REACT_APP_API_URL}/storage/${item.image}`}
-                            className="w-24 h-24"
-                            alt=""
-                          />
+                          {item.image ? (
+                            <img
+                              src={`${process.env.REACT_APP_API_URL}/storage/${item.image}`}
+                              className="w-24 h-24"
+                              alt=""
+                            />
+                          ) : (
+                            <img
+                              src={none}
+                              className="w-24 h-24"
+                              alt=""
+                            />
+                          )}
                         </td>
                         <td className="px-6 py-4 text-sm text-gray-800 whitespace-nowrap">
                           {item.name}

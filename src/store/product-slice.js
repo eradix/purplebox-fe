@@ -15,6 +15,20 @@ export const fetchProducts = createAsyncThunk(
   }
 );
 
+export const saveProduct = createAsyncThunk(
+  "user/saveProducts",
+  async (thunkAPI) => {
+    try {
+      const resp = await axios.post(
+        `${process.env.REACT_APP_API_URL}/api/products`
+      );
+      return resp.data;
+    } catch (err) {
+      return err;
+    }
+  }
+);
+
 const productSlice = createSlice({
   name: "product",
   initialState: {
@@ -54,6 +68,16 @@ const productSlice = createSlice({
       state.allProducts = action.payload.data;
     },
     [fetchProducts.rejected]: (state) => {
+      console.log("rejected");
+    },
+
+    [saveProduct.pending]: (state) => {
+      console.log("loading");
+    },
+    [saveProduct.fulfilled]: (state, action) => {
+      console.log("fullfilled");
+    },
+    [saveProduct.rejected]: (state) => {
       console.log("rejected");
     },
   },
