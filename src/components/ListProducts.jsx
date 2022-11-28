@@ -5,48 +5,24 @@ import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 import { fetchProducts } from "../store/product-slice";
+import { useState } from "react";
 
 const ListProducts = () => {
-  const products = [
-    {
-      img: almond,
-      name: "Black Forest Cake",
-      price: 999.0,
-    },
-    {
-      img: almond,
-      name: "Vanilla Cake",
-      price: 999.0,
-    },
-    {
-      img: almond,
-      name: "Black Forest Cake",
-      price: 999.0,
-    },
-    {
-      img: almond,
-      name: "Black Forest Cake",
-      price: 999.0,
-    },
-    {
-      img: almond,
-      name: "Black Forest Cake",
-      price: 999.0,
-    },
-    {
-      img: almond,
-      name: "Black Forest Cake",
-      price: 999.0,
-    },
-  ];
-
   const dispatch = useDispatch();
+  const [products, setProducts] = useState([]);
 
   useEffect(() => {
     dispatch(fetchProducts());
-  }, []);
+  }, [products]);
 
   const { allProducts } = useSelector((state) => state.product);
+
+  const handleSelect = (e) => {
+    e.preventDefault();
+    const data = allProducts.filter((item) => item.type === e.target.value);
+    setProducts((prev) => [...data]);
+    console.log(products);
+  };
 
   return (
     <>
@@ -71,13 +47,13 @@ const ListProducts = () => {
             </div>
             <div>
               <select
+                onChange={(e) => handleSelect(e)}
                 id="countries"
                 className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
               >
-                <option defaultValue="category">Choose a category</option>
-                <option value="US">Cakes</option>
-                <option value="CA">Pastries</option>
-                <option value="FR">Drinks</option>
+                <option defaultValue="All">All</option>
+                <option value="Cakes">Cakes</option>
+                <option value="Drinks">Drinks</option>
               </select>
             </div>
           </div>
