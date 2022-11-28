@@ -41,7 +41,26 @@ export const deleteProduct = createAsyncThunk(
       const resp = await axios.delete(
         `${process.env.REACT_APP_API_URL}/api/products/${id}`
       );
-      thunkAPI.dispatch(fetchProducts())
+      thunkAPI.dispatch(fetchProducts());
+      return resp.data;
+    } catch (err) {
+      return err;
+    }
+  }
+);
+
+export const updateProduct = createAsyncThunk(
+  "product/updateProduct",
+  async (payload, thunkAPI) => {
+    try {
+      const resp = await axios.post(
+        `${process.env.REACT_APP_API_URL}/api/products/${payload.get("id")}`,
+        payload,
+        {
+          headers: { "Content-Type": "multipart/form-data" },
+        }
+      );
+      thunkAPI.dispatch(fetchProducts());
       return resp.data;
     } catch (err) {
       return err;
@@ -65,6 +84,11 @@ const productSlice = createSlice({
     success: false,
   },
   reducers: {
+    fillForm(state, action) {
+      Object.keys(action.payload).forEach((item) => {
+        state.form[item] = action.payload[item];
+      });
+    },
     setForm(state, action) {
       state.form[action.payload.name] = action.payload.value;
     },
@@ -109,9 +133,19 @@ const productSlice = createSlice({
       console.log("loading");
     },
     [deleteProduct.fulfilled]: (state, action) => {
-      console.log("fulfilled")
+      console.log("fulfilled");
     },
     [deleteProduct.rejected]: (state) => {
+      console.log("rejected");
+    },
+
+    [updateProduct.pending]: (state) => {
+      console.log("loading");
+    },
+    [updateProduct.fulfilled]: (state, action) => {
+      state.showModal = false
+    },
+    [updateProduct.rejected]: (state) => {
       console.log("rejected");
     },
   },

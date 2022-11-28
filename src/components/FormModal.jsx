@@ -3,7 +3,7 @@ import { motion } from "framer-motion";
 import TextBox from "./TextBox";
 import { useDispatch } from "react-redux";
 import { fetchUsers, saveUser, updateUser } from "../store/user-slice";
-import { saveProduct } from "../store/product-slice";
+import { saveProduct, updateProduct } from "../store/product-slice";
 import { useState } from "react";
 
 const FormModal = ({ addTitle, updateTitle, fields, actions, form, edit }) => {
@@ -14,10 +14,6 @@ const FormModal = ({ addTitle, updateTitle, fields, actions, form, edit }) => {
     const { name, value } = e.target;
     dispatch(actions.setForm({ name, value }));
   };
-
-  // useEffect(() => {
-  //   dispatch(actions.resetForm())
-  // }, [])
 
   const closeModal = () => {
     dispatch(actions.setShowModal(false));
@@ -43,13 +39,22 @@ const FormModal = ({ addTitle, updateTitle, fields, actions, form, edit }) => {
   };
 
   const update = () => {
-    dispatch(updateUser(form));
+    if (addTitle.includes("User")) dispatch(updateUser(form));
+    else if (addTitle.includes("Product")) {
+      Object.keys(form).map((item) => {
+        if (item !== "image") formData.append(item, form[item]);
+      });
+
+      formData.append("enctype", "multipart/form-data");
+      formData.append('_method', 'PUT'); 
+      dispatch(updateProduct(formData));
+    }
   };
 
   const handleSelect = (e) => {
     const value = e.target.value;
     if (addTitle.includes("User")) dispatch(actions.updateRole(value));
-    if (addTitle.includes("Product")) dispatch(actions.setType(value));
+    else if (addTitle.includes("Product")) dispatch(actions.setType(value));
   };
 
   return (

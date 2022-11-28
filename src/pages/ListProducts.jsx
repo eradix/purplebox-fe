@@ -4,7 +4,11 @@ import { useDispatch, useSelector } from "react-redux";
 import none from "../assets/img/none.jpg";
 import FormModal from "../components/FormModal";
 import { productFields } from "../helper/ProductField";
-import { deleteProduct, fetchProducts, productActions } from "../store/product-slice";
+import {
+  deleteProduct,
+  fetchProducts,
+  productActions,
+} from "../store/product-slice";
 
 const ListProducts = () => {
   const header = ["Image", "Name", "Price", "Actions"];
@@ -19,9 +23,15 @@ const ListProducts = () => {
     dispatch(fetchProducts());
   }, [showModal]);
 
-  const editProduct = () => {
+  const editProduct = (e, id) => {
+    e.preventDefault();
     dispatch(productActions.setEdit(true));
     dispatch(productActions.setShowModal(true));
+
+    const data = allProducts.find((item) => item.id === id);
+
+    dispatch(productActions.fillForm(data))
+    console.log(form)
   };
 
   const addProduct = (e) => {
@@ -83,11 +93,7 @@ const ListProducts = () => {
                               alt=""
                             />
                           ) : (
-                            <img
-                              src={none}
-                              className="w-24 h-24"
-                              alt=""
-                            />
+                            <img src={none} className="w-24 h-24" alt="" />
                           )}
                         </td>
                         <td className="px-6 py-4 text-sm text-gray-800 whitespace-nowrap">
@@ -99,7 +105,7 @@ const ListProducts = () => {
 
                         <td className="px-6 py-4 text-sm font-medium whitespace-nowrap">
                           <button
-                            onClick={editProduct}
+                            onClick={(e) => editProduct(e, item.id)}
                             className="text-green-500 hover:text-red-700 mr-3"
                             href="#"
                           >
