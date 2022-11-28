@@ -3,6 +3,7 @@ import { motion } from "framer-motion";
 import TextBox from "./TextBox";
 import { useDispatch } from "react-redux";
 import { fetchUsers, saveUser, updateUser } from "../store/user-slice";
+import { saveProduct } from "../store/product-slice";
 
 const FormModal = ({ addTitle, updateTitle, fields, actions, form, edit }) => {
   const dispatch = useDispatch();
@@ -23,8 +24,8 @@ const FormModal = ({ addTitle, updateTitle, fields, actions, form, edit }) => {
   };
 
   const save = () => {
-    dispatch(saveUser(form));
-    console.log(addTitle.includes("User"))
+    if (addTitle.includes("User")) dispatch(saveUser(form));
+    else if (addTitle.includes("Product")) dispatch(saveProduct(form));
   };
 
   const update = () => {
@@ -69,16 +70,21 @@ const FormModal = ({ addTitle, updateTitle, fields, actions, form, edit }) => {
                   />
                 )}
 
-                {item.dropdown === "role-dropdown" && (
+                {item.dropdown && (
                   <select
                     name="role"
-                    value={form.role}
+                    value={form.field}
                     onChange={(e) => handleSelect(e)}
                     className="text-gray-500 border py-3 pr-3 pl-10 rounded-md shadow-md w-full focus:outline-none"
                   >
-                    <option value="Select Status">Select Role</option>
-                    <option value="Admin">Admin</option>
-                    <option value="User">User</option>
+                    <option value="Select Status">Select {item.ph}</option>
+                    {item.dropdown.map((data, id) => (
+                      <>
+                        <option key={id} value={data}>
+                          {data}
+                        </option>
+                      </>
+                    ))}
                   </select>
                 )}
 

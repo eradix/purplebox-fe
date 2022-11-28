@@ -2,7 +2,7 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 
 export const fetchProducts = createAsyncThunk(
-  "user/getProducts",
+  "product/getProducts",
   async (thunkAPI) => {
     try {
       const resp = await axios.get(
@@ -16,11 +16,18 @@ export const fetchProducts = createAsyncThunk(
 );
 
 export const saveProduct = createAsyncThunk(
-  "user/saveProducts",
+  "product/saveProducts",
   async (thunkAPI) => {
+    const payload = {
+      name: "Strawberry",
+      type: "cake",
+      price: 999.0,
+    };
+
     try {
       const resp = await axios.post(
-        `${process.env.REACT_APP_API_URL}/api/products`
+        `${process.env.REACT_APP_API_URL}/api/products`,
+        payload
       );
       return resp.data;
     } catch (err) {
