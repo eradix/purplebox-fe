@@ -12,16 +12,14 @@ const ListProducts = () => {
   const [products, setProducts] = useState([]);
 
   useEffect(() => {
-    dispatch(fetchProducts());
+    dispatch(fetchProducts("All"));
   }, [products]);
 
   const { allProducts } = useSelector((state) => state.product);
 
   const handleSelect = (e) => {
     e.preventDefault();
-    const data = allProducts.filter((item) => item.type === e.target.value);
-    setProducts((prev) => [...data]);
-    console.log(products);
+    dispatch(fetchProducts(e.target.value));
   };
 
   return (

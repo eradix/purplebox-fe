@@ -3,10 +3,10 @@ import axios from "axios";
 
 export const fetchProducts = createAsyncThunk(
   "product/getProducts",
-  async (thunkAPI) => {
+  async (payload, thunkAPI) => {
     try {
       const resp = await axios.get(
-        `${process.env.REACT_APP_API_URL}/api/products`
+        `${process.env.REACT_APP_API_URL}/api/products?type=${payload}`
       );
       return resp.data;
     } catch (err) {
