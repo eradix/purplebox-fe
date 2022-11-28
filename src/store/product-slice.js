@@ -104,6 +104,15 @@ const productSlice = createSlice({
     reset(state) {
       state.allUsers = [];
     },
+    resetForm(state) {
+      state.form = {
+        image: "",
+        name: "",
+        description: "",
+        price: "",
+        type: "",
+      };
+    },
     setType(state, action) {
       state.form["type"] = action.payload;
     },
@@ -143,7 +152,7 @@ const productSlice = createSlice({
       console.log("loading");
     },
     [updateProduct.fulfilled]: (state, action) => {
-      state.showModal = false
+      state.showModal = false;
     },
     [updateProduct.rejected]: (state) => {
       console.log("rejected");

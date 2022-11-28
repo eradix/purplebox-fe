@@ -18,6 +18,7 @@ const FormModal = ({ addTitle, updateTitle, fields, actions, form, edit }) => {
   const closeModal = () => {
     dispatch(actions.setShowModal(false));
     dispatch(actions.setEdit(false));
+    dispatch(actions.resetForm());
   };
 
   const formData = new FormData();
@@ -46,7 +47,7 @@ const FormModal = ({ addTitle, updateTitle, fields, actions, form, edit }) => {
       });
 
       formData.append("enctype", "multipart/form-data");
-      formData.append('_method', 'PUT'); 
+      formData.append("_method", "PUT");
       dispatch(updateProduct(formData));
     }
   };
