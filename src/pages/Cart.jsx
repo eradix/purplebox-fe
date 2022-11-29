@@ -24,9 +24,7 @@ const Cart = () => {
 
   useEffect(() => {
     dispatch(getUserCart());
-    const total = usersCart.reduce((sum, item) => sum + item.total_price, 0);
-    dispatch(orderActions.setTotalPrice(total));
-  }, [totalPrice]);
+  }, []);
 
   const cartDelete = (e, id) => {
     e.preventDefault();

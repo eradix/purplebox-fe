@@ -103,11 +103,6 @@ const orderSlice = createSlice({
       console.log("loading");
     },
     [addToCart.fulfilled]: (state, action) => {
-      const total = state.usersCart.reduce(
-        (sum, item) => sum + item.total_price,
-        0
-      );
-      state.totalPrice = total;
       state.success = true;
       state.success = false;
     },
@@ -120,6 +115,7 @@ const orderSlice = createSlice({
     },
     [getUserCart.fulfilled]: (state, action) => {
       state.usersCart = action.payload.user.orders;
+      state.totalPrice = action.payload.total
     },
     [getUserCart.rejected]: (state) => {
       console.log("rejected");
