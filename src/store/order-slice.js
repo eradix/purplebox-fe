@@ -71,7 +71,7 @@ const initialState = {
   form: {
     product_id: "",
     quantity: "",
-    status: "On Cart",
+    status: "To Pay",
     message: "",
   },
   showModal: false,
