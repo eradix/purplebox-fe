@@ -50,7 +50,7 @@ function App() {
         <div className="container mx-auto overflow-hidden">
           <Routes>
             <Route path="/" element={<Index />}></Route>
-            <Route path="/:product_id" element={<Product />}></Route>
+            <Route path="product/:product_id" element={<Product />}></Route>
             <Route path="/cart/:user_id" element={<Cart />}></Route>
             <Route element={<PrivateRoutes />}>
               <Route index path="/dashboard" element={<Dashboard />} exact />

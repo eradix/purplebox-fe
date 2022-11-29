@@ -62,7 +62,7 @@ const ListProducts = () => {
                   key={index}
                   className="border shadow-md px-4 py-4 flex flex-col justify-center items-center hover:scale-105 transition-all duration-200"
                 >
-                  <Link to={item.name}>
+                  <Link to={`/product/${item.id}`}>
                     <div>
                       <img
                         src={`${process.env.REACT_APP_API_URL}/storage/${item.image}`}

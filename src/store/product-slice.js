@@ -68,10 +68,25 @@ export const updateProduct = createAsyncThunk(
   }
 );
 
+export const getProduct = createAsyncThunk(
+  "product/getProduct",
+  async (id, thunkAPI) => {
+    try {
+      const resp = await axios.get(
+        `${process.env.REACT_APP_API_URL}/api/products/${id}`
+      );
+      return resp.data;
+    } catch (err) {
+      return err;
+    }
+  }
+);
+
 const productSlice = createSlice({
   name: "product",
   initialState: {
     allProducts: [],
+    product: {},
     form: {
       image: "",
       name: "",
@@ -155,6 +170,16 @@ const productSlice = createSlice({
       state.showModal = false;
     },
     [updateProduct.rejected]: (state) => {
+      console.log("rejected");
+    },
+
+    [getProduct.pending]: (state) => {
+      console.log("loading");
+    },
+    [getProduct.fulfilled]: (state, action) => {
+      state.product = action.payload.data;
+    },
+    [getProduct.rejected]: (state) => {
       console.log("rejected");
     },
   },
