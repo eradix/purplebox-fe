@@ -20,7 +20,7 @@ const ListProducts = () => {
   const edit = useSelector((state) => state.product.edit);
 
   useEffect(() => {
-    dispatch(fetchProducts());
+    dispatch(fetchProducts("All"));
   }, [showModal]);
 
   const editProduct = (e, id) => {
@@ -30,8 +30,8 @@ const ListProducts = () => {
 
     const data = allProducts.find((item) => item.id === id);
 
-    dispatch(productActions.fillForm(data))
-    console.log(form)
+    dispatch(productActions.fillForm(data));
+    console.log(form);
   };
 
   const addProduct = (e) => {
