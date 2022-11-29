@@ -17,7 +17,7 @@ const Footer = () => {
           </div>
         </div>
         <div className="text-center">
-          <p className="text-gray-400">ClientsName &copy; 2022</p>
+          <p className="text-gray-400">PurpleBox &copy; 2022</p>
         </div>
       </div>
     </div>
