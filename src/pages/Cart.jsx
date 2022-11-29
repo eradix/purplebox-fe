@@ -11,9 +11,12 @@ import { fetchUsers } from "../store/user-slice";
 const Cart = () => {
   const dispatch = useDispatch();
   const { showModal, usersCart } = useSelector((state) => state.order);
+  const [totalPrice, setTotalPrice] = useState(0);
 
   useEffect(() => {
     dispatch(getUserCart());
+    const total = usersCart.reduce((sum, item) => sum + item.total_price, 0)
+    setTotalPrice(total)
   }, []);
 
   const header = [
@@ -55,8 +58,8 @@ const Cart = () => {
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-gray-200 relative">
-                    {usersCart.map((item) => (
-                      <tr>
+                    {usersCart.map((item, index) => (
+                      <tr key={index}>
                         <td className="px-6 py-4 text-sm font-medium text-gray-800 whitespace-nowrap">
                           <img
                             src={`${process.env.REACT_APP_API_URL}/storage/${item.product.image}`}
@@ -91,7 +94,7 @@ const Cart = () => {
               </div>
               <div className="float-right mt-3">
                 <p className="mr-2 mb-2">
-                  Total (0 item): <span className="text-red-500">₱ 12,000</span>
+                  Total: <span className="text-red-500">₱{totalPrice}.00</span>
                 </p>
                 <button
                   onClick={() => dispatch(cartActions.setShowModal(true))}
