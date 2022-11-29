@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import almond from "../assets/img/almond.jpg";
 import FormModal from "../components/FormModal";
 import { orderFields } from "../helper/OrderField";
-import { getAllOrders, orderActions } from "../store/order-slice";
+import { getAllOrders, orderActions, updateOrder } from "../store/order-slice";
 
 const Order = () => {
   const header = [
@@ -22,12 +22,22 @@ const Order = () => {
 
   const dispatch = useDispatch();
 
+  const [status, setStatus] = useState('')
+
   const editSaveOrder = (e, id) => {
     e.preventDefault();
     selectRef.current[id].disabled = !selectRef.current[id].disabled
-    if(selectRef.current[id].disabled) buttonRef.current[id].innerText = "Edit"
+    if(selectRef.current[id].disabled) {
+      buttonRef.current[id].innerText = "Edit"
+      dispatch(updateOrder({ id, status }))
+    }
     if(!selectRef.current[id].disabled) buttonRef.current[id].innerText = "Save"
   };
+
+  const handleSelect = (e) => {
+    e.preventDefault()
+    setStatus(e.target.value)
+  }
 
 
   useEffect(() => {
@@ -100,6 +110,7 @@ const Order = () => {
                             name="status"
                             id={item.id}
                             ref={(el) => (selectRef.current[item.id] = el)}
+                            onChange={(e) => handleSelect(e)}
                             className="text-gray-500 text-center border py-3 px-1 rounded-md shadow-md w-full focus:outline-none"
                           >
                             <option defaultValue={item.status}>

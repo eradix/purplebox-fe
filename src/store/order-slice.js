@@ -82,6 +82,25 @@ export const updateOrderIfExist = createAsyncThunk(
   }
 );
 
+export const updateOrder = createAsyncThunk(
+  "order/updateOrder",
+  async (payload, thunkAPI) => {
+    try {
+      const resp = await axios.put(
+        `${process.env.REACT_APP_API_URL}/api/orders/${payload.id}`,
+        payload,
+        {
+          headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
+        }
+      );
+      thunkAPI.dispatch(getAllOrders());
+      return resp.data;
+    } catch (err) {
+      return err;
+    }
+  }
+);
+
 const initialState = {
   allOrders: [],
   usersCart: [],
