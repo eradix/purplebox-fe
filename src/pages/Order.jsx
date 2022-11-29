@@ -9,6 +9,7 @@ import { getAllOrders, orderActions, updateOrder } from "../store/order-slice";
 const Order = () => {
   const header = [
     "Customer Name",
+    "Customer Number",
     "Product Image",
     "Product Name",
     "Quantity",
@@ -42,6 +43,7 @@ const Order = () => {
 
   useEffect(() => {
     dispatch(getAllOrders("To-Pay"));
+    console.log(allOrders)
   }, []);
 
   const { showModal, form, allOrders } = useSelector((state) => state.order);
@@ -87,6 +89,9 @@ const Order = () => {
                       <tr key={index}>
                         <td className="px-6 py-4 text-sm text-gray-800 whitespace-nowrap">
                           {item.user.first_name} {item.user.last_name}
+                        </td>
+                        <td className="px-6 py-4 text-sm text-gray-800 whitespace-nowrap">
+                          {item.user.contact_num}
                         </td>
                         <td className="px-6 py-4 text-sm font-medium text-gray-800 whitespace-nowrap">
                           <img
