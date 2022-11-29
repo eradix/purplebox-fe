@@ -67,7 +67,7 @@ const FormModal = ({ addTitle, updateTitle, fields, actions, form, edit }) => {
       <div className="flex justify-center items-center h-screen">
         <motion.div
           initial={{ y: "-1000px" }}
-          animate={{ y: "-100px" }}
+          animate={{ y: "-50px" }}
           transition={{ type: "spring", duration: 0.5 }}
           className="bg-white rounded-xl py-6 px-12 flex flex-col justify-center w-4/12"
         >
@@ -107,11 +107,9 @@ const FormModal = ({ addTitle, updateTitle, fields, actions, form, edit }) => {
                   >
                     <option value="Select Status">Select {item.ph}</option>
                     {item.dropdown.map((data, id) => (
-                      <>
-                        <option key={id} value={data}>
-                          {data}
-                        </option>
-                      </>
+                      <option key={id} value={data}>
+                        {data}
+                      </option>
                     ))}
                   </select>
                 )}

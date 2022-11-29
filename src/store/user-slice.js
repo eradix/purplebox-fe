@@ -58,6 +58,7 @@ const userSlice = createSlice({
       last_name: "",
       address: "",
       role: "",
+      contact_num: "",
       email: "",
       password: "",
     },
@@ -113,6 +114,7 @@ const userSlice = createSlice({
         last_name: "",
         address: "",
         role: "",
+        contact_num: "",
         email: "",
         password: "",
       };

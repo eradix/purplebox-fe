@@ -4,6 +4,7 @@ import {
   FaEnvelope,
   FaAddressBook,
   FaAdjust,
+  FaPhone,
 } from "react-icons/fa";
 
 export const userFields = [
@@ -32,6 +33,11 @@ export const userFields = [
     icon: <FaAdjust />,
     field: "role",
     dropdown: ["Admin", "User"]
+  },
+  {
+    ph: "Contact Number",
+    icon: <FaPhone />,
+    field: "contact_num",
   },
   {
     ph: "Email",
