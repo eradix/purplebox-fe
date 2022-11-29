@@ -1,4 +1,5 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
+import { useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import almond from "../assets/img/almond.jpg";
 import FormModal from "../components/FormModal";
@@ -16,11 +17,18 @@ const Order = () => {
     "Actions",
   ];
 
+  const selectRef = useRef([]);
+  const buttonRef = useRef([]);
+
   const dispatch = useDispatch();
 
-  const editOrder = () => {
-    dispatch(orderActions.setShowModal(true));
+  const editSaveOrder = (e, id) => {
+    e.preventDefault();
+    selectRef.current[id].disabled = !selectRef.current[id].disabled
+    if(selectRef.current[id].disabled) buttonRef.current[id].innerText = "Edit"
+    if(!selectRef.current[id].disabled) buttonRef.current[id].innerText = "Save"
   };
+
 
   useEffect(() => {
     dispatch(getAllOrders("To-Pay"));
@@ -71,7 +79,11 @@ const Order = () => {
                           {item.user.first_name} {item.user.last_name}
                         </td>
                         <td className="px-6 py-4 text-sm font-medium text-gray-800 whitespace-nowrap">
-                          <img src={`${process.env.REACT_APP_API_URL}/storage/${item.product.image}`} className="w-24 h-24" alt="" />
+                          <img
+                            src={`${process.env.REACT_APP_API_URL}/storage/${item.product.image}`}
+                            className="w-24 h-24"
+                            alt=""
+                          />
                         </td>
                         <td className="px-6 py-4 text-sm text-gray-800 whitespace-nowrap">
                           {item.product.name}
@@ -83,13 +95,28 @@ const Order = () => {
                           {item.total_price}
                         </td>
                         <td className="px-6 py-4 text-sm text-yellow-500 whitespace-nowrap">
-                          {item.status}
+                          <select
+                            disabled={true}
+                            name="status"
+                            id={item.id}
+                            ref={(el) => (selectRef.current[item.id] = el)}
+                            className="text-gray-500 text-center border py-3 px-1 rounded-md shadow-md w-full focus:outline-none"
+                          >
+                            <option defaultValue={item.status}>
+                              {item.status}
+                            </option>
+                            <option value="To Pay">To-Pay</option>
+                            <option value="Processing">Processing</option>
+                            <option value="Completed">Completed</option>
+                          </select>
                         </td>
                         <td className="px-6 py-4 text-sm font-medium whitespace-nowrap">
                           <button
-                            onClick={() => editOrder}
+                            onClick={(e) => editSaveOrder(e, item.id)}
                             className="text-green-500 hover:text-red-700 mr-3"
                             href="#"
+                            id={item.id}
+                            ref={(el) => (buttonRef.current[item.id] = el)}
                           >
                             Edit
                           </button>
