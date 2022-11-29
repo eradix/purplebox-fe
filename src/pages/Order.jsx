@@ -118,6 +118,7 @@ const Order = () => {
                             </option>
                             <option value="To Pay">To-Pay</option>
                             <option value="Processing">Processing</option>
+                            <option value="Ready-For-Delivery">Ready-For-Delivery</option>
                             <option value="Completed">Completed</option>
                           </select>
                         </td>
