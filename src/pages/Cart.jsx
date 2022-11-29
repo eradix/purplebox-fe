@@ -37,11 +37,11 @@ const Cart = () => {
       {showModal && <PaymentModal />}
 
       <div className="md:w-full md:pr-10 md:pl-5 h-screen my-12 overflow-y-auto">
-        <div className="flex items-center font-bold cursor-pointer text-xl mb-3">
+        <div className="flex items-center font-bold cursor-pointer text-xl mb-3 ml-3">
           <span className="mr-1 text-indigo-500">
             <FaBox />
           </span>
-          <p>PurpleBox | Shopping Cart</p>
+          <p>Shopping Cart</p>
         </div>
         <div className="flex flex-col">
           <div className="overflow-x-auto">

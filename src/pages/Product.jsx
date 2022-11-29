@@ -4,7 +4,12 @@ import { FaCheck } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router";
 import Modal from "../components/AlertModal";
-import { addToCart, getUserCart, orderActions, updateOrderIfExist } from "../store/order-slice";
+import {
+  addToCart,
+  getUserCart,
+  orderActions,
+  updateOrderIfExist,
+} from "../store/order-slice";
 import { getProduct } from "../store/product-slice";
 
 const Product = () => {
@@ -32,8 +37,14 @@ const Product = () => {
     const isExist = await usersCart.find(
       (item) => item.product_id === parseInt(product_id)
     );
-    if(!isExist) dispatch(addToCart(form))
-    else  dispatch(updateOrderIfExist(form))
+    if (!isExist) dispatch(addToCart(form));
+    else dispatch(updateOrderIfExist(form));
+
+    dispatch(orderActions.setSuccess(true));
+    setTimeout(() => {
+      dispatch(orderActions.resetForm());
+      dispatch(orderActions.setSuccess(false));
+    }, 1000);
   };
 
   return (
