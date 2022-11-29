@@ -6,7 +6,6 @@ import almond from "../assets/img/almond.jpg";
 import PaymentModal from "../components/PaymentModal";
 import { cartActions } from "../store/cart-slice";
 import { deleteOnCart, getUserCart, orderActions } from "../store/order-slice";
-import { fetchUsers } from "../store/user-slice";
 
 const Cart = () => {
   const header = [
@@ -105,7 +104,7 @@ const Cart = () => {
                   Total: <span className="text-red-500">₱{totalPrice}.00</span>
                 </p>
                 <button
-                  onClick={() => dispatch(cartActions.setShowModal(true))}
+                  onClick={() => dispatch(orderActions.setShowModal(true))}
                   className="bg-indigo-500 text-white py-2 rounded px-14"
                 >
                   Checkout

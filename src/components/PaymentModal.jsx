@@ -2,7 +2,7 @@ import React from "react";
 import { motion } from "framer-motion";
 import qr from "../assets/img/qr.PNG";
 import { useDispatch } from "react-redux";
-import { cartActions } from "../store/cart-slice";
+import { orderActions } from "../store/order-slice";
 
 const PaymentModal = () => {
   const dispatch = useDispatch();
@@ -24,7 +24,7 @@ const PaymentModal = () => {
           </p>
 
           <div>
-            <button onClick={() => dispatch(cartActions.setShowModal(false))} className="text-white bg-indigo-500 py-2 px-8 rounded">
+            <button onClick={() => dispatch(orderActions.setShowModal(false))} className="text-white bg-indigo-500 py-2 px-8 rounded">
               Done
             </button>
           </div>
