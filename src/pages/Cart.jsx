@@ -1,13 +1,22 @@
 import React, { useState } from "react";
+import { useEffect } from "react";
 import { FaBox } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
 import almond from "../assets/img/almond.jpg";
 import PaymentModal from "../components/PaymentModal";
 import { cartActions } from "../store/cart-slice";
+import { getUserCart } from "../store/order-slice";
+import { fetchUsers } from "../store/user-slice";
 
 const Cart = () => {
-  const showModal = useSelector((state) => state.cart.showModal);
+  const { showModal, usersCart } = useSelector((state) => state.cart);
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(getUserCart())
+    console.log(usersCart)
+  }, [])
+  
 
   const header = [
     "Product",

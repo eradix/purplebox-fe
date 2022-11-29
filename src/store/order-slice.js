@@ -16,10 +16,28 @@ export const addToCart = createAsyncThunk(
   }
 );
 
+export const getUserCart = createAsyncThunk(
+  "order/getUserCart",
+  async (thunkAPI) => {
+    try {
+      const resp = await axios.get(
+        `${process.env.REACT_APP_API_URL}/api/orders/cart`,
+        {
+          headers: { Authorization: localStorage.getItem("token") },
+        }
+      );
+      return resp.data;
+    } catch (err) {
+      return err;
+    }
+  }
+);
+
 const orderSlice = createSlice({
   name: "order",
   initialState: {
     allOrders: [],
+    usersCart: [],
     form: {
       product_id: "",
       quantity: "",
@@ -65,9 +83,19 @@ const orderSlice = createSlice({
     [addToCart.fulfilled]: (state, action) => {
       console.log("fullfilled");
       state.success = true;
-      state.success = false
+      state.success = false;
     },
     [addToCart.rejected]: (state) => {
+      console.log("rejected");
+    },
+
+    [getUserCart.pending]: (state) => {
+      console.log("loading");
+    },
+    [getUserCart.fulfilled]: (state, action) => {
+      state.usersCart = action.payload.data;
+    },
+    [getUserCart.rejected]: (state) => {
       console.log("rejected");
     },
   },

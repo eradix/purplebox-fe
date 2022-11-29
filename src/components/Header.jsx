@@ -97,7 +97,7 @@ const Header = () => {
               </li>
             ))}
 
-            {token && authUser?.role !== "admin" ? (
+            {token && authUser?.role !== "Admin" ? (
               <div className="ml-8 relative">
                 <Link to={`/cart/1`}>
                   <FaCartPlus className="text-2xl" />
