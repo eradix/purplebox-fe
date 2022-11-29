@@ -11,10 +11,12 @@ import { useEffect } from "react";
 import { useAuth } from "../App";
 import Modal from "./AlertModal";
 import axios from "axios";
+import { useSelector } from "react-redux";
 
 const Header = () => {
   const token = useAuth();
   const authUser = JSON.parse(localStorage.getItem("authUser"));
+  const { usersCart } = useSelector(state => state.order)
   const navigate = useNavigate();
 
   useEffect(() => {}, [token]);
@@ -103,7 +105,7 @@ const Header = () => {
                   <FaCartPlus className="text-2xl" />
                 </Link>
                 <p className=" text-white bg-red-500 rounded-full text-center text-sm absolute -top-3 -right-2 font-bold px-1">
-                  1
+                  {usersCart.length}
                 </p>
               </div>
             ) : (
