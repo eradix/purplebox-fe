@@ -11,6 +11,7 @@ import { fetchUsers } from "../store/user-slice";
 const Cart = () => {
   const header = [
     "Product",
+    "Name",
     "Unit Price",
     "Quantity",
     "Total Price",
@@ -69,6 +70,9 @@ const Cart = () => {
                             className="w-24 h-24"
                             alt="product"
                           />
+                        </td>
+                        <td className="px-6 py-4 text-sm text-gray-800 whitespace-nowrap">
+                          {item.product.name}
                         </td>
                         <td className="px-6 py-4 text-sm text-gray-800 whitespace-nowrap">
                           {item.product.price}

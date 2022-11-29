@@ -49,6 +49,22 @@ export const getUserCart = createAsyncThunk(
   }
 );
 
+export const updateOrderIfExist = createAsyncThunk(
+  "order/updateOrderIfExist",
+  async (payload, thunkAPI) => {
+    try {
+      const resp = await axios.put(
+        `${process.env.REACT_APP_API_URL}/api/orders/cart/${payload.product_id}`,
+        payload
+      );
+      thunkAPI.dispatch(getUserCart());
+      return resp.data;
+    } catch (err) {
+      return err;
+    }
+  }
+);
+
 const initialState = {
   allOrders: [],
   usersCart: [],

@@ -4,26 +4,36 @@ import { FaCheck } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router";
 import Modal from "../components/AlertModal";
-import { addToCart, orderActions } from "../store/order-slice";
+import { addToCart, getUserCart, orderActions, updateOrderIfExist } from "../store/order-slice";
 import { getProduct } from "../store/product-slice";
 
 const Product = () => {
   const { product_id } = useParams();
   const dispatch = useDispatch();
   const { product } = useSelector((state) => state.product);
-  const { form, success } = useSelector((state) => state.order);
+  const { form, success, usersCart } = useSelector((state) => state.order);
 
   useEffect(() => {
     dispatch(getProduct(product_id));
     const value = product_id;
-    const name = "product_id"
+    const name = "product_id";
     dispatch(orderActions.setForm({ name, value }));
+    dispatch(getUserCart());
   }, []);
 
   const handleChange = (e) => {
     e.preventDefault();
     const { name, value } = e.target;
     dispatch(orderActions.setForm({ name, value }));
+  };
+
+  const addCart = async (e) => {
+    e.preventDefault();
+    const isExist = await usersCart.find(
+      (item) => item.product_id === parseInt(product_id)
+    );
+    if(!isExist) dispatch(addToCart(form))
+    else  dispatch(updateOrderIfExist(form))
   };
 
   return (
@@ -76,7 +86,7 @@ const Product = () => {
             </div>
             <div>
               <button
-                onClick={(e) => dispatch(addToCart(form))}
+                onClick={(e) => addCart(e)}
                 className="py-3 px-5 bg-indigo-500 text-white w-full "
               >
                 Add to Cart
