@@ -23,7 +23,7 @@ export const getUserCart = createAsyncThunk(
       const resp = await axios.get(
         `${process.env.REACT_APP_API_URL}/api/orders/cart`,
         {
-          headers: { Authorization: localStorage.getItem("token") },
+          headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
         }
       );
       return resp.data;
@@ -93,7 +93,7 @@ const orderSlice = createSlice({
       console.log("loading");
     },
     [getUserCart.fulfilled]: (state, action) => {
-      state.usersCart = action.payload.data;
+      state.usersCart = action.payload.user.orders;
     },
     [getUserCart.rejected]: (state) => {
       console.log("rejected");

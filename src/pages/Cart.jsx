@@ -9,14 +9,12 @@ import { getUserCart } from "../store/order-slice";
 import { fetchUsers } from "../store/user-slice";
 
 const Cart = () => {
-  const { showModal, usersCart } = useSelector((state) => state.cart);
   const dispatch = useDispatch();
+  const { showModal, usersCart } = useSelector((state) => state.order);
 
   useEffect(() => {
-    dispatch(getUserCart())
-    console.log(usersCart)
-  }, [])
-  
+    dispatch(getUserCart());
+  }, []);
 
   const header = [
     "Product",
@@ -31,7 +29,7 @@ const Cart = () => {
     <>
       {showModal && <PaymentModal />}
 
-      <div className="md:w-full md:pr-10 md:pl-5 h-screen mt-12 ">
+      <div className="md:w-full md:pr-10 md:pl-5 h-screen my-12 overflow-y-auto">
         <div className="flex items-center font-bold cursor-pointer text-xl mb-3">
           <span className="mr-1 text-indigo-500">
             <FaBox />
@@ -57,28 +55,37 @@ const Cart = () => {
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-gray-200 relative">
-                    <tr>
-                      <td className="px-6 py-4 text-sm font-medium text-gray-800 whitespace-nowrap">
-                        <img src={almond} className="w-24 h-24" alt="product" />
-                      </td>
-                      <td className="px-6 py-4 text-sm text-gray-800 whitespace-nowrap">
-                        12900.00
-                      </td>
-                      <td className="px-6 py-4 text-sm text-gray-800 whitespace-nowrap">
-                        12
-                      </td>
-                      <td className="px-6 py-4 text-sm text-gray-800 whitespace-nowrap">
-                        100000
-                      </td>
-                      <td className="px-6 py-4 text-sm text-yellow-500 whitespace-nowrap">
-                        To Pay
-                      </td>
-                      <td className="px-6 py-4 text-sm font-medium whitespace-nowrap">
-                        <a className="text-red-500 hover:text-red-700" href="#">
-                          Delete
-                        </a>
-                      </td>
-                    </tr>
+                    {usersCart.map((item) => (
+                      <tr>
+                        <td className="px-6 py-4 text-sm font-medium text-gray-800 whitespace-nowrap">
+                          <img
+                            src={`${process.env.REACT_APP_API_URL}/storage/${item.product.image}`}
+                            className="w-24 h-24"
+                            alt="product"
+                          />
+                        </td>
+                        <td className="px-6 py-4 text-sm text-gray-800 whitespace-nowrap">
+                          {item.product.price}
+                        </td>
+                        <td className="px-6 py-4 text-sm text-gray-800 whitespace-nowrap">
+                          {item.quantity}
+                        </td>
+                        <td className="px-6 py-4 text-sm text-gray-800 whitespace-nowrap">
+                          {item.total_price}
+                        </td>
+                        <td className="px-6 py-4 text-sm text-yellow-500 whitespace-nowrap">
+                          {item.status}
+                        </td>
+                        <td className="px-6 py-4 text-sm font-medium whitespace-nowrap">
+                          <a
+                            className="text-red-500 hover:text-red-700"
+                            href="#"
+                          >
+                            Delete
+                          </a>
+                        </td>
+                      </tr>
+                    ))}
                   </tbody>
                 </table>
               </div>
