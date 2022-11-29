@@ -5,20 +5,10 @@ import { useDispatch, useSelector } from "react-redux";
 import almond from "../assets/img/almond.jpg";
 import PaymentModal from "../components/PaymentModal";
 import { cartActions } from "../store/cart-slice";
-import { getUserCart } from "../store/order-slice";
+import { deleteOnCart, getUserCart, orderActions } from "../store/order-slice";
 import { fetchUsers } from "../store/user-slice";
 
 const Cart = () => {
-  const dispatch = useDispatch();
-  const { showModal, usersCart } = useSelector((state) => state.order);
-  const [totalPrice, setTotalPrice] = useState(0);
-
-  useEffect(() => {
-    dispatch(getUserCart());
-    const total = usersCart.reduce((sum, item) => sum + item.total_price, 0)
-    setTotalPrice(total)
-  }, []);
-
   const header = [
     "Product",
     "Unit Price",
@@ -27,6 +17,21 @@ const Cart = () => {
     "Status",
     "Actions",
   ];
+  const dispatch = useDispatch();
+  const { showModal, usersCart, totalPrice } = useSelector(
+    (state) => state.order
+  );
+
+  useEffect(() => {
+    dispatch(getUserCart());
+    const total = usersCart.reduce((sum, item) => sum + item.total_price, 0);
+    dispatch(orderActions.setTotalPrice(total));
+  }, [totalPrice]);
+
+  const cartDelete = (e, id) => {
+    e.preventDefault();
+    dispatch(deleteOnCart(id));
+  };
 
   return (
     <>
@@ -80,12 +85,13 @@ const Cart = () => {
                           {item.status}
                         </td>
                         <td className="px-6 py-4 text-sm font-medium whitespace-nowrap">
-                          <a
+                          <button
+                            onClick={(e) => cartDelete(e, item.id)}
                             className="text-red-500 hover:text-red-700"
                             href="#"
                           >
                             Delete
-                          </a>
+                          </button>
                         </td>
                       </tr>
                     ))}

@@ -9,6 +9,22 @@ export const addToCart = createAsyncThunk(
         `${process.env.REACT_APP_API_URL}/api/orders`,
         payload
       );
+      thunkAPI.dispatch(getUserCart());
+      return resp.data;
+    } catch (err) {
+      return err;
+    }
+  }
+);
+
+export const deleteOnCart = createAsyncThunk(
+  "order/deleteOnCart",
+  async (id, thunkAPI) => {
+    try {
+      const resp = await axios.delete(
+        `${process.env.REACT_APP_API_URL}/api/orders/${id}`
+      );
+      thunkAPI.dispatch(getUserCart());
       return resp.data;
     } catch (err) {
       return err;
@@ -33,22 +49,28 @@ export const getUserCart = createAsyncThunk(
   }
 );
 
+const initialState = {
+  allOrders: [],
+  usersCart: [],
+  form: {
+    product_id: "",
+    quantity: "",
+    status: "On Cart",
+    message: "",
+  },
+  showModal: false,
+  edit: true,
+  success: false,
+  totalPrice: 0,
+};
+
 const orderSlice = createSlice({
   name: "order",
-  initialState: {
-    allOrders: [],
-    usersCart: [],
-    form: {
-      product_id: "",
-      quantity: "",
-      status: "On Cart",
-      message: "",
-    },
-    showModal: false,
-    edit: true,
-    success: false,
-  },
+  initialState,
   reducers: {
+    setTotalPrice(state, action) {
+      state.totalPrice = action.payload;
+    },
     setForm(state, action) {
       state.form[action.payload.name] = action.payload.value;
     },
@@ -81,7 +103,11 @@ const orderSlice = createSlice({
       console.log("loading");
     },
     [addToCart.fulfilled]: (state, action) => {
-      console.log("fullfilled");
+      const total = state.usersCart.reduce(
+        (sum, item) => sum + item.total_price,
+        0
+      );
+      state.totalPrice = total;
       state.success = true;
       state.success = false;
     },
@@ -96,6 +122,16 @@ const orderSlice = createSlice({
       state.usersCart = action.payload.user.orders;
     },
     [getUserCart.rejected]: (state) => {
+      console.log("rejected");
+    },
+
+    [deleteOnCart.pending]: (state) => {
+      console.log("loading");
+    },
+    [deleteOnCart.fulfilled]: (state, action) => {
+      console.log("fullfilled");
+    },
+    [deleteOnCart.rejected]: (state) => {
       console.log("rejected");
     },
   },
