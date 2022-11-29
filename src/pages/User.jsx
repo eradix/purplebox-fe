@@ -9,7 +9,7 @@ import AlertModal from "../components/AlertModal";
 import { useEffect } from "react";
 
 const User = () => {
-  const header = ["Name", "Address", "Email", "Actions"];
+  const header = ["Name", "Contacts", "Address", "Email", "Actions"];
 
   const showModal = useSelector((state) => state.user.showModal);
   const success = useSelector((state) => state.user.success);
@@ -104,6 +104,9 @@ const User = () => {
                           <tr key={index}>
                             <td className="px-6 py-4 text-sm font-medium text-gray-800 whitespace-nowrap">
                               {item.first_name + " " + item.last_name}
+                            </td>
+                            <td className="px-6 py-4 text-sm text-gray-800 whitespace-nowrap">
+                              {item.contact_num}
                             </td>
                             <td className="px-6 py-4 text-sm text-gray-800 whitespace-nowrap">
                               {item.address}
