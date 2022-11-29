@@ -1,9 +1,9 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import almond from "../assets/img/almond.jpg";
 import FormModal from "../components/FormModal";
 import { orderFields } from "../helper/OrderField";
-import { orderActions } from "../store/order-slice";
+import { getAllOrders, orderActions } from "../store/order-slice";
 
 const Order = () => {
   const header = [
@@ -16,14 +16,17 @@ const Order = () => {
     "Actions",
   ];
 
-  const showModal = useSelector((state) => state.order.showModal);
   const dispatch = useDispatch();
-
-  const form = useSelector((state) => state.order.form);
 
   const editOrder = () => {
     dispatch(orderActions.setShowModal(true));
   };
+
+  useEffect(() => {
+    dispatch(getAllOrders("To-Pay"));
+  }, []);
+
+  const { showModal, form, allOrders } = useSelector((state) => state.order);
 
   return (
     <>
@@ -62,35 +65,37 @@ const Order = () => {
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-gray-200 relative">
-                    <tr>
-                      <td className="px-6 py-4 text-sm text-gray-800 whitespace-nowrap">
-                        Charles Pitagan
-                      </td>
-                      <td className="px-6 py-4 text-sm font-medium text-gray-800 whitespace-nowrap">
-                        <img src={almond} className="w-24 h-24" alt="" />
-                      </td>
-                      <td className="px-6 py-4 text-sm text-gray-800 whitespace-nowrap">
-                        Black Forest
-                      </td>
-                      <td className="px-6 py-4 text-sm text-gray-800 whitespace-nowrap">
-                        2
-                      </td>
-                      <td className="px-6 py-4 text-sm text-gray-800 whitespace-nowrap">
-                        1200.00
-                      </td>
-                      <td className="px-6 py-4 text-sm text-yellow-500 whitespace-nowrap">
-                        Pending
-                      </td>
-                      <td className="px-6 py-4 text-sm font-medium whitespace-nowrap">
-                        <button
-                          onClick={() => editOrder}
-                          className="text-green-500 hover:text-red-700 mr-3"
-                          href="#"
-                        >
-                          Edit
-                        </button>
-                      </td>
-                    </tr>
+                    {allOrders.map((item, index) => (
+                      <tr key={index}>
+                        <td className="px-6 py-4 text-sm text-gray-800 whitespace-nowrap">
+                          {item.user.first_name} {item.user.last_name}
+                        </td>
+                        <td className="px-6 py-4 text-sm font-medium text-gray-800 whitespace-nowrap">
+                          <img src={`${process.env.REACT_APP_API_URL}/storage/${item.product.image}`} className="w-24 h-24" alt="" />
+                        </td>
+                        <td className="px-6 py-4 text-sm text-gray-800 whitespace-nowrap">
+                          {item.product.name}
+                        </td>
+                        <td className="px-6 py-4 text-sm text-gray-800 whitespace-nowrap">
+                          {item.quantity}
+                        </td>
+                        <td className="px-6 py-4 text-sm text-gray-800 whitespace-nowrap">
+                          {item.total_price}
+                        </td>
+                        <td className="px-6 py-4 text-sm text-yellow-500 whitespace-nowrap">
+                          {item.status}
+                        </td>
+                        <td className="px-6 py-4 text-sm font-medium whitespace-nowrap">
+                          <button
+                            onClick={() => editOrder}
+                            className="text-green-500 hover:text-red-700 mr-3"
+                            href="#"
+                          >
+                            Edit
+                          </button>
+                        </td>
+                      </tr>
+                    ))}
                   </tbody>
                 </table>
               </div>

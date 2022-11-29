@@ -1,6 +1,23 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 
+export const getAllOrders = createAsyncThunk(
+  "order/getAllOrders",
+  async (status, thunkAPI) => {
+    try {
+      const resp = await axios.get(
+        `${process.env.REACT_APP_API_URL}/api/orders?status=${status}`,
+        {
+          headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
+        }
+      );
+      return resp.data;
+    } catch (err) {
+      return err;
+    }
+  }
+);
+
 export const addToCart = createAsyncThunk(
   "order/addtoCart",
   async (payload, thunkAPI) => {
@@ -71,7 +88,7 @@ const initialState = {
   form: {
     product_id: "",
     quantity: "",
-    status: "To Pay",
+    status: "To-Pay",
     message: "",
   },
   showModal: false,
@@ -94,7 +111,7 @@ const orderSlice = createSlice({
       state.form = {
         product_id: "",
         quantity: "",
-        status: "On Cart",
+        status: "To-Pay",
         message: "",
       };
     },
@@ -131,7 +148,7 @@ const orderSlice = createSlice({
     },
     [getUserCart.fulfilled]: (state, action) => {
       state.usersCart = action.payload.user.orders;
-      state.totalPrice = action.payload.total
+      state.totalPrice = action.payload.total;
     },
     [getUserCart.rejected]: (state) => {
       console.log("rejected");
@@ -144,6 +161,16 @@ const orderSlice = createSlice({
       console.log("fullfilled");
     },
     [deleteOnCart.rejected]: (state) => {
+      console.log("rejected");
+    },
+
+    [getAllOrders.pending]: (state) => {
+      console.log("loading");
+    },
+    [getAllOrders.fulfilled]: (state, action) => {
+      state.allOrders = action.payload.data;
+    },
+    [getAllOrders.rejected]: (state) => {
       console.log("rejected");
     },
   },
