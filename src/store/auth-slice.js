@@ -11,6 +11,7 @@ const authSlice = createSlice({
       address: "",
       role: "user",
       email: "",
+      contact_num: "",
       password: "",
       password_confirmation: "",
     },
@@ -39,6 +40,7 @@ const authSlice = createSlice({
         lastName: "",
         address: "",
         email: "",
+        contact_num: "",
         password: "",
       };
     },

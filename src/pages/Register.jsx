@@ -5,6 +5,7 @@ import {
   FaEnvelope,
   FaCheck,
   FaAddressBook,
+  FaPhone,
 } from "react-icons/fa";
 import TextBox from "../components/TextBox";
 import { Link } from "react-router-dom";
@@ -146,6 +147,17 @@ const Register = () => {
                 value={form.email}
                 handleChange={handleChange}
                 errorMsg={errors.email}
+              />
+            </div>
+
+            <div className="mb-2">
+              <TextBox
+                placeholder={"Contact Number"}
+                icon={<FaPhone />}
+                field={"contact_num"}
+                value={form.contact_num}
+                handleChange={handleChange}
+                errorMsg={errors.contact_num}
               />
             </div>
 
