@@ -11,15 +11,19 @@ import { useEffect } from "react";
 import { useAuth } from "../App";
 import Modal from "./AlertModal";
 import axios from "axios";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { getUserCart } from "../store/order-slice";
 
 const Header = () => {
+  const dispatch = useDispatch();
   const token = useAuth();
   const authUser = JSON.parse(localStorage.getItem("authUser"));
-  const { usersCart } = useSelector(state => state.order)
+  const { usersCart } = useSelector((state) => state.order);
   const navigate = useNavigate();
 
-  useEffect(() => {}, [token]);
+  useEffect(() => {
+    dispatch(getUserCart());
+  }, [token]);
 
   const [open, setOpen] = useState(false);
   const [loggedOut, setLoggedOut] = useState(false);
