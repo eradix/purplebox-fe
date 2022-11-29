@@ -36,7 +36,7 @@ const Header = () => {
   };
 
   const pblicRoute = [{ name: "Dashboard", link: "/users" }];
-  const publicRoutes = authUser?.role === "admin" ? pblicRoute : [];
+  const publicRoutes = authUser?.role === "Admin" ? pblicRoute : [];
   const privateRoutes = [
     { name: "Login", link: "/login" },
     {
