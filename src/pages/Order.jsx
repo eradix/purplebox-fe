@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import almond from "../assets/img/almond.jpg";
 import FormModal from "../components/FormModal";
 import { orderFields } from "../helper/OrderField";
+import { fetchAllCustomCake } from "../store/custom-cake-slice";
 import { getAllOrders, orderActions, updateOrder } from "../store/order-slice";
 
 const Order = () => {
@@ -12,6 +13,7 @@ const Order = () => {
     "Customer Number",
     "Product Image",
     "Product Name",
+    "Unit Price",
     "Quantity",
     "Total Price",
     "Status",
@@ -23,30 +25,32 @@ const Order = () => {
 
   const dispatch = useDispatch();
 
-  const [status, setStatus] = useState('')
+  const [status, setStatus] = useState("");
 
   const editSaveOrder = (e, id) => {
     e.preventDefault();
-    selectRef.current[id].disabled = !selectRef.current[id].disabled
-    if(selectRef.current[id].disabled) {
-      buttonRef.current[id].innerText = "Edit"
-      dispatch(updateOrder({ id, status }))
+    selectRef.current[id].disabled = !selectRef.current[id].disabled;
+    if (selectRef.current[id].disabled) {
+      buttonRef.current[id].innerText = "Edit";
+      dispatch(updateOrder({ id, status }));
     }
-    if(!selectRef.current[id].disabled) buttonRef.current[id].innerText = "Save"
+    if (!selectRef.current[id].disabled)
+      buttonRef.current[id].innerText = "Save";
   };
 
   const handleSelect = (e) => {
-    e.preventDefault()
-    setStatus(e.target.value)
-  }
+    e.preventDefault();
+    setStatus(e.target.value);
+  };
 
+  const { showModal, form, allOrders } = useSelector((state) => state.order);
+  const { allCustomCakes } = useSelector((state) => state.customCake);
 
   useEffect(() => {
     dispatch(getAllOrders("To-Pay"));
-    console.log(allOrders)
+    dispatch(fetchAllCustomCake("To-Pay"));
   }, []);
 
-  const { showModal, form, allOrders } = useSelector((state) => state.order);
 
   return (
     <>
@@ -85,7 +89,7 @@ const Order = () => {
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-gray-200 relative">
-                    {allOrders.map((item, index) => (
+                    {allOrders?.map((item, index) => (
                       <tr key={index}>
                         <td className="px-6 py-4 text-sm text-gray-800 whitespace-nowrap">
                           {item.user.first_name} {item.user.last_name}
@@ -102,6 +106,9 @@ const Order = () => {
                         </td>
                         <td className="px-6 py-4 text-sm text-gray-800 whitespace-nowrap">
                           {item.product.name}
+                        </td>
+                        <td className="px-6 py-4 text-sm text-gray-800 whitespace-nowrap">
+                          {item.product.price}
                         </td>
                         <td className="px-6 py-4 text-sm text-gray-800 whitespace-nowrap">
                           {item.quantity}
@@ -123,7 +130,70 @@ const Order = () => {
                             </option>
                             <option value="To Pay">To-Pay</option>
                             <option value="Processing">Processing</option>
-                            <option value="Ready-For-Delivery">Ready-For-Delivery</option>
+                            <option value="Ready-For-Delivery">
+                              Ready-For-Delivery
+                            </option>
+                            <option value="Completed">Completed</option>
+                          </select>
+                        </td>
+                        <td className="px-6 py-4 text-sm font-medium whitespace-nowrap">
+                          <button
+                            onClick={(e) => editSaveOrder(e, item.id)}
+                            className="text-green-500 hover:text-red-700 mr-3"
+                            href="#"
+                            id={item.id}
+                            ref={(el) => (buttonRef.current[item.id] = el)}
+                          >
+                            Edit
+                          </button>
+                        </td>
+                      </tr>
+                    ))}
+
+                    {allCustomCakes?.map((item, index) => (
+                      <tr key={index}>
+                        <td className="px-6 py-4 text-sm text-gray-800 whitespace-nowrap">
+                          {item.user.first_name} {item.user.last_name}
+                        </td>
+                        <td className="px-6 py-4 text-sm text-gray-800 whitespace-nowrap">
+                          {item.user.contact_num}
+                        </td>
+                        <td className="px-6 py-4 text-sm font-medium text-gray-800 whitespace-nowrap">
+                          <img
+                            src={`${process.env.REACT_APP_API_URL}/storage/${item.image}`}
+                            className="w-24 h-24"
+                            alt=""
+                          />
+                        </td>
+                        <td className="px-6 py-4 text-sm text-indigo-800 font-bold whitespace-nowrap">
+                          Customize
+                        </td>
+                        <td className="px-6 py-4 text-sm text-gray-800 whitespace-nowrap">
+                          {item.price}
+                        </td>
+                        <td className="px-6 py-4 text-sm text-gray-800 whitespace-nowrap">
+                          {item.quantity}
+                        </td>
+                        <td className="px-6 py-4 text-sm text-gray-800 whitespace-nowrap">
+                          {item.quantity * item.price}
+                        </td>
+                        <td className="px-6 py-4 text-sm text-yellow-500 whitespace-nowrap">
+                          <select
+                            disabled={true}
+                            name="status"
+                            id={item.id}
+                            ref={(el) => (selectRef.current[item.id] = el)}
+                            onChange={(e) => handleSelect(e)}
+                            className="text-gray-500 text-center border py-3 px-1 rounded-md shadow-md w-full focus:outline-none"
+                          >
+                            <option defaultValue={item.status}>
+                              {item.status}
+                            </option>
+                            <option value="To Pay">To-Pay</option>
+                            <option value="Processing">Processing</option>
+                            <option value="Ready-For-Delivery">
+                              Ready-For-Delivery
+                            </option>
                             <option value="Completed">Completed</option>
                           </select>
                         </td>
