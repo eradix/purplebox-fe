@@ -30,7 +30,7 @@ const Cart = () => {
   const { usersCakes } = useSelector((state) => state.customCake);
 
   useEffect((e) => {
-    dispatch(getUserCart('To-Pay'));
+    dispatch(getUserCart("To-Pay"));
     dispatch(fetchUsersCake());
     dispatch(getTotalPriceAllItems());
     navigate(e, "cart");
@@ -45,8 +45,7 @@ const Cart = () => {
 
   const navigate = (e, status) => {
     setStatus(status);
-
-    console.log(status)
+    dispatch(getUserCart(status));
   };
 
   return (
@@ -64,15 +63,6 @@ const Cart = () => {
         <ul className="flex justify-between items-center px-2 text-center">
           <li
             className={`py-2 px-4 border-l w-full cursor-pointer hover:bg-indigo-500 hover:text-white ${
-              status === "cart" ? "bg-indigo-500 text-white" : ""
-            }`}
-            onClick={(e) => navigate(e, "cart")}
-          >
-            Cart
-          </li>
-
-          <li
-            className={`py-2 px-4 border-l w-full cursor-pointer hover:bg-indigo-500 hover:text-white ${
               status === "To-Pay" ? "bg-indigo-500 text-white" : ""
             }`}
             onClick={(e) => navigate(e, "To-Pay")}
@@ -82,11 +72,29 @@ const Cart = () => {
 
           <li
             className={`py-2 px-4 border-l w-full cursor-pointer hover:bg-indigo-500 hover:text-white ${
-              status === "process" ? "bg-indigo-500 text-white" : ""
+              status === "Processing" ? "bg-indigo-500 text-white" : ""
             }`}
-            onClick={(e) => navigate(e, "process")}
+            onClick={(e) => navigate(e, "Processing")}
           >
             Process
+          </li>
+
+          <li
+            className={`py-2 px-4 border-l w-full cursor-pointer hover:bg-indigo-500 hover:text-white ${
+              status === "Ready-For-Delivery" ? "bg-indigo-500 text-white" : ""
+            }`}
+            onClick={(e) => navigate(e, "Ready-For-Delivery")}
+          >
+            Delivery
+          </li>
+
+          <li
+            className={`py-2 px-4 border-l w-full cursor-pointer hover:bg-indigo-500 hover:text-white ${
+              status === "Completed" ? "bg-indigo-500 text-white" : ""
+            }`}
+            onClick={(e) => navigate(e, "Completed")}
+          >
+            Completed
           </li>
         </ul>
 
