@@ -154,7 +154,7 @@ const Cart = () => {
                       </tr>
                     ))}
 
-                    {usersCakes.length > 0 && (
+                    {usersCakes && (
                       <>
                         {usersCakes?.map((item, index) => (
                           <tr key={index}>

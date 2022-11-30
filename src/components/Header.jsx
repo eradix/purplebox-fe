@@ -13,6 +13,7 @@ import Modal from "./AlertModal";
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import { getUserCart } from "../store/order-slice";
+import { fetchUsersCake } from "../store/custom-cake-slice";
 
 const Header = () => {
   const dispatch = useDispatch();
@@ -23,7 +24,8 @@ const Header = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    dispatch(getUserCart());
+    dispatch(getUserCart('To-Pay'));
+    dispatch(fetchUsersCake("To-Pay"));
   }, [token]);
 
   const [open, setOpen] = useState(false);
