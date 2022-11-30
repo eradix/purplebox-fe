@@ -25,7 +25,7 @@ const Header = () => {
 
   useEffect(() => {
     dispatch(getUserCart('To-Pay'));
-    dispatch(fetchUsersCake("To-Pay"));
+    // dispatch(fetchUsersCake("To-Pay"));
   }, [token]);
 
   const [open, setOpen] = useState(false);

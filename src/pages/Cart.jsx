@@ -23,17 +23,18 @@ const Cart = () => {
     "Actions",
   ];
   const dispatch = useDispatch();
-  const { showModal, usersCart, totalPrice } = useSelector(
-    (state) => state.order
-  );
-
-  const { usersCakes } = useSelector((state) => state.customCake);
 
   useEffect((e) => {
     dispatch(getUserCart("To-Pay"));
     dispatch(fetchUsersCake("To-Pay"));
     dispatch(getTotalPriceAllItems());
   }, []);
+
+  const { showModal, usersCart, totalPrice } = useSelector(
+    (state) => state.order
+  );
+
+  const { usersCakes } = useSelector((state) => state.customCake);
 
   const cartDelete = (e, id) => {
     e.preventDefault();
