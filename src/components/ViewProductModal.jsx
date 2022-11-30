@@ -15,6 +15,8 @@ const ViewProductModal = ({ actions }) => {
     e.preventDefault();
     dispatch(updateOrder({ id, status }));
     dispatch(actions.setShowModal(false));
+    dispatch(getAllOrders(status));
+    dispatch(fetchAllCustomCake(status));
   };
 
   const closeModal = () => {
@@ -50,13 +52,13 @@ const ViewProductModal = ({ actions }) => {
                   Name:{" "}
                   <span className="text-gray-500">
                     {" "}
-                    {order.user?.first_name} {order.user.last_name}
+                    {order?.user?.first_name} {order?.user?.last_name}
                   </span>
                 </p>
                 <p className="text-500-gray">
                   Contact:{" "}
                   <span className="text-gray-500">
-                    {order.user.contact_num}
+                    {order?.user?.contact_num}
                   </span>
                 </p>
               </div>
@@ -65,26 +67,26 @@ const ViewProductModal = ({ actions }) => {
                 <p className="text-indigo-500 font-bold">Product Details</p>
                 <p className="text-500-gray">
                   Name:{" "}
-                  <span className="text-gray-500"> {order.product.name}</span>
+                  <span className="text-gray-500"> {order?.product?.name}</span>
                 </p>
                 <p className="text-500-gray">
                   Message on the Cake:{" "}
                   <span className="text-gray-500">
                     {" "}
-                    {order.product.message ? order.product.message : "N/A"}
+                    {order?.product?.message ? order?.product?.message : "N/A"}
                   </span>
                 </p>
                 <p className="text-500-gray">
                   Unit Price:{" "}
-                  <span className="text-gray-500">{order.product.price}</span>
+                  <span className="text-gray-500">{order?.product?.price}</span>
                 </p>
                 <p className="text-500-gray">
                   Quantity:{" "}
-                  <span className="text-gray-500">{order.quantity}</span>
+                  <span className="text-gray-500">{order?.quantity}</span>
                 </p>
                 <p className="text-500-gray">
                   Total Price:{" "}
-                  <span className="text-gray-500">{order.total_price}</span>
+                  <span className="text-gray-500">{order?.total_price}</span>
                 </p>
                 <p className="text-500-gray">
                   Remarks:{" "}
@@ -95,11 +97,11 @@ const ViewProductModal = ({ actions }) => {
                 <p className="text-500-gray">
                   <select
                     name="status"
-                    id={order.id}
+                    id={order?.id}
                     className="text-yellow-500 text-center border py-3 px-1 rounded-md shadow-md w-full focus:outline-none"
                     onChange={(e) => handleSelect(e)}
                   >
-                    <option defaultValue={order.status}>{order.status}</option>
+                    <option defaultValue={order?.status}>{order?.status}</option>
                     <option value="To-Pay">To-Pay</option>
                     <option value="Processing">Processing</option>
                     <option value="Ready-For-Delivery">
@@ -120,7 +122,7 @@ const ViewProductModal = ({ actions }) => {
             </button>
             <button
               className="py-2 px-4 bg-indigo-500 text-white rounded mt-6"
-              onClick={(e) => handleSave(e, order.id)}
+              onClick={(e) => handleSave(e, order?.id)}
             >
               Save
             </button>

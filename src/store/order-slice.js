@@ -93,7 +93,7 @@ export const updateOrder = createAsyncThunk(
           headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
         }
       );
-      thunkAPI.dispatch(getAllOrders());
+      thunkAPI.dispatch(getAllOrders(payload.status));
       return resp.data;
     } catch (err) {
       return err;
@@ -129,7 +129,7 @@ export const getOrder = createAsyncThunk(
           headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
         }
       );
-      thunkAPI.dispatch(getAllOrders());
+      thunkAPI.dispatch(getAllOrders('To-Pay'));
       return resp.data;
     } catch (err) {
       return err;
