@@ -118,9 +118,29 @@ export const getTotalPriceAllItems = createAsyncThunk(
   }
 );
 
+export const getOrder = createAsyncThunk(
+  "order/getOrder",
+  async (id, thunkAPI) => {
+    try {
+      const resp = await axios.get(
+        `${process.env.REACT_APP_API_URL}/api/orders/${id}`,
+        {},
+        {
+          headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
+        }
+      );
+      thunkAPI.dispatch(getAllOrders());
+      return resp.data;
+    } catch (err) {
+      return err;
+    }
+  }
+);
+
 const initialState = {
   allOrders: [],
   usersCart: [],
+  order: {},
   form: {
     product_id: "",
     quantity: "",
@@ -213,6 +233,17 @@ const orderSlice = createSlice({
       state.totalPrice = action.payload.totalPrice
     },
     [getTotalPriceAllItems.rejected]: (state) => {
+      console.log("rejected");
+    },
+
+    [getOrder.pending]: (state) => {
+      console.log("loading");
+    },
+    [getOrder.fulfilled]: (state, action) => {
+      console.log(action.payload.data)
+      state.order = action.payload.data
+    },
+    [getOrder.rejected]: (state) => {
       console.log("rejected");
     },
   },

@@ -7,7 +7,7 @@ import FormModal from "../components/FormModal";
 import ViewProductModal from "../components/ViewProductModal";
 import { orderFields } from "../helper/OrderField";
 import { fetchAllCustomCake } from "../store/custom-cake-slice";
-import { getAllOrders, orderActions, updateOrder } from "../store/order-slice";
+import { getAllOrders, getOrder, orderActions, updateOrder } from "../store/order-slice";
 
 const Order = () => {
   const header = [
@@ -61,6 +61,7 @@ const Order = () => {
 
   const viewOrder = (e, id) => {
     e.preventDefault()
+    dispatch(getOrder(id))
     dispatch(orderActions.setShowModal(true))
   }
 

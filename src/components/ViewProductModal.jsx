@@ -1,10 +1,11 @@
 import React from "react";
 import { motion } from "framer-motion";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import almond from "../assets/img/almond.jpg";
 
 const ViewProductModal = ({ icon, status, message, button, actions }) => {
   const dispatch = useDispatch();
+  const { order } = useSelector(state => state.order) 
 
   const handleClick = () => {
     dispatch(actions.setSuccess(false));
