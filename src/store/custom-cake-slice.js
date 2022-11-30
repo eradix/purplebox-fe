@@ -31,6 +31,7 @@ const customCakeSlice = createSlice({
       message: "",
       remarks: "",
       price: "",
+      status: "To-Pay",
     },
   },
   reducers: {
