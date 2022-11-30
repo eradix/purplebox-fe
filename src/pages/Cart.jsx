@@ -31,7 +31,7 @@ const Cart = () => {
 
   useEffect((e) => {
     dispatch(getUserCart("To-Pay"));
-    dispatch(fetchUsersCake());
+    dispatch(fetchUsersCake("To-Pay"));
     dispatch(getTotalPriceAllItems());
     navigate(e, "cart");
   }, []);
