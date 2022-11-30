@@ -26,7 +26,7 @@ export const addToCart = createAsyncThunk(
         `${process.env.REACT_APP_API_URL}/api/orders`,
         payload
       );
-      thunkAPI.dispatch(getUserCart());
+      thunkAPI.dispatch(getUserCart('To-Pay'));
       return resp.data;
     } catch (err) {
       return err;
@@ -41,7 +41,7 @@ export const deleteOnCart = createAsyncThunk(
       const resp = await axios.delete(
         `${process.env.REACT_APP_API_URL}/api/orders/${id}`
       );
-      thunkAPI.dispatch(getUserCart());
+      thunkAPI.dispatch(getUserCart('To-Pay'));
       return resp.data;
     } catch (err) {
       return err;
@@ -74,7 +74,7 @@ export const updateOrderIfExist = createAsyncThunk(
         `${process.env.REACT_APP_API_URL}/api/orders/cart/${payload.product_id}`,
         payload
       );
-      thunkAPI.dispatch(getUserCart());
+      thunkAPI.dispatch(getUserCart('To-Pay'));
       return resp.data;
     } catch (err) {
       return err;
@@ -123,7 +123,7 @@ export const getOrder = createAsyncThunk(
   async (id, thunkAPI) => {
     try {
       const resp = await axios.get(
-        `${process.env.REACT_APP_API_URL}/api/orders/${id}`,
+        `${process.env.REACT_APP_API_URL}/api/orders/get/${id}`,
         {},
         {
           headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },

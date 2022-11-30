@@ -23,7 +23,7 @@ const Product = () => {
     const value = product_id;
     const name = "product_id";
     dispatch(orderActions.setForm({ name, value }));
-    dispatch(getUserCart());
+    dispatch(getUserCart('To-Pay'));
   }, []);
 
   const handleChange = (e) => {
