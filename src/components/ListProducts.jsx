@@ -55,6 +55,11 @@ const ListProducts = () => {
               </select>
             </div>
           </div>
+          <div>
+            <button className="bg-indigo-500 py-3 px-6 text-white my-3 hover:bg-green-500">
+              Customize Cake +
+            </button>
+          </div>
           <div className="grid md:grid-cols-4 md:gap-3 gap-5 my-3 ">
             {allProducts &&
               allProducts.map((item, index) => (
