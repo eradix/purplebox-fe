@@ -1,10 +1,12 @@
 import React from "react";
+import { FaCheck } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
 import unknown from "../assets/img/unknown.jpg";
-import { customCakeActions } from "../store/custom-cake-slice";
+import { customCakeActions, saveCustomCake } from "../store/custom-cake-slice";
+import AlertModal from "../components/AlertModal";
 
 const CustomizeCake = () => {
-  const { form } = useSelector((state) => state.customCake);
+  const { form, success } = useSelector((state) => state.customCake);
   const dispatch = useDispatch();
 
   const formData = new FormData();
@@ -26,10 +28,25 @@ const CustomizeCake = () => {
     Object.keys(form).map((item) => {
       if (item !== "image") formData.append(item, form[item]);
     });
+
+    dispatch(saveCustomCake(formData));
+    dispatch(customCakeActions.resetForm());
+    dispatch(customCakeActions.setSuccess(true));
   };
 
   return (
     <>
+      {success && (
+        <AlertModal
+          icon={<FaCheck className="text-green-500 text-4xl" />}
+          status={"Success"}
+          message={"Item added to cart. The seller will update the price for this customize cake."}
+          button={"Okay"}
+          actions={customCakeActions}
+        />
+      )}
+
+
       <div className="md:h-screen flex items-center justify-center">
         <div className="md:flex items-center gap-10 my-12 md:my-0 md:mx-24  w-full justify-between ">
           <img src={unknown} alt="cake" className="mb-3 md:mb-0" />
