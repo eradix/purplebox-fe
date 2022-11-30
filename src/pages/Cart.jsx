@@ -30,7 +30,7 @@ const Cart = () => {
     dispatch(getTotalPriceAllItems());
   }, []);
 
-  const { showModal, usersCart, totalPrice } = useSelector(
+  const { showModal, usersCart, getItemsByStatus, totalPrice } = useSelector(
     (state) => state.order
   );
 
@@ -49,6 +49,8 @@ const Cart = () => {
     dispatch(fetchUsersCake(status));
     console.log(status);
   };
+
+  const cartItems = status === "To-Pay" ? usersCart : getItemsByStatus;
 
   return (
     <>
@@ -69,7 +71,7 @@ const Cart = () => {
             }`}
             onClick={(e) => navigate(e, "To-Pay")}
           >
-            To Pay
+            On Cart
           </li>
 
           <li
@@ -119,7 +121,7 @@ const Cart = () => {
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-gray-200 relative">
-                    {usersCart?.map((item, index) => (
+                    {cartItems?.map((item, index) => (
                       <tr key={index}>
                         <td className="px-6 py-4 text-sm font-medium text-gray-800 whitespace-nowrap">
                           <img
@@ -144,13 +146,15 @@ const Cart = () => {
                           {item.status}
                         </td>
                         <td className="px-6 py-4 text-sm font-medium whitespace-nowrap">
-                          <button
-                            onClick={(e) => cartDelete(e, item.id)}
-                            className="text-red-500 hover:text-red-700"
-                            href="#"
-                          >
-                            Delete
-                          </button>
+                          {status === "To-Pay" && (
+                            <button
+                              onClick={(e) => cartDelete(e, item.id)}
+                              className="text-red-500 hover:text-red-700"
+                              href="#"
+                            >
+                              Delete
+                            </button>
+                          )}
                         </td>
                       </tr>
                     ))}

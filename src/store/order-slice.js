@@ -140,6 +140,7 @@ export const getOrder = createAsyncThunk(
 const initialState = {
   allOrders: [],
   usersCart: [],
+  getItemsByStatus: [],
   order: {},
   form: {
     product_id: "",
@@ -200,7 +201,8 @@ const orderSlice = createSlice({
       console.log("loading");
     },
     [getUserCart.fulfilled]: (state, action) => {
-      state.usersCart = action.payload.data;
+      if(action.payload.status === 'To-Pay') state.usersCart = action.payload.data;
+      else state.getItemsByStatus = action.payload.data
     },
     [getUserCart.rejected]: (state) => {
       console.log("rejected");
