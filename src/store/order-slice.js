@@ -147,7 +147,7 @@ const initialState = {
     status: "To-Pay",
     message: "",
   },
-  showModal: false,
+  showModal: true,
   edit: true,
   success: false,
   totalPrice: 0,
@@ -230,7 +230,7 @@ const orderSlice = createSlice({
       console.log("loading");
     },
     [getTotalPriceAllItems.fulfilled]: (state, action) => {
-      state.totalPrice = action.payload.totalPrice
+      state.totalPrice = action.payload.totalPrice;
     },
     [getTotalPriceAllItems.rejected]: (state) => {
       console.log("rejected");
@@ -240,8 +240,7 @@ const orderSlice = createSlice({
       console.log("loading");
     },
     [getOrder.fulfilled]: (state, action) => {
-      console.log(action.payload.data)
-      state.order = action.payload.data
+      state.order = action.payload.data;
     },
     [getOrder.rejected]: (state) => {
       console.log("rejected");

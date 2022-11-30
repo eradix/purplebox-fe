@@ -2,18 +2,27 @@ import React from "react";
 import { motion } from "framer-motion";
 import { useDispatch, useSelector } from "react-redux";
 import almond from "../assets/img/almond.jpg";
+import { getAllOrders } from "../store/order-slice";
+import { fetchAllCustomCake } from "../store/custom-cake-slice";
 
 const ViewProductModal = ({ icon, status, message, button, actions }) => {
   const dispatch = useDispatch();
-  const { order } = useSelector(state => state.order) 
+  const { order } = useSelector((state) => state.order);
+  console.log(order);
 
   const handleClick = () => {
     dispatch(actions.setSuccess(false));
   };
 
   const closeModal = () => {
-    dispatch(actions.setShowModal(false))
-  }
+    dispatch(actions.setShowModal(false));
+    dispatch(getAllOrders("To-Pay"));
+    dispatch(fetchAllCustomCake("To-Pay"));
+  };
+
+  const handleSelect = (e) => {
+    e.preventDefault();
+  };
 
   return (
     <div className="bg-zinc-200 opacity-90 fixed inset-0 z-50">
@@ -34,30 +43,44 @@ const ViewProductModal = ({ icon, status, message, button, actions }) => {
               <div className="mb-3">
                 <p className="text-indigo-500 font-bold">Customer Details</p>
                 <p className="text-500-gray">
-                  Name: <span className="text-gray-500"> Charles Pitagan</span>
+                  Name:{" "}
+                  <span className="text-gray-500">
+                    {" "}
+                    {order.user.first_name} {order.user.last_name}
+                  </span>
                 </p>
                 <p className="text-500-gray">
-                  Contact: <span className="text-gray-500">123123123</span>
+                  Contact:{" "}
+                  <span className="text-gray-500">
+                    {order.user.contact_num}
+                  </span>
                 </p>
               </div>
 
               <div className="mb-3">
                 <p className="text-indigo-500 font-bold">Product Details</p>
                 <p className="text-500-gray">
-                  Name: <span className="text-gray-500"> Customize</span>
+                  Name:{" "}
+                  <span className="text-gray-500"> {order.product.name}</span>
                 </p>
                 <p className="text-500-gray">
                   Message on the Cake:{" "}
-                  <span className="text-gray-500">Happy Birthday!</span>
+                  <span className="text-gray-500">
+                    {" "}
+                    {order.product.message ? order.product.message : "N/A"}
+                  </span>
                 </p>
                 <p className="text-500-gray">
-                  Unit Price: <span className="text-gray-500">200</span>
+                  Unit Price:{" "}
+                  <span className="text-gray-500">{order.product.price}</span>
                 </p>
                 <p className="text-500-gray">
-                  Quantity: <span className="text-gray-500">2</span>
+                  Quantity:{" "}
+                  <span className="text-gray-500">{order.quantity}</span>
                 </p>
                 <p className="text-500-gray">
-                  Total Price: <span className="text-gray-500">400</span>
+                  Total Price:{" "}
+                  <span className="text-gray-500">{order.total_price}</span>
                 </p>
                 <p className="text-500-gray">
                   Remarks:{" "}
@@ -66,8 +89,20 @@ const ViewProductModal = ({ icon, status, message, button, actions }) => {
                   </span>
                 </p>
                 <p className="text-500-gray">
-                  Status:{" "}
-                  <span className="text-yellow-500 font-bold">To-Pay</span>
+                  <select
+                    name="status"
+                    id={order.id}
+                    className="text-yellow-500 text-center border py-3 px-1 rounded-md shadow-md w-full focus:outline-none"
+                    onChange={(e) => handleSelect(e)}
+                  >
+                    <option defaultValue={order.status}>{order.status}</option>
+                    <option value="To Pay">To-Pay</option>
+                    <option value="Processing">Processing</option>
+                    <option value="Ready-For-Delivery">
+                      Ready-For-Delivery
+                    </option>
+                    <option value="Completed">Completed</option>
+                  </select>
                 </p>
               </div>
             </div>
