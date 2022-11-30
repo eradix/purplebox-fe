@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { useRef } from "react";
+import { FaCheck } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
 import almond from "../assets/img/almond.jpg";
 import FormModal from "../components/FormModal";
+import ViewProductModal from "../components/ViewProductModal";
 import { orderFields } from "../helper/OrderField";
 import { fetchAllCustomCake } from "../store/custom-cake-slice";
 import { getAllOrders, orderActions, updateOrder } from "../store/order-slice";
@@ -57,15 +59,22 @@ const Order = () => {
     console.log(stats);
   };
 
+  const viewOrder = (e, id) => {
+    e.preventDefault()
+    dispatch(orderActions.setShowModal(true))
+  }
+
   return (
     <>
       {showModal && (
-        <FormModal
-          updateTitle={"Update Order"}
-          fields={orderFields}
+        <ViewProductModal
+          icon={<FaCheck className="text-green-500 text-4xl" />}
+          status={"Success"}
+          message={
+            "Item added to cart. The seller will update the price for this customize cake."
+          }
+          button={"Okay"}
           actions={orderActions}
-          form={form}
-          edit={true}
         />
       )}
 
@@ -184,7 +193,7 @@ const Order = () => {
                           </button> */}
 
                           <button
-                            onClick={(e) => editSaveOrder(e, item.id)}
+                             onClick={(e) => viewOrder(e, item.id)}
                             className="text-green-500 hover:text-red-700 mr-3"
                             href="#"
                             id={item.id}
@@ -247,7 +256,7 @@ const Order = () => {
                           </button> */}
 
                           <button
-                            onClick={(e) => editSaveOrder(e, item.id)}
+                            onClick={(e) => viewOrder(e, item.id)}
                             className="text-green-500 hover:text-red-700 mr-3"
                             href="#"
                             id={item.id}
