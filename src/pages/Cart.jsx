@@ -33,7 +33,6 @@ const Cart = () => {
     dispatch(getUserCart("To-Pay"));
     dispatch(fetchUsersCake("To-Pay"));
     dispatch(getTotalPriceAllItems());
-    navigate(e, "cart");
   }, []);
 
   const cartDelete = (e, id) => {
@@ -41,11 +40,13 @@ const Cart = () => {
     dispatch(deleteOnCart(id));
   };
 
-  const [status, setStatus] = useState("");
+  const [status, setStatus] = useState("To-Pay");
 
   const navigate = (e, status) => {
     setStatus(status);
     dispatch(getUserCart(status));
+    dispatch(fetchUsersCake(status));
+    console.log(status);
   };
 
   return (
@@ -76,7 +77,7 @@ const Cart = () => {
             }`}
             onClick={(e) => navigate(e, "Processing")}
           >
-            Process
+            Processing
           </li>
 
           <li
@@ -117,7 +118,7 @@ const Cart = () => {
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-gray-200 relative">
-                    {usersCart.map((item, index) => (
+                    {usersCart?.map((item, index) => (
                       <tr key={index}>
                         <td className="px-6 py-4 text-sm font-medium text-gray-800 whitespace-nowrap">
                           <img
@@ -153,7 +154,7 @@ const Cart = () => {
                       </tr>
                     ))}
 
-                    {usersCakes && (
+                    {usersCakes.length > 0 && (
                       <>
                         {usersCakes?.map((item, index) => (
                           <tr key={index}>
@@ -195,17 +196,20 @@ const Cart = () => {
                   </tbody>
                 </table>
               </div>
-              <div className="float-right mt-3">
-                <p className="mr-2 mb-2">
-                  Total: <span className="text-red-500">₱{totalPrice}.00</span>
-                </p>
-                <button
-                  onClick={() => dispatch(orderActions.setShowModal(true))}
-                  className="bg-indigo-500 text-white py-2 rounded px-14"
-                >
-                  Checkout
-                </button>
-              </div>
+              {status === "To-Pay" && (
+                <div className="float-right mt-3">
+                  <p className="mr-2 mb-2">
+                    Total:{" "}
+                    <span className="text-red-500">₱{totalPrice}.00</span>
+                  </p>
+                  <button
+                    onClick={() => dispatch(orderActions.setShowModal(true))}
+                    className="bg-indigo-500 text-white py-2 rounded px-14"
+                  >
+                    Checkout
+                  </button>
+                </div>
+              )}
             </div>
           </div>
         </div>
