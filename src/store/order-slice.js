@@ -51,10 +51,10 @@ export const deleteOnCart = createAsyncThunk(
 
 export const getUserCart = createAsyncThunk(
   "order/getUserCart",
-  async (thunkAPI) => {
+  async (type, thunkAPI) => {
     try {
       const resp = await axios.get(
-        `${process.env.REACT_APP_API_URL}/api/orders/cart`,
+        `${process.env.REACT_APP_API_URL}/api/orders/cart?type=${type}`,
         {
           headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
         }
@@ -180,7 +180,7 @@ const orderSlice = createSlice({
       console.log("loading");
     },
     [getUserCart.fulfilled]: (state, action) => {
-      state.usersCart = action.payload.user.orders;
+      state.usersCart = action.payload.data;
     },
     [getUserCart.rejected]: (state) => {
       console.log("rejected");

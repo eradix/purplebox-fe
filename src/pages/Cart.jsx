@@ -2,9 +2,15 @@ import React, { useState } from "react";
 import { useEffect } from "react";
 import { FaBox } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
+import { Navigate } from "react-router";
 import PaymentModal from "../components/PaymentModal";
 import { fetchUsersCake } from "../store/custom-cake-slice";
-import { deleteOnCart, getTotalPriceAllItems, getUserCart, orderActions } from "../store/order-slice";
+import {
+  deleteOnCart,
+  getTotalPriceAllItems,
+  getUserCart,
+  orderActions,
+} from "../store/order-slice";
 
 const Cart = () => {
   const header = [
@@ -23,15 +29,24 @@ const Cart = () => {
 
   const { usersCakes } = useSelector((state) => state.customCake);
 
-  useEffect(() => {
-    dispatch(getUserCart());
+  useEffect((e) => {
+    dispatch(getUserCart('To-Pay'));
     dispatch(fetchUsersCake());
-    dispatch(getTotalPriceAllItems())
+    dispatch(getTotalPriceAllItems());
+    navigate(e, "cart");
   }, []);
 
   const cartDelete = (e, id) => {
     e.preventDefault();
     dispatch(deleteOnCart(id));
+  };
+
+  const [status, setStatus] = useState("");
+
+  const navigate = (e, status) => {
+    setStatus(status);
+
+    console.log(status)
   };
 
   return (
@@ -45,6 +60,36 @@ const Cart = () => {
           </span>
           <p>Shopping Cart</p>
         </div>
+
+        <ul className="flex justify-between items-center px-2 text-center">
+          <li
+            className={`py-2 px-4 border-l w-full cursor-pointer hover:bg-indigo-500 hover:text-white ${
+              status === "cart" ? "bg-indigo-500 text-white" : ""
+            }`}
+            onClick={(e) => navigate(e, "cart")}
+          >
+            Cart
+          </li>
+
+          <li
+            className={`py-2 px-4 border-l w-full cursor-pointer hover:bg-indigo-500 hover:text-white ${
+              status === "To-Pay" ? "bg-indigo-500 text-white" : ""
+            }`}
+            onClick={(e) => navigate(e, "To-Pay")}
+          >
+            To Pay
+          </li>
+
+          <li
+            className={`py-2 px-4 border-l w-full cursor-pointer hover:bg-indigo-500 hover:text-white ${
+              status === "process" ? "bg-indigo-500 text-white" : ""
+            }`}
+            onClick={(e) => navigate(e, "process")}
+          >
+            Process
+          </li>
+        </ul>
+
         <div className="flex flex-col">
           <div className="overflow-x-auto">
             <div className="p-1.5 w-full inline-block align-middle">
