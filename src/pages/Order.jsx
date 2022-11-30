@@ -163,24 +163,7 @@ const Order = () => {
                           {item.total_price}
                         </td>
                         <td className="px-6 py-4 text-sm text-yellow-500 whitespace-nowrap">
-                          <select
-                            disabled={true}
-                            name="status"
-                            id={item.id}
-                            ref={(el) => (selectRef.current[item.id] = el)}
-                            onChange={(e) => handleSelect(e)}
-                            className="text-gray-500 text-center border py-3 px-1 rounded-md shadow-md w-full focus:outline-none"
-                          >
-                            <option defaultValue={item.status}>
-                              {item.status}
-                            </option>
-                            <option value="To Pay">To-Pay</option>
-                            <option value="Processing">Processing</option>
-                            <option value="Ready-For-Delivery">
-                              Ready-For-Delivery
-                            </option>
-                            <option value="Completed">Completed</option>
-                          </select>
+                          {item.status}
                         </td>
                         <td className="px-6 py-4 text-sm font-medium whitespace-nowrap">
                           {/* <button
@@ -226,24 +209,7 @@ const Order = () => {
                           {item.quantity * item.price}
                         </td>
                         <td className="px-6 py-4 text-sm text-yellow-500 whitespace-nowrap">
-                          <select
-                            disabled={true}
-                            name="status"
-                            id={item.id}
-                            ref={(el) => (selectRef.current[item.id] = el)}
-                            onChange={(e) => handleSelect(e)}
-                            className="text-gray-500 text-center border py-3 px-1 rounded-md shadow-md w-full focus:outline-none"
-                          >
-                            <option defaultValue={item.status}>
-                              {item.status}
-                            </option>
-                            <option value="To Pay">To-Pay</option>
-                            <option value="Processing">Processing</option>
-                            <option value="Ready-For-Delivery">
-                              Ready-For-Delivery
-                            </option>
-                            <option value="Completed">Completed</option>
-                          </select>
+                          {item.status}
                         </td>
                         <td className="px-6 py-4 text-sm font-medium whitespace-nowrap">
                           {/* <button

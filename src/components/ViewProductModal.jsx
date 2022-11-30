@@ -2,16 +2,19 @@ import React from "react";
 import { motion } from "framer-motion";
 import { useDispatch, useSelector } from "react-redux";
 import almond from "../assets/img/almond.jpg";
-import { getAllOrders } from "../store/order-slice";
+import { getAllOrders, updateOrder } from "../store/order-slice";
 import { fetchAllCustomCake } from "../store/custom-cake-slice";
+import { useState } from "react";
 
-const ViewProductModal = ({ icon, status, message, button, actions }) => {
+const ViewProductModal = ({ actions }) => {
   const dispatch = useDispatch();
   const { order } = useSelector((state) => state.order);
-  console.log(order);
+  const [status, setStatus] = useState("");
 
-  const handleClick = () => {
-    dispatch(actions.setSuccess(false));
+  const handleSave = (e, id) => {
+    e.preventDefault();
+    dispatch(updateOrder({ id, status }));
+    dispatch(actions.setShowModal(false));
   };
 
   const closeModal = () => {
@@ -22,6 +25,7 @@ const ViewProductModal = ({ icon, status, message, button, actions }) => {
 
   const handleSelect = (e) => {
     e.preventDefault();
+    setStatus(e.target.value)
   };
 
   return (
@@ -46,7 +50,7 @@ const ViewProductModal = ({ icon, status, message, button, actions }) => {
                   Name:{" "}
                   <span className="text-gray-500">
                     {" "}
-                    {order.user.first_name} {order.user.last_name}
+                    {order.user?.first_name} {order.user.last_name}
                   </span>
                 </p>
                 <p className="text-500-gray">
@@ -96,7 +100,7 @@ const ViewProductModal = ({ icon, status, message, button, actions }) => {
                     onChange={(e) => handleSelect(e)}
                   >
                     <option defaultValue={order.status}>{order.status}</option>
-                    <option value="To Pay">To-Pay</option>
+                    <option value="To-Pay">To-Pay</option>
                     <option value="Processing">Processing</option>
                     <option value="Ready-For-Delivery">
                       Ready-For-Delivery
@@ -116,9 +120,9 @@ const ViewProductModal = ({ icon, status, message, button, actions }) => {
             </button>
             <button
               className="py-2 px-4 bg-indigo-500 text-white rounded mt-6"
-              onClick={() => handleClick()}
+              onClick={(e) => handleSave(e, order.id)}
             >
-              Edit
+              Save
             </button>
           </div>
         </motion.div>

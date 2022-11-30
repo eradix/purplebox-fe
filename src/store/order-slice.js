@@ -147,7 +147,7 @@ const initialState = {
     status: "To-Pay",
     message: "",
   },
-  showModal: true,
+  showModal: false,
   edit: true,
   success: false,
   totalPrice: 0,
