@@ -27,9 +27,8 @@ const CustomizeCake = () => {
     e.preventDefault();
 
     Object.keys(form).map((item) => {
-      if (item !== "image") formData.append(item, form[item]);
+      if (item !== "image" || item !== "status") formData.append(item, form[item]);
     });
-
     dispatch(saveCustomCake(formData));
     dispatch(customCakeActions.resetForm());
     dispatch(customCakeActions.setSuccess(true));

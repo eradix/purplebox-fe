@@ -110,17 +110,17 @@ const Cart = () => {
                                 alt="product"
                               />
                             </td>
-                            <td className="px-6 py-4 text-sm text-gray-800 whitespace-nowrap">
-                                Customize
+                            <td className="px-6 py-4 text-sm text-indigo-800 font-bold whitespace-nowrap">
+                              Customize
                             </td>
                             <td className="px-6 py-4 text-sm text-gray-800 whitespace-nowrap">
-                              --
+                              {item.price ? item.price : "0"}
                             </td>
                             <td className="px-6 py-4 text-sm text-gray-800 whitespace-nowrap">
                               {item.quantity}
                             </td>
                             <td className="px-6 py-4 text-sm text-gray-800 whitespace-nowrap">
-                              --
+                              {item.price * item.quantity}
                             </td>
                             <td className="px-6 py-4 text-sm text-yellow-500 whitespace-nowrap">
                               {item.status}
