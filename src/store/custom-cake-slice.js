@@ -24,6 +24,7 @@ const customCakeSlice = createSlice({
   initialState: {
     allCustomCakes: [],
     showModal: false,
+    success: false,
     form: {
       image: "",
       quantity: "",
@@ -42,6 +43,9 @@ const customCakeSlice = createSlice({
     getAll(state, action) {
       state.allCustomCakes = action.payload;
     },
+    setSuccess(state, action) {
+      state.success = action.payload;
+    },
     resetForm(state) {
       state.form = {
         image: "",
@@ -57,12 +61,12 @@ const customCakeSlice = createSlice({
       console.log("loading");
     },
     [saveCustomCake.fulfilled]: (state, action) => {
-      console.log("fulfilled")
+      console.log("fulfilled");
     },
     [saveCustomCake.rejected]: (state) => {
       console.log("rejected");
     },
-  }
+  },
 });
 
 export const customCakeActions = customCakeSlice.actions;
