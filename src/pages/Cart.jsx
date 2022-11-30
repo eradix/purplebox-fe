@@ -4,7 +4,7 @@ import { FaBox } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
 import PaymentModal from "../components/PaymentModal";
 import { fetchUsersCake } from "../store/custom-cake-slice";
-import { deleteOnCart, getUserCart, orderActions } from "../store/order-slice";
+import { deleteOnCart, getTotalPriceAllItems, getUserCart, orderActions } from "../store/order-slice";
 
 const Cart = () => {
   const header = [
@@ -26,6 +26,7 @@ const Cart = () => {
   useEffect(() => {
     dispatch(getUserCart());
     dispatch(fetchUsersCake());
+    dispatch(getTotalPriceAllItems())
   }, []);
 
   const cartDelete = (e, id) => {
