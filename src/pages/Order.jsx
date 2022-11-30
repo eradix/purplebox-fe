@@ -25,7 +25,7 @@ const Order = () => {
 
   const dispatch = useDispatch();
 
-  const [status, setStatus] = useState("");
+  const [status, setStatus] = useState("To-Pay");
 
   const editSaveOrder = (e, id) => {
     e.preventDefault();
@@ -51,6 +51,12 @@ const Order = () => {
     dispatch(fetchAllCustomCake("To-Pay"));
   }, []);
 
+  const navigate = (e, status) => {
+    setStatus(status);
+    dispatch(getAllOrders(status));
+    dispatch(fetchAllCustomCake(status));
+    console.log(status);
+  };
 
   return (
     <>
@@ -70,6 +76,45 @@ const Order = () => {
             <p>Order Management</p>
           </div>
         </div>
+
+        <ul className="flex justify-between items-center px-2 text-center">
+          <li
+            className={`py-2 px-4 border-l w-full cursor-pointer hover:bg-indigo-500 hover:text-white ${
+              status === "To-Pay" ? "bg-indigo-500 text-white" : ""
+            }`}
+            onClick={(e) => navigate(e, "To-Pay")}
+          >
+            To Pay
+          </li>
+
+          <li
+            className={`py-2 px-4 border-l w-full cursor-pointer hover:bg-indigo-500 hover:text-white ${
+              status === "Processing" ? "bg-indigo-500 text-white" : ""
+            }`}
+            onClick={(e) => navigate(e, "Processing")}
+          >
+            Processing
+          </li>
+
+          <li
+            className={`py-2 px-4 border-l w-full cursor-pointer hover:bg-indigo-500 hover:text-white ${
+              status === "Ready-For-Delivery" ? "bg-indigo-500 text-white" : ""
+            }`}
+            onClick={(e) => navigate(e, "Ready-For-Delivery")}
+          >
+            Delivery
+          </li>
+
+          <li
+            className={`py-2 px-4 border-l w-full cursor-pointer hover:bg-indigo-500 hover:text-white ${
+              status === "Completed" ? "bg-indigo-500 text-white" : ""
+            }`}
+            onClick={(e) => navigate(e, "Completed")}
+          >
+            Completed
+          </li>
+        </ul>
+
         <div className="flex flex-col">
           <div className="overflow-x-auto">
             <div className="p-1.5 w-full inline-block align-middle">
