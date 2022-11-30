@@ -11,9 +11,7 @@ const Order = () => {
   const header = [
     "Customer Name",
     "Customer Number",
-    "Product Image",
     "Product Name",
-    "Unit Price",
     "Quantity",
     "Total Price",
     "Status",
@@ -143,19 +141,11 @@ const Order = () => {
                         <td className="px-6 py-4 text-sm text-gray-800 whitespace-nowrap">
                           {item.user.contact_num}
                         </td>
-                        <td className="px-6 py-4 text-sm font-medium text-gray-800 whitespace-nowrap">
-                          <img
-                            src={`${process.env.REACT_APP_API_URL}/storage/${item.product.image}`}
-                            className="w-24 h-24"
-                            alt=""
-                          />
-                        </td>
+
                         <td className="px-6 py-4 text-sm text-gray-800 whitespace-nowrap">
                           {item.product.name}
                         </td>
-                        <td className="px-6 py-4 text-sm text-gray-800 whitespace-nowrap">
-                          {item.product.price}
-                        </td>
+
                         <td className="px-6 py-4 text-sm text-gray-800 whitespace-nowrap">
                           {item.quantity}
                         </td>
@@ -183,7 +173,7 @@ const Order = () => {
                           </select>
                         </td>
                         <td className="px-6 py-4 text-sm font-medium whitespace-nowrap">
-                          <button
+                          {/* <button
                             onClick={(e) => editSaveOrder(e, item.id)}
                             className="text-green-500 hover:text-red-700 mr-3"
                             href="#"
@@ -191,6 +181,16 @@ const Order = () => {
                             ref={(el) => (buttonRef.current[item.id] = el)}
                           >
                             Edit
+                          </button> */}
+
+                          <button
+                            onClick={(e) => editSaveOrder(e, item.id)}
+                            className="text-green-500 hover:text-red-700 mr-3"
+                            href="#"
+                            id={item.id}
+                            ref={(el) => (buttonRef.current[item.id] = el)}
+                          >
+                            View
                           </button>
                         </td>
                       </tr>
@@ -204,19 +204,11 @@ const Order = () => {
                         <td className="px-6 py-4 text-sm text-gray-800 whitespace-nowrap">
                           {item.user.contact_num}
                         </td>
-                        <td className="px-6 py-4 text-sm font-medium text-gray-800 whitespace-nowrap">
-                          <img
-                            src={`${process.env.REACT_APP_API_URL}/storage/${item.image}`}
-                            className="w-24 h-24"
-                            alt=""
-                          />
-                        </td>
+
                         <td className="px-6 py-4 text-sm text-indigo-800 font-bold whitespace-nowrap">
                           Customize
                         </td>
-                        <td className="px-6 py-4 text-sm text-gray-800 whitespace-nowrap">
-                          {item.price}
-                        </td>
+
                         <td className="px-6 py-4 text-sm text-gray-800 whitespace-nowrap">
                           {item.quantity}
                         </td>
@@ -244,7 +236,7 @@ const Order = () => {
                           </select>
                         </td>
                         <td className="px-6 py-4 text-sm font-medium whitespace-nowrap">
-                          <button
+                          {/* <button
                             onClick={(e) => editSaveOrder(e, item.id)}
                             className="text-green-500 hover:text-red-700 mr-3"
                             href="#"
@@ -252,6 +244,16 @@ const Order = () => {
                             ref={(el) => (buttonRef.current[item.id] = el)}
                           >
                             Edit
+                          </button> */}
+
+                          <button
+                            onClick={(e) => editSaveOrder(e, item.id)}
+                            className="text-green-500 hover:text-red-700 mr-3"
+                            href="#"
+                            id={item.id}
+                            ref={(el) => (buttonRef.current[item.id] = el)}
+                          >
+                            View
                           </button>
                         </td>
                       </tr>
