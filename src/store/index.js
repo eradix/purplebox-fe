@@ -1,6 +1,7 @@
 import { configureStore } from "@reduxjs/toolkit";
 import authSlice from "./auth-slice";
 import cartSlice from "./cart-slice";
+import customCakeSlice from "./custom-cake-slice";
 import orderSlice from "./order-slice";
 import policySlice from "./policy-slice";
 import productSlice from "./product-slice";
@@ -14,6 +15,7 @@ const store = configureStore({
     product: productSlice.reducer,
     order: orderSlice.reducer,
     cart: cartSlice.reducer,
+    customCake: customCakeSlice.reducer,
   },
 });
 
