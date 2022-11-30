@@ -25,7 +25,8 @@ const Order = () => {
 
   const dispatch = useDispatch();
 
-  const [status, setStatus] = useState("To-Pay");
+  const [status, setStatus] = useState("");
+  const [stats, setStats] = useState("To-Pay");
 
   const editSaveOrder = (e, id) => {
     e.preventDefault();
@@ -51,11 +52,11 @@ const Order = () => {
     dispatch(fetchAllCustomCake("To-Pay"));
   }, []);
 
-  const navigate = (e, status) => {
-    setStatus(status);
-    dispatch(getAllOrders(status));
-    dispatch(fetchAllCustomCake(status));
-    console.log(status);
+  const navigate = (e, stats) => {
+    setStats(stats);
+    dispatch(getAllOrders(stats));
+    dispatch(fetchAllCustomCake(stats));
+    console.log(stats);
   };
 
   return (
@@ -80,7 +81,7 @@ const Order = () => {
         <ul className="flex justify-between items-center px-2 text-center">
           <li
             className={`py-2 px-4 border-l w-full cursor-pointer hover:bg-indigo-500 hover:text-white ${
-              status === "To-Pay" ? "bg-indigo-500 text-white" : ""
+              stats === "To-Pay" ? "bg-indigo-500 text-white" : ""
             }`}
             onClick={(e) => navigate(e, "To-Pay")}
           >
@@ -89,7 +90,7 @@ const Order = () => {
 
           <li
             className={`py-2 px-4 border-l w-full cursor-pointer hover:bg-indigo-500 hover:text-white ${
-              status === "Processing" ? "bg-indigo-500 text-white" : ""
+              stats === "Processing" ? "bg-indigo-500 text-white" : ""
             }`}
             onClick={(e) => navigate(e, "Processing")}
           >
@@ -98,7 +99,7 @@ const Order = () => {
 
           <li
             className={`py-2 px-4 border-l w-full cursor-pointer hover:bg-indigo-500 hover:text-white ${
-              status === "Ready-For-Delivery" ? "bg-indigo-500 text-white" : ""
+              stats === "Ready-For-Delivery" ? "bg-indigo-500 text-white" : ""
             }`}
             onClick={(e) => navigate(e, "Ready-For-Delivery")}
           >
@@ -107,7 +108,7 @@ const Order = () => {
 
           <li
             className={`py-2 px-4 border-l w-full cursor-pointer hover:bg-indigo-500 hover:text-white ${
-              status === "Completed" ? "bg-indigo-500 text-white" : ""
+              stats === "Completed" ? "bg-indigo-500 text-white" : ""
             }`}
             onClick={(e) => navigate(e, "Completed")}
           >
