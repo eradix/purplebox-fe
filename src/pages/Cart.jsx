@@ -2,9 +2,8 @@ import React, { useState } from "react";
 import { useEffect } from "react";
 import { FaBox } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
-import almond from "../assets/img/almond.jpg";
 import PaymentModal from "../components/PaymentModal";
-import { cartActions } from "../store/cart-slice";
+import { fetchUsersCake } from "../store/custom-cake-slice";
 import { deleteOnCart, getUserCart, orderActions } from "../store/order-slice";
 
 const Cart = () => {
@@ -22,8 +21,11 @@ const Cart = () => {
     (state) => state.order
   );
 
+  const { usersCakes } = useSelector((state) => state.customCake);
+
   useEffect(() => {
     dispatch(getUserCart());
+    dispatch(fetchUsersCake());
   }, []);
 
   const cartDelete = (e, id) => {
@@ -96,6 +98,46 @@ const Cart = () => {
                         </td>
                       </tr>
                     ))}
+
+                    {usersCakes && (
+                      <>
+                        {usersCakes?.map((item, index) => (
+                          <tr key={index}>
+                            <td className="px-6 py-4 text-sm font-medium text-gray-800 whitespace-nowrap">
+                              <img
+                                src={`${process.env.REACT_APP_API_URL}/storage/${item.image}`}
+                                className="w-24 h-24"
+                                alt="product"
+                              />
+                            </td>
+                            <td className="px-6 py-4 text-sm text-gray-800 whitespace-nowrap">
+                                Customize
+                            </td>
+                            <td className="px-6 py-4 text-sm text-gray-800 whitespace-nowrap">
+                              --
+                            </td>
+                            <td className="px-6 py-4 text-sm text-gray-800 whitespace-nowrap">
+                              {item.quantity}
+                            </td>
+                            <td className="px-6 py-4 text-sm text-gray-800 whitespace-nowrap">
+                              --
+                            </td>
+                            <td className="px-6 py-4 text-sm text-yellow-500 whitespace-nowrap">
+                              {item.status}
+                            </td>
+                            <td className="px-6 py-4 text-sm font-medium whitespace-nowrap">
+                              <button
+                                onClick={(e) => cartDelete(e, item.id)}
+                                className="text-red-500 hover:text-red-700"
+                                href="#"
+                              >
+                                Delete
+                              </button>
+                            </td>
+                          </tr>
+                        ))}
+                      </>
+                    )}
                   </tbody>
                 </table>
               </div>

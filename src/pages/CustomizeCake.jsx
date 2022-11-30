@@ -9,9 +9,8 @@ import { useState } from "react";
 const CustomizeCake = () => {
   const { form, success } = useSelector((state) => state.customCake);
   const dispatch = useDispatch();
-  const [preview, setPreview] = useState('')
 
-  const formData = new FormData();
+  var formData = new FormData();
 
   const handleChange = (e) => {
     e.preventDefault();
@@ -22,8 +21,6 @@ const CustomizeCake = () => {
   const getFile = async (e) => {
     e.preventDefault();
     await formData.append("image", (e.target.files[0]));
-    const previewImg =  URL.createObjectURL(e.target.files[0])
-    setPreview(previewImg)
   };
 
   const addCart = (e) => {
@@ -36,7 +33,6 @@ const CustomizeCake = () => {
     dispatch(saveCustomCake(formData));
     dispatch(customCakeActions.resetForm());
     dispatch(customCakeActions.setSuccess(true));
-    setPreview('')
   };
 
   return (
@@ -54,7 +50,7 @@ const CustomizeCake = () => {
 
       <div className="md:h-screen flex items-center justify-center">
         <div className="md:flex items-center gap-10 my-12 md:my-0 md:mx-24  w-full justify-between ">
-          <img src={!preview ? unknown : preview} alt="cake" className="mb-3 md:mb-0" style={{ width: '400px', height:'500px' }} />
+          {/* <img src={!preview ? unknown : preview} alt="cake" className="mb-3 md:mb-0" style={{ width: '400px', height:'500px' }} /> */}
           <div className="self-start w-full">
             <p className="font-bold text-2xl text-indigo-500 mb-3">
               Customize Cake
