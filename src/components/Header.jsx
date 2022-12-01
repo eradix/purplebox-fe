@@ -28,8 +28,6 @@ const Header = () => {
     dispatch(fetchUsersCake("To-Pay"));
   }, [token]);
 
-  console.log(usersCakes);
-
   const [open, setOpen] = useState(false);
   const [loggedOut, setLoggedOut] = useState(false);
 

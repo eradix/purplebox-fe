@@ -59,6 +59,7 @@ const customCakeSlice = createSlice({
   initialState: {
     allCustomCakes: [],
     usersCakes: [],
+    cakeItems: [],
     showModal: false,
     success: false,
     form: {
@@ -109,7 +110,8 @@ const customCakeSlice = createSlice({
     },
     [fetchUsersCake.fulfilled]: (state, action) => {
       console.log("fulfilled");
-      state.usersCakes = action.payload.data;
+      if(action.payload.status === 'To-Pay') state.usersCakes = action.payload.data
+      else state.cakeItems = action.payload.data
     },
     [fetchUsersCake.rejected]: (state) => {
       console.log("rejected");

@@ -34,7 +34,7 @@ const Cart = () => {
     (state) => state.order
   );
 
-  const { usersCakes } = useSelector((state) => state.customCake);
+  const { usersCakes, cakeItems } = useSelector((state) => state.customCake);
 
   const cartDelete = (e, id) => {
     e.preventDefault();
@@ -51,6 +51,7 @@ const Cart = () => {
   };
 
   const cartItems = status === "To-Pay" ? usersCart : getItemsByStatus;
+  const customCakeItems = status === "To-Pay" ? usersCakes : cakeItems;
 
   return (
     <>
@@ -159,45 +160,41 @@ const Cart = () => {
                       </tr>
                     ))}
 
-                    {usersCakes && (
-                      <>
-                        {usersCakes?.map((item, index) => (
-                          <tr key={index}>
-                            <td className="px-6 py-4 text-sm font-medium text-gray-800 whitespace-nowrap">
-                              <img
-                                src={`${process.env.REACT_APP_API_URL}/storage/${item.image}`}
-                                className="w-24 h-24"
-                                alt="product"
-                              />
-                            </td>
-                            <td className="px-6 py-4 text-sm text-indigo-800 font-bold whitespace-nowrap">
-                              Customize
-                            </td>
-                            <td className="px-6 py-4 text-sm text-gray-800 whitespace-nowrap">
-                              {item.price ? item.price : "0"}
-                            </td>
-                            <td className="px-6 py-4 text-sm text-gray-800 whitespace-nowrap">
-                              {item.quantity}
-                            </td>
-                            <td className="px-6 py-4 text-sm text-gray-800 whitespace-nowrap">
-                              {item.price * item.quantity}
-                            </td>
-                            <td className="px-6 py-4 text-sm text-yellow-500 whitespace-nowrap">
-                              {item.status}
-                            </td>
-                            <td className="px-6 py-4 text-sm font-medium whitespace-nowrap">
-                              <button
-                                onClick={(e) => cartDelete(e, item.id)}
-                                className="text-red-500 hover:text-red-700"
-                                href="#"
-                              >
-                                Delete
-                              </button>
-                            </td>
-                          </tr>
-                        ))}
-                      </>
-                    )}
+                    {customCakeItems?.map((item, index) => (
+                      <tr key={index}>
+                        <td className="px-6 py-4 text-sm font-medium text-gray-800 whitespace-nowrap">
+                          <img
+                            src={`${process.env.REACT_APP_API_URL}/storage/${item.image}`}
+                            className="w-24 h-24"
+                            alt="product"
+                          />
+                        </td>
+                        <td className="px-6 py-4 text-sm text-indigo-800 font-bold whitespace-nowrap">
+                          Customize
+                        </td>
+                        <td className="px-6 py-4 text-sm text-gray-800 whitespace-nowrap">
+                          {item.price ? item.price : "0"}
+                        </td>
+                        <td className="px-6 py-4 text-sm text-gray-800 whitespace-nowrap">
+                          {item.quantity}
+                        </td>
+                        <td className="px-6 py-4 text-sm text-gray-800 whitespace-nowrap">
+                          {item.price * item.quantity}
+                        </td>
+                        <td className="px-6 py-4 text-sm text-yellow-500 whitespace-nowrap">
+                          {item.status}
+                        </td>
+                        <td className="px-6 py-4 text-sm font-medium whitespace-nowrap">
+                          <button
+                            onClick={(e) => cartDelete(e, item.id)}
+                            className="text-red-500 hover:text-red-700"
+                            href="#"
+                          >
+                            Delete
+                          </button>
+                        </td>
+                      </tr>
+                    ))}
                   </tbody>
                 </table>
               </div>
