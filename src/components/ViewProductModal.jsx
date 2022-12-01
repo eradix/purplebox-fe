@@ -41,7 +41,7 @@ const ViewProductModal = ({ actions }) => {
         >
           <div className="flex items-center gap-6">
             <img
-              src={almond}
+              src={`${process.env.REACT_APP_API_URL}/storage/${order?.product?.image}`}
               alt=""
               style={{ width: "250px", height: "100%" }}
             />
