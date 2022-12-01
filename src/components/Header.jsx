@@ -24,9 +24,11 @@ const Header = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    dispatch(getUserCart('To-Pay'));
-    // dispatch(fetchUsersCake("To-Pay"));
+    dispatch(getUserCart("To-Pay"));
+    dispatch(fetchUsersCake("To-Pay"));
   }, [token]);
+
+  console.log(usersCakes);
 
   const [open, setOpen] = useState(false);
   const [loggedOut, setLoggedOut] = useState(false);

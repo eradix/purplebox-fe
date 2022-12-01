@@ -25,7 +25,6 @@ export const fetchUsersCake = createAsyncThunk(
     try {
       const resp = await axios.get(
         `${process.env.REACT_APP_API_URL}/api/user/custom-cakes?status=${status}`,
-        {},
         {
           headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
         }
