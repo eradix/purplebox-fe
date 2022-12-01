@@ -7,7 +7,12 @@ import FormModal from "../components/FormModal";
 import ViewProductModal from "../components/ViewProductModal";
 import { orderFields } from "../helper/OrderField";
 import { fetchAllCustomCake } from "../store/custom-cake-slice";
-import { getAllOrders, getOrder, orderActions, updateOrder } from "../store/order-slice";
+import {
+  getAllOrders,
+  getOrder,
+  orderActions,
+  updateOrder,
+} from "../store/order-slice";
 
 const Order = () => {
   const header = [
@@ -60,10 +65,10 @@ const Order = () => {
   };
 
   const viewOrder = (e, id) => {
-    e.preventDefault()
-    dispatch(getOrder(id))
-    dispatch(orderActions.setShowModal(true))
-  }
+    e.preventDefault();
+    dispatch(getOrder(id));
+    dispatch(orderActions.setShowModal(true));
+  };
 
   return (
     <>
@@ -166,18 +171,8 @@ const Order = () => {
                           {item.status}
                         </td>
                         <td className="px-6 py-4 text-sm font-medium whitespace-nowrap">
-                          {/* <button
-                            onClick={(e) => editSaveOrder(e, item.id)}
-                            className="text-green-500 hover:text-red-700 mr-3"
-                            href="#"
-                            id={item.id}
-                            ref={(el) => (buttonRef.current[item.id] = el)}
-                          >
-                            Edit
-                          </button> */}
-
                           <button
-                             onClick={(e) => viewOrder(e, item.id)}
+                            onClick={(e) => viewOrder(e, item.id)}
                             className="text-green-500 hover:text-red-700 mr-3"
                             href="#"
                             id={item.id}
@@ -212,16 +207,6 @@ const Order = () => {
                           {item.status}
                         </td>
                         <td className="px-6 py-4 text-sm font-medium whitespace-nowrap">
-                          {/* <button
-                            onClick={(e) => editSaveOrder(e, item.id)}
-                            className="text-green-500 hover:text-red-700 mr-3"
-                            href="#"
-                            id={item.id}
-                            ref={(el) => (buttonRef.current[item.id] = el)}
-                          >
-                            Edit
-                          </button> */}
-
                           <button
                             onClick={(e) => viewOrder(e, item.id)}
                             className="text-green-500 hover:text-red-700 mr-3"
