@@ -84,7 +84,7 @@ export const updateOrderIfExist = createAsyncThunk(
 
 export const updateOrder = createAsyncThunk(
   "order/updateOrder",
-  async (payload, thunkAPI) => {
+  async (payload, { getState, dispatch }) => {
     try {
       const resp = await axios.put(
         `${process.env.REACT_APP_API_URL}/api/orders/${payload.id}`,
@@ -93,7 +93,7 @@ export const updateOrder = createAsyncThunk(
           headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
         }
       );
-      thunkAPI.dispatch(getAllOrders(payload.status));
+        dispatch(getAllOrders(getState().order.status))
       return resp.data;
     } catch (err) {
       return err;
@@ -148,6 +148,7 @@ const initialState = {
     status: "To-Pay",
     message: "",
   },
+  status: "To-Pay",
   showModal: false,
   edit: true,
   success: false,
@@ -158,6 +159,9 @@ const orderSlice = createSlice({
   name: "order",
   initialState,
   reducers: {
+    setStatus(state, action) {
+      state.status = action.payload
+    },
     setForm(state, action) {
       state.form[action.payload.name] = action.payload.value;
     },

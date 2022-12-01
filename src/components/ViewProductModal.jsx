@@ -5,29 +5,29 @@ import almond from "../assets/img/almond.jpg";
 import { getAllOrders, updateOrder } from "../store/order-slice";
 import { fetchAllCustomCake } from "../store/custom-cake-slice";
 import { useState } from "react";
+import { act } from "react-dom/test-utils";
 
 const ViewProductModal = ({ actions }) => {
   const dispatch = useDispatch();
-  const { order } = useSelector((state) => state.order);
-  const [status, setStatus] = useState("");
+  const { order, status } = useSelector((state) => state.order);
+  const [statusField, setstatusField] = useState("");
+
+  console.log(status)
 
   const handleSave = (e, id) => {
     e.preventDefault();
-    dispatch(updateOrder({ id, status }));
+    dispatch(updateOrder({ id, status: statusField }));
     dispatch(actions.setShowModal(false));
-    dispatch(getAllOrders(status));
-    dispatch(fetchAllCustomCake(status));
+    dispatch(actions.setStatus(status))
   };
 
   const closeModal = () => {
     dispatch(actions.setShowModal(false));
-    dispatch(getAllOrders("To-Pay"));
-    dispatch(fetchAllCustomCake("To-Pay"));
   };
 
   const handleSelect = (e) => {
     e.preventDefault();
-    setStatus(e.target.value)
+    setstatusField(e.target.value)
   };
 
   return (

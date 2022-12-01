@@ -6,7 +6,7 @@ import almond from "../assets/img/almond.jpg";
 import FormModal from "../components/FormModal";
 import ViewProductModal from "../components/ViewProductModal";
 import { orderFields } from "../helper/OrderField";
-import { fetchAllCustomCake } from "../store/custom-cake-slice";
+import { customCakeActions, fetchAllCustomCake, getCustomCake } from "../store/custom-cake-slice";
 import {
   getAllOrders,
   getOrder,
@@ -30,15 +30,14 @@ const Order = () => {
 
   const dispatch = useDispatch();
 
-  const [status, setStatus] = useState("");
-  const [stats, setStats] = useState("To-Pay");
+  const [statsField, setStatsField] = useState("");
 
   const editSaveOrder = (e, id) => {
     e.preventDefault();
     selectRef.current[id].disabled = !selectRef.current[id].disabled;
     if (selectRef.current[id].disabled) {
       buttonRef.current[id].innerText = "Edit";
-      dispatch(updateOrder({ id, status }));
+      dispatch(updateOrder({ id, statsField }));
     }
     if (!selectRef.current[id].disabled)
       buttonRef.current[id].innerText = "Save";
@@ -46,22 +45,21 @@ const Order = () => {
 
   const handleSelect = (e) => {
     e.preventDefault();
-    setStatus(e.target.value);
+    setStatsField(e.target.value);
   };
 
-  const { showModal, form, allOrders } = useSelector((state) => state.order);
-  const { allCustomCakes } = useSelector((state) => state.customCake);
+  const { showModal, form, allOrders, status } = useSelector((state) => state.order);
+  const { allCustomCakes, customCake } = useSelector((state) => state.customCake);
 
   useEffect(() => {
-    dispatch(getAllOrders("To-Pay"));
-    dispatch(fetchAllCustomCake("To-Pay"));
-  }, []);
+    dispatch(getAllOrders(status));
+    dispatch(fetchAllCustomCake(status));
+  }, [status]);
 
   const navigate = (e, stats) => {
-    setStats(stats);
+    dispatch(orderActions.setStatus(stats))
     dispatch(getAllOrders(stats));
     dispatch(fetchAllCustomCake(stats));
-    console.log(stats);
   };
 
   const viewOrder = (e, id) => {
@@ -70,12 +68,19 @@ const Order = () => {
     dispatch(orderActions.setShowModal(true));
   };
 
+  const viewCustomOrder = (e, id) => {
+    e.preventDefault();
+    dispatch(getCustomCake(id));
+    console.log(customCake)
+    dispatch(customCakeActions.setShowModal(true));
+  };
+
   return (
     <>
       {showModal && (
         <ViewProductModal
           icon={<FaCheck className="text-green-500 text-4xl" />}
-          status={"Success"}
+          status={status}
           message={
             "Item added to cart. The seller will update the price for this customize cake."
           }
@@ -94,7 +99,7 @@ const Order = () => {
         <ul className="flex justify-between items-center px-2 text-center">
           <li
             className={`py-2 px-4 border-l w-full cursor-pointer hover:bg-indigo-500 hover:text-white ${
-              stats === "To-Pay" ? "bg-indigo-500 text-white" : ""
+              status === "To-Pay" ? "bg-indigo-500 text-white" : ""
             }`}
             onClick={(e) => navigate(e, "To-Pay")}
           >
@@ -103,7 +108,7 @@ const Order = () => {
 
           <li
             className={`py-2 px-4 border-l w-full cursor-pointer hover:bg-indigo-500 hover:text-white ${
-              stats === "Processing" ? "bg-indigo-500 text-white" : ""
+              status === "Processing" ? "bg-indigo-500 text-white" : ""
             }`}
             onClick={(e) => navigate(e, "Processing")}
           >
@@ -112,7 +117,7 @@ const Order = () => {
 
           <li
             className={`py-2 px-4 border-l w-full cursor-pointer hover:bg-indigo-500 hover:text-white ${
-              stats === "Ready-For-Delivery" ? "bg-indigo-500 text-white" : ""
+              status === "Ready-For-Delivery" ? "bg-indigo-500 text-white" : ""
             }`}
             onClick={(e) => navigate(e, "Ready-For-Delivery")}
           >
@@ -121,7 +126,7 @@ const Order = () => {
 
           <li
             className={`py-2 px-4 border-l w-full cursor-pointer hover:bg-indigo-500 hover:text-white ${
-              stats === "Completed" ? "bg-indigo-500 text-white" : ""
+              status === "Completed" ? "bg-indigo-500 text-white" : ""
             }`}
             onClick={(e) => navigate(e, "Completed")}
           >
@@ -208,7 +213,7 @@ const Order = () => {
                         </td>
                         <td className="px-6 py-4 text-sm font-medium whitespace-nowrap">
                           <button
-                            onClick={(e) => viewOrder(e, item.id)}
+                            onClick={(e) => viewCustomOrder(e, item.id)}
                             className="text-green-500 hover:text-red-700 mr-3"
                             href="#"
                             id={item.id}
