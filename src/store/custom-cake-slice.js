@@ -87,6 +87,21 @@ export const updateCustomCake = createAsyncThunk(
   }
 );
 
+export const deleteCakeOnCart = createAsyncThunk(
+  "order/deleteCakeOnCart",
+  async (id, thunkAPI) => {
+    try {
+      const resp = await axios.delete(
+        `${process.env.REACT_APP_API_URL}/api/custom-cakes/${id}`
+      );
+      thunkAPI.dispatch(fetchUsersCake('To-Pay'));
+      return resp.data;
+    } catch (err) {
+      return err;
+    }
+  }
+);
+
 const customCakeSlice = createSlice({
   name: "custom-cake",
   initialState: {
@@ -125,6 +140,7 @@ const customCakeSlice = createSlice({
         message: "",
         remarks: "",
         price: "",
+        status: "To-Pay",
       };
     },
   },

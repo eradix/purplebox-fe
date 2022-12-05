@@ -4,7 +4,7 @@ import { FaBox } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
 import { Navigate } from "react-router";
 import PaymentModal from "../components/PaymentModal";
-import { fetchUsersCake } from "../store/custom-cake-slice";
+import { deleteCakeOnCart, fetchUsersCake } from "../store/custom-cake-slice";
 import {
   deleteOnCart,
   getTotalPriceAllItems,
@@ -39,6 +39,11 @@ const Cart = () => {
   const cartDelete = (e, id) => {
     e.preventDefault();
     dispatch(deleteOnCart(id));
+  };
+
+  const cakeCartDelete = (e, id) => {
+    e.preventDefault();
+    dispatch(deleteCakeOnCart(id));
   };
 
   const [status, setStatus] = useState("To-Pay");
@@ -186,7 +191,7 @@ const Cart = () => {
                         </td>
                         <td className="px-6 py-4 text-sm font-medium whitespace-nowrap">
                           <button
-                            onClick={(e) => cartDelete(e, item.id)}
+                            onClick={(e) => cakeCartDelete(e, item.id)}
                             className="text-red-500 hover:text-red-700"
                             href="#"
                           >
