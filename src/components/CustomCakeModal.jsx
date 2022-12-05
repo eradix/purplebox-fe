@@ -7,13 +7,15 @@ import { customCakeActions } from "../store/custom-cake-slice";
 
 const CustomCakeModal = () => {
   const dispatch = useDispatch();
-  const { order, status } = useSelector((state) => state.order);
+  const { allCustomCakes, customCake, customCakeModal } = useSelector(
+    (state) => state.customCake
+  );
+  console.log(customCake)
   const [statusField, setstatusField] = useState("");
 
   const handleSave = (e, id) => {
     e.preventDefault();
     dispatch(customCakeActions.setShowModal(false));
-    dispatch(customCakeActions.setStatus(status))
   };
 
   const closeModal = () => {
@@ -22,7 +24,7 @@ const CustomCakeModal = () => {
 
   const handleSelect = (e) => {
     e.preventDefault();
-    setstatusField(e.target.value)
+    setstatusField(e.target.value);
   };
 
   return (
@@ -36,7 +38,7 @@ const CustomCakeModal = () => {
         >
           <div className="flex items-center gap-6">
             <img
-              src={almond}
+              src={`${process.env.REACT_APP_API_URL}/storage/${customCake?.image}`}
               alt=""
               style={{ width: "250px", height: "100%" }}
             />
@@ -44,49 +46,35 @@ const CustomCakeModal = () => {
               <div className="mb-3">
                 <p className="text-indigo-500 font-bold">Customer Details</p>
                 <p className="text-500-gray">
-                  Name:{" "}
-                  <span className="text-gray-500">
-                    {" "}
-                        Charles Pitagan
-                  </span>
+                  Name: <span className="text-gray-500"> {customCake?.user.first_name} {customCake?.user.last_name}</span>
                 </p>
                 <p className="text-500-gray">
-                  Contact:{" "}
-                  <span className="text-gray-500">
-                    1231231212
-                  </span>
+                  Contact: <span className="text-gray-500">{customCake?.user.contact_num}</span>
                 </p>
               </div>
 
               <div className="mb-3">
                 <p className="text-indigo-500 font-bold">Product Details</p>
                 <p className="text-500-gray">
-                  Name:{" "}
-                  <span className="text-gray-500"> Chocolate</span>
+                  Name: <span className="text-gray-500"> Customize Cake</span>
                 </p>
                 <p className="text-500-gray">
                   Message on the Cake:{" "}
-                  <span className="text-gray-500">
-                    {" "}
-                    Happy Birthday
-                  </span>
+                  <span className="text-gray-500"> {customCake?.message}</span>
                 </p>
                 <p className="text-500-gray">
-                  Unit Price:{" "}
-                  <span className="text-gray-500">1999.00</span>
+                  Unit Price: <span className="text-gray-500">{customCake?.price}</span>
                 </p>
                 <p className="text-500-gray">
-                  Quantity:{" "}
-                  <span className="text-gray-500">2</span>
+                  Quantity: <span className="text-gray-500">{customCake?.quantity}</span>
                 </p>
                 <p className="text-500-gray">
-                  Total Price:{" "}
-                  <span className="text-gray-500">12</span>
+                  Total Price: <span className="text-gray-500">{customCake?.quantity * customCake?.price}</span>
                 </p>
                 <p className="text-500-gray">
                   Remarks:{" "}
                   <span className="text-gray-500">
-                    Please be careful! lorem
+                  {customCake?.remarks}
                   </span>
                 </p>
                 <p className="text-500-gray">
@@ -95,7 +83,9 @@ const CustomCakeModal = () => {
                     className="text-yellow-500 text-center border py-3 px-1 rounded-md shadow-md w-full focus:outline-none"
                     onChange={(e) => handleSelect(e)}
                   >
-                    <option defaultValue={order?.status}>{order?.status}</option>
+                    <option defaultValue={customCake?.status}>
+                      {customCake?.status}
+                    </option>
                     <option value="To-Pay">To-Pay</option>
                     <option value="Processing">Processing</option>
                     <option value="Ready-For-Delivery">
@@ -116,7 +106,7 @@ const CustomCakeModal = () => {
             </button>
             <button
               className="py-2 px-4 bg-indigo-500 text-white rounded mt-6"
-              onClick={(e) => handleSave(e, order?.id)}
+              onClick={(e) => handleSave(e, customCake?.id)}
             >
               Save
             </button>
