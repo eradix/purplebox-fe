@@ -41,7 +41,7 @@ export const deleteProduct = createAsyncThunk(
       const resp = await axios.delete(
         `${process.env.REACT_APP_API_URL}/api/products/${id}`
       );
-      thunkAPI.dispatch(fetchProducts());
+      thunkAPI.dispatch(fetchProducts("All"));
       return resp.data;
     } catch (err) {
       return err;
@@ -60,7 +60,7 @@ export const updateProduct = createAsyncThunk(
           headers: { "Content-Type": "multipart/form-data" },
         }
       );
-      thunkAPI.dispatch(fetchProducts());
+      thunkAPI.dispatch(fetchProducts("All"));
       return resp.data;
     } catch (err) {
       return err;
