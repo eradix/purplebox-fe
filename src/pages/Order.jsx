@@ -166,31 +166,31 @@ const Order = () => {
                     {allOrders?.map((item, index) => (
                       <tr key={index}>
                         <td className="px-6 py-4 text-sm text-gray-800 whitespace-nowrap">
-                          {item.user.first_name} {item.user.last_name}
+                          {item?.user?.first_name} {item?.user?.last_name}
                         </td>
                         <td className="px-6 py-4 text-sm text-gray-800 whitespace-nowrap">
-                          {item.user.contact_num}
-                        </td>
-
-                        <td className="px-6 py-4 text-sm text-gray-800 whitespace-nowrap">
-                          {item.product.name}
+                          {item?.user?.contact_num}
                         </td>
 
                         <td className="px-6 py-4 text-sm text-gray-800 whitespace-nowrap">
-                          {item.quantity}
+                          {item?.product?.name}
+                        </td>
+
+                        <td className="px-6 py-4 text-sm text-gray-800 whitespace-nowrap">
+                          {item?.quantity}
                         </td>
                         <td className="px-6 py-4 text-sm text-gray-800 whitespace-nowrap">
-                          {item.total_price}
+                          {item?.total_price}
                         </td>
                         <td className="px-6 py-4 text-sm text-yellow-500 whitespace-nowrap">
-                          {item.status}
+                          {item?.status}
                         </td>
                         <td className="px-6 py-4 text-sm font-medium whitespace-nowrap">
                           <button
                             onClick={(e) => viewOrder(e, item.id)}
                             className="text-green-500 hover:text-red-700 mr-3"
                             href="#"
-                            id={item.id}
+                            id={item?.id}
                             ref={(el) => (buttonRef.current[item.id] = el)}
                           >
                             View
@@ -202,10 +202,10 @@ const Order = () => {
                     {allCustomCakes?.map((item, index) => (
                       <tr key={index}>
                         <td className="px-6 py-4 text-sm text-gray-800 whitespace-nowrap">
-                          {item.user.first_name} {item.user.last_name}
+                          {item?.user?.first_name} {item?.user?.last_name}
                         </td>
                         <td className="px-6 py-4 text-sm text-gray-800 whitespace-nowrap">
-                          {item.user.contact_num}
+                          {item?.user?.contact_num}
                         </td>
 
                         <td className="px-6 py-4 text-sm text-indigo-800 font-bold whitespace-nowrap">
@@ -213,20 +213,20 @@ const Order = () => {
                         </td>
 
                         <td className="px-6 py-4 text-sm text-gray-800 whitespace-nowrap">
-                          {item.quantity}
+                          {item?.quantity}
                         </td>
                         <td className="px-6 py-4 text-sm text-gray-800 whitespace-nowrap">
-                          {item.quantity * item.price}
+                          {item?.quantity * item?.price}
                         </td>
                         <td className="px-6 py-4 text-sm text-yellow-500 whitespace-nowrap">
-                          {item.status}
+                          {item?.status}
                         </td>
                         <td className="px-6 py-4 text-sm font-medium whitespace-nowrap">
                           <button
                             onClick={(e) => viewCustomOrder(e, item.id)}
                             className="text-green-500 hover:text-red-700 mr-3"
                             href="#"
-                            id={item.id}
+                            id={item?.id}
                             ref={(el) => (buttonRef.current[item.id] = el)}
                           >
                             View
