@@ -70,6 +70,22 @@ export const getCustomCake = createAsyncThunk(
   }
 );
 
+export const updateCustomCake = createAsyncThunk(
+  "customCake/updateCustomCake",
+  async (payload, thunkAPI) => {
+    try {
+      console.log(payload);
+      const resp = await axios.put(
+        `${process.env.REACT_APP_API_URL}/api/custom-cakes/${payload.id}`,
+        payload
+      );
+      return resp.data;
+    } catch (err) {
+      return err;
+    }
+  }
+);
+
 const customCakeSlice = createSlice({
   name: "custom-cake",
   initialState: {
@@ -127,8 +143,9 @@ const customCakeSlice = createSlice({
     },
     [fetchUsersCake.fulfilled]: (state, action) => {
       console.log("fulfilled");
-      if(action.payload.status === 'To-Pay') state.usersCakes = action.payload.data
-      else state.cakeItems = action.payload.data
+      if (action.payload.status === "To-Pay")
+        state.usersCakes = action.payload.data;
+      else state.cakeItems = action.payload.data;
     },
     [fetchUsersCake.rejected]: (state) => {
       console.log("rejected");
@@ -153,6 +170,16 @@ const customCakeSlice = createSlice({
       state.customCake = action.payload.data;
     },
     [getCustomCake.rejected]: (state) => {
+      console.log("rejected");
+    },
+
+    [updateCustomCake.pending]: (state) => {
+      console.log("loading");
+    },
+    [updateCustomCake.fulfilled]: (state, action) => {
+      console.log("fulfilled");
+    },
+    [updateCustomCake.rejected]: (state) => {
       console.log("rejected");
     },
   },

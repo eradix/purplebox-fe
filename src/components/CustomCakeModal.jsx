@@ -3,7 +3,7 @@ import { motion } from "framer-motion";
 import { useDispatch, useSelector } from "react-redux";
 import almond from "../assets/img/almond.jpg";
 import { useState } from "react";
-import { customCakeActions } from "../store/custom-cake-slice";
+import { customCakeActions, updateCustomCake } from "../store/custom-cake-slice";
 import { useEffect } from "react";
 
 const CustomCakeModal = () => {
@@ -17,17 +17,25 @@ const CustomCakeModal = () => {
 
   const handleSave = (e, id) => {
     e.preventDefault();
-    dispatch(customCakeActions.setShowModal(false));
+    const parsePrice = price ? parseFloat(price) : customCake?.price
+    dispatch(updateCustomCake({ id, price: parsePrice, status: statusField ? statusField : customCake?.status }))
+    dispatch(customCakeActions.setCustomCakeModal(false));
   };
 
   const closeModal = () => {
     dispatch(customCakeActions.setCustomCakeModal(false));
+    dispatch(customCakeActions.resetForm())
   };
 
   const handleSelect = (e) => {
     e.preventDefault();
     setstatusField(e.target.value);
   };
+
+  useEffect(() => {
+    setstatusField(customCake?.status)
+  }, [])
+  
 
   return (
     <div className="bg-zinc-200 opacity-90 fixed inset-0 z-50">
