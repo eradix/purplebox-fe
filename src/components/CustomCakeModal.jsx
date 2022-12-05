@@ -46,10 +46,10 @@ const CustomCakeModal = () => {
               <div className="mb-3">
                 <p className="text-indigo-500 font-bold">Customer Details</p>
                 <p className="text-500-gray">
-                  Name: <span className="text-gray-500"> {customCake?.user.first_name} {customCake?.user.last_name}</span>
+                  Name: <span className="text-gray-500"> {customCake?.user?.first_name} {customCake?.user?.last_name}</span>
                 </p>
                 <p className="text-500-gray">
-                  Contact: <span className="text-gray-500">{customCake?.user.contact_num}</span>
+                  Contact: <span className="text-gray-500">{customCake?.user?.contact_num}</span>
                 </p>
               </div>
 
