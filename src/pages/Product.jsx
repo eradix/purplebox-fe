@@ -2,7 +2,8 @@ import React from "react";
 import { useEffect } from "react";
 import { FaCheck } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
-import { useParams } from "react-router";
+import { useNavigate, useParams } from "react-router";
+import { useAuth } from "../App";
 import Modal from "../components/AlertModal";
 import {
   addToCart,
@@ -13,6 +14,8 @@ import {
 import { getProduct } from "../store/product-slice";
 
 const Product = () => {
+  let token = useAuth();
+  const navigate = useNavigate();
   const { product_id } = useParams();
   const dispatch = useDispatch();
   const { product } = useSelector((state) => state.product);
@@ -23,7 +26,7 @@ const Product = () => {
     const value = product_id;
     const name = "product_id";
     dispatch(orderActions.setForm({ name, value }));
-    dispatch(getUserCart('To-Pay'));
+    dispatch(getUserCart("To-Pay"));
   }, []);
 
   const handleChange = (e) => {
@@ -34,17 +37,20 @@ const Product = () => {
 
   const addCart = async (e) => {
     e.preventDefault();
-    const isExist = await usersCart.find(
-      (item) => item.product_id === parseInt(product_id)
-    );
-    if (!isExist) dispatch(addToCart(form));
-    else dispatch(updateOrderIfExist(form));
+    if (!token) navigate("/login");
+    else {
+      const isExist = await usersCart.find(
+        (item) => item.product_id === parseInt(product_id)
+      );
+      if (!isExist) dispatch(addToCart(form));
+      else dispatch(updateOrderIfExist(form));
 
-    dispatch(orderActions.setSuccess(true));
-    setTimeout(() => {
-      dispatch(orderActions.resetForm());
-      dispatch(orderActions.setSuccess(false));
-    }, 1000);
+      dispatch(orderActions.setSuccess(true));
+      setTimeout(() => {
+        dispatch(orderActions.resetForm());
+        dispatch(orderActions.setSuccess(false));
+      }, 1000);
+    }
   };
 
   return (
