@@ -77,7 +77,7 @@ const customCakeSlice = createSlice({
     usersCakes: [],
     cakeItems: [],
     customCake: {},
-    showModal: false,
+    customCakeModal: false,
     success: false,
     form: {
       image: "",
@@ -92,8 +92,8 @@ const customCakeSlice = createSlice({
     setForm(state, action) {
       state.form[action.payload.name] = action.payload.value;
     },
-    setShowModal(state, action) {
-      state.showModal = action.payload;
+    setCustomCakeModal(state, action) {
+      state.customCakeModal = action.payload;
     },
     getAll(state, action) {
       state.allCustomCakes = action.payload;

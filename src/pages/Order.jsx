@@ -3,10 +3,15 @@ import { useRef } from "react";
 import { FaCheck } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
 import almond from "../assets/img/almond.jpg";
+import CustomCakeModal from "../components/CustomCakeModal";
 import FormModal from "../components/FormModal";
 import ViewProductModal from "../components/ViewProductModal";
 import { orderFields } from "../helper/OrderField";
-import { customCakeActions, fetchAllCustomCake, getCustomCake } from "../store/custom-cake-slice";
+import {
+  customCakeActions,
+  fetchAllCustomCake,
+  getCustomCake,
+} from "../store/custom-cake-slice";
 import {
   getAllOrders,
   getOrder,
@@ -48,8 +53,12 @@ const Order = () => {
     setStatsField(e.target.value);
   };
 
-  const { showModal, form, allOrders, status } = useSelector((state) => state.order);
-  const { allCustomCakes, customCake } = useSelector((state) => state.customCake);
+  const { showModal, form, allOrders, status } = useSelector(
+    (state) => state.order
+  );
+  const { allCustomCakes, customCake, customCakeModal } = useSelector(
+    (state) => state.customCake
+  );
 
   useEffect(() => {
     dispatch(getAllOrders(status));
@@ -57,7 +66,7 @@ const Order = () => {
   }, [status]);
 
   const navigate = (e, stats) => {
-    dispatch(orderActions.setStatus(stats))
+    dispatch(orderActions.setStatus(stats));
     dispatch(getAllOrders(stats));
     dispatch(fetchAllCustomCake(stats));
   };
@@ -71,8 +80,7 @@ const Order = () => {
   const viewCustomOrder = (e, id) => {
     e.preventDefault();
     dispatch(getCustomCake(id));
-    console.log(customCake)
-    dispatch(customCakeActions.setShowModal(true));
+    dispatch(customCakeActions.setCustomCakeModal(true));
   };
 
   return (
@@ -88,6 +96,8 @@ const Order = () => {
           actions={orderActions}
         />
       )}
+
+      {customCakeModal && <CustomCakeModal />}
 
       <div className=" md:pr-10 md:pl-5 md:w-9/12">
         <div className="flex justify-between">
