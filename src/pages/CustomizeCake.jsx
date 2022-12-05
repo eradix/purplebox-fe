@@ -5,8 +5,12 @@ import unknown from "../assets/img/unknown.jpg";
 import { customCakeActions, saveCustomCake } from "../store/custom-cake-slice";
 import AlertModal from "../components/AlertModal";
 import { useState } from "react";
+import { useAuth } from "../App";
+import { useNavigate } from "react-router";
 
 const CustomizeCake = () => {
+  let token = useAuth();
+  const navigate = useNavigate()
   const { form, success } = useSelector((state) => state.customCake);
   const dispatch = useDispatch();
 
@@ -26,12 +30,15 @@ const CustomizeCake = () => {
   const addCart = (e) => {
     e.preventDefault();
 
-    Object.keys(form).map((item) => {
-      if (item !== "image" || item !== "status") formData.append(item, form[item]);
-    });
-    dispatch(saveCustomCake(formData));
-    dispatch(customCakeActions.resetForm());
-    dispatch(customCakeActions.setSuccess(true));
+    if(!token) navigate('/login')
+    else {
+      Object.keys(form).map((item) => {
+        if (item !== "image" || item !== "status") formData.append(item, form[item]);
+      });
+      dispatch(saveCustomCake(formData));
+      dispatch(customCakeActions.resetForm());
+      dispatch(customCakeActions.setSuccess(true));
+    }
   };
 
   return (
