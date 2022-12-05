@@ -4,14 +4,16 @@ import { useDispatch, useSelector } from "react-redux";
 import almond from "../assets/img/almond.jpg";
 import { useState } from "react";
 import { customCakeActions } from "../store/custom-cake-slice";
+import { useEffect } from "react";
 
 const CustomCakeModal = () => {
   const dispatch = useDispatch();
   const { allCustomCakes, customCake, customCakeModal } = useSelector(
     (state) => state.customCake
   );
-  console.log(customCake)
+
   const [statusField, setstatusField] = useState("");
+  const [price, setPrice] = useState(0);
 
   const handleSave = (e, id) => {
     e.preventDefault();
@@ -46,10 +48,17 @@ const CustomCakeModal = () => {
               <div className="mb-3">
                 <p className="text-indigo-500 font-bold">Customer Details</p>
                 <p className="text-500-gray">
-                  Name: <span className="text-gray-500"> {customCake?.user?.first_name} {customCake?.user?.last_name}</span>
+                  Name:{" "}
+                  <span className="text-gray-500">
+                    {" "}
+                    {customCake?.user?.first_name} {customCake?.user?.last_name}
+                  </span>
                 </p>
                 <p className="text-500-gray">
-                  Contact: <span className="text-gray-500">{customCake?.user?.contact_num}</span>
+                  Contact:{" "}
+                  <span className="text-gray-500">
+                    {customCake?.user?.contact_num}
+                  </span>
                 </p>
               </div>
 
@@ -62,20 +71,39 @@ const CustomCakeModal = () => {
                   Message on the Cake:{" "}
                   <span className="text-gray-500"> {customCake?.message}</span>
                 </p>
+
+                {customCake?.price ? (
+                  <p className="text-500-gray">
+                    Price:{" "}
+                    <span className="text-gray-500">
+                      {customCake?.price}
+                    </span>
+                  </p>
+                ) : (
+                  <div className="text-500-gray">
+                    Price:{" "}
+                    <input
+                      type="number"
+                      className="text-gray-500 border py-2 px-1"
+                      placeholder="Price"
+                      value={price}
+                      onChange={(e) => setPrice(e.target.value)}
+                    />
+                  </div>
+                )}
                 <p className="text-500-gray">
-                  Unit Price: <span className="text-gray-500">{customCake?.price}</span>
+                  Quantity:{" "}
+                  <span className="text-gray-500">{customCake?.quantity}</span>
                 </p>
                 <p className="text-500-gray">
-                  Quantity: <span className="text-gray-500">{customCake?.quantity}</span>
-                </p>
-                <p className="text-500-gray">
-                  Total Price: <span className="text-gray-500">{customCake?.quantity * customCake?.price}</span>
+                  Total Price:{" "}
+                  <span className="text-gray-500">
+                    {customCake?.quantity * customCake?.price}
+                  </span>
                 </p>
                 <p className="text-500-gray">
                   Remarks:{" "}
-                  <span className="text-gray-500">
-                  {customCake?.remarks}
-                  </span>
+                  <span className="text-gray-500">{customCake?.remarks}</span>
                 </p>
                 <p className="text-500-gray">
                   <select
