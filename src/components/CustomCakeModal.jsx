@@ -12,13 +12,15 @@ const CustomCakeModal = () => {
     (state) => state.customCake
   );
 
+  const { status } = useSelector(state => state.order)
+
   const [statusField, setstatusField] = useState("");
   const [price, setPrice] = useState(0);
 
   const handleSave = (e, id) => {
     e.preventDefault();
     const parsePrice = price ? parseFloat(price) : customCake?.price
-    dispatch(updateCustomCake({ id, price: parsePrice, status: statusField ? statusField : customCake?.status }))
+    dispatch(updateCustomCake({ id, price: parsePrice, status: statusField ? statusField : customCake?.status, fetchStatus: status }))
     dispatch(customCakeActions.setCustomCakeModal(false));
   };
 

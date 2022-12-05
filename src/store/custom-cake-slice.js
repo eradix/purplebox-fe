@@ -79,6 +79,7 @@ export const updateCustomCake = createAsyncThunk(
         `${process.env.REACT_APP_API_URL}/api/custom-cakes/${payload.id}`,
         payload
       );
+      thunkAPI.dispatch(fetchAllCustomCake(payload.fetchStatus))
       return resp.data;
     } catch (err) {
       return err;
