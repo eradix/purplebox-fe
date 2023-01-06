@@ -48,7 +48,7 @@ function App() {
       </div>
       <div className="flex flex-col justify-between">
         <Header />
-        <div className="container mx-auto overflow-hidden">
+        <div className=" overflow-hidden">
           <Routes>
             <Route path="/" element={<Index />}></Route>
             <Route path="product/:product_id" element={<Product />}></Route>

@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 import { fetchProducts } from "../store/product-slice";
 import { useState } from "react";
+import banner from "../assets/img/banner.jpg";
 
 const ListProducts = () => {
   const dispatch = useDispatch();
@@ -24,7 +25,14 @@ const ListProducts = () => {
 
   return (
     <>
-      <div className="py-6">
+      <div
+        className="py-6"
+        style={{
+          backgroundImage: `url(${banner})`,
+          backgroundPosition: "center",
+          backgroundSize: "cover",
+        }}
+      >
         <div className=" py-4">
           <p className="text-xl text-indigo-500 font-light italic">
             List of Cakes
