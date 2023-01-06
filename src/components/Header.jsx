@@ -14,6 +14,7 @@ import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import { getUserCart } from "../store/order-slice";
 import { fetchUsersCake } from "../store/custom-cake-slice";
+import logo from "../assets/img/logo.png";
 
 const Header = () => {
   const dispatch = useDispatch();
@@ -44,6 +45,13 @@ const Header = () => {
       .catch((err) => console.log(err.response.data));
   };
 
+  const allRoutes = [
+    { name: "About Us", link: "" },
+    {
+      name: "Contacts",
+      link: "",
+    },
+  ];
   const pblicRoute = [{ name: "Dashboard", link: "/users" }];
   const publicRoutes = authUser?.role === "Admin" ? pblicRoute : [];
   const privateRoutes = [
@@ -53,7 +61,9 @@ const Header = () => {
       link: "/register",
     },
   ];
-  const navs = !token ? privateRoutes : publicRoutes;
+  const navs = !token
+    ? [...allRoutes, ...privateRoutes]
+    : [...allRoutes, ...publicRoutes];
 
   return (
     <>
@@ -64,14 +74,11 @@ const Header = () => {
           message={"Logged out"}
         />
       )}
-      <div className="shadow-md w-full top-0 left-0 relative z-10">
+      <div className="shadow-md w-full top-0 left-0 relative z-10 bg-violet-500">
         <div className="md:flex items-center justify-between py-4 md:px-10 px-7">
           <Link to={"/"}>
-            <div className="flex items-center font-bold cursor-pointer text-xl">
-              <span className="mr-1 text-indigo-500">
-                <FaBox />
-              </span>
-              <p>PurpleBox</p>
+            <div className="w-16">
+              <img src={logo} alt="gravitas" />
             </div>
           </Link>
 
@@ -84,7 +91,7 @@ const Header = () => {
           </div>
 
           <ul
-            className={`shadow-md md:shadow-none md:flex md:items-center absolute md:static bg-white md:z-auto z-[-1] left-0 w-full md:w-auto md:pl-0 pl-9 md:pb-0 pb-7 transition-all duration-500 ease-in
+            className={`bg-violet-500 shadow-md md:shadow-none md:flex md:items-center absolute md:static bg-white md:z-auto z-[-1] left-0 w-full md:w-auto md:pl-0 pl-9 md:pb-0 pb-7 transition-all duration-500 ease-in
           ${
             open
               ? "top-20 opacity-100"
@@ -92,14 +99,14 @@ const Header = () => {
           }`}
           >
             {token && (
-              <li className="text-indigo-500 cursor-pointer my-7 md:my-0 md:ml-8 text-md  hover:text-green-500 transition-all duration-100 font-thin">
+              <li className="text-white cursor-pointer my-7 md:my-0 md:ml-8 text-md  hover:text-green-500 transition-all duration-100 font-thin">
                 Hi {authUser?.first_name}!
               </li>
             )}
 
             {navs.map((item, id) => (
               <li
-                className="my-7 md:my-0 md:ml-8 text-md text-gray-600 hover:text-green-500 transition-all duration-100 font-thin"
+                className="my-7 md:my-0 md:ml-8 text-md text-white hover:text-green-500 transition-all duration-100 font-thin"
                 key={id}
               >
                 <Link to={item.link}>{item.name}</Link>
