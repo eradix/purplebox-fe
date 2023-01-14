@@ -11,6 +11,7 @@ import banner from "../assets/img/banner.jpg";
 const ListProducts = () => {
   const dispatch = useDispatch();
   const [products, setProducts] = useState([]);
+  const [showCake, setshowCake] = useState(true);
 
   useEffect(() => {
     dispatch(fetchProducts("All"));
@@ -20,7 +21,10 @@ const ListProducts = () => {
 
   const handleSelect = (e) => {
     e.preventDefault();
-    dispatch(fetchProducts(e.target.value));
+    let select = e.target.value;
+    if(select === "Cakes") setshowCake(true)
+    else if(select === "Beverages") setshowCake(false)
+    dispatch(fetchProducts(select));
   };
 
   return (
@@ -48,19 +52,20 @@ const ListProducts = () => {
                   id="countries"
                   className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                 >
-                  <option defaultValue="All">All</option>
                   <option value="Cakes">Cakes</option>
-                  <option value="Drinks">Beverages </option>
+                  <option value="Beverages">Beverages </option>
                 </select>
               </div>
             </div>
-            <div>
-              <Link to={`/customize-cake`}>
-                <button className="bg-indigo-500 py-3 px-6 text-white my-3 hover:bg-green-500">
-                  Customize Cake +
-                </button>
-              </Link>
-            </div>
+            {showCake && (
+              <div>
+                <Link to={`/customize-cake`}>
+                  <button className="bg-indigo-500 py-3 px-6 text-white my-3 hover:bg-green-500">
+                    Customize Cake +
+                  </button>
+                </Link>
+              </div>
+            )}
             <div className="grid md:grid-cols-4 md:gap-3 gap-5 my-3">
               {allProducts &&
                 allProducts.map((item, index) => (
