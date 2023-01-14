@@ -33,64 +33,56 @@ const ListProducts = () => {
           backgroundSize: "cover",
         }}
       >
-        <div className=" py-4">
-          <p className="text-xl text-indigo-500 font-light italic">
-            List of Cakes
-          </p>
-          <p className="text-gray-700">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Asperiores,
-            consequuntur obcaecati? Tempora nostrum veritatis, vitae voluptatem
-            itaque, quaerat magnam dolor ad error cupiditate nihil a maiores
-            quibusdam eaque officiis reiciendis.
-          </p>
-        </div>
-
-        <div>
-          <div className="bg-red-400 py-4 px-2 flex justify-between items-center">
-            <div className="flex items-center">
-              <FaFunnelDollar className="text-white mr-1" />
-              <p className="text-white">Filters</p>
+        <div className="container mx-auto">
+          <div>
+            <div className="bg-violet-500 py-4 px-2 flex justify-between items-center">
+              <div className="flex items-center">
+                <FaFunnelDollar className="text-white mr-1" />
+                <p className="text-white">
+                  Choose your desired Cake / Beverages
+                </p>
+              </div>
+              <div>
+                <select
+                  onChange={(e) => handleSelect(e)}
+                  id="countries"
+                  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                >
+                  <option defaultValue="All">All</option>
+                  <option value="Cakes">Cakes</option>
+                  <option value="Drinks">Beverages </option>
+                </select>
+              </div>
             </div>
             <div>
-              <select
-                onChange={(e) => handleSelect(e)}
-                id="countries"
-                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-              >
-                <option defaultValue="All">All</option>
-                <option value="Cakes">Cakes</option>
-                <option value="Drinks">Drinks</option>
-              </select>
+              <Link to={`/customize-cake`}>
+                <button className="bg-indigo-500 py-3 px-6 text-white my-3 hover:bg-green-500">
+                  Customize Cake +
+                </button>
+              </Link>
             </div>
-          </div>
-          <div>
-            <Link to={`/customize-cake`}>
-              <button className="bg-indigo-500 py-3 px-6 text-white my-3 hover:bg-green-500">
-                Customize Cake +
-              </button>
-            </Link>
-          </div>
-          <div className="grid md:grid-cols-4 md:gap-3 gap-5 my-3 ">
-            {allProducts &&
-              allProducts.map((item, index) => (
-                <div
-                  key={index}
-                  className="border shadow-md px-4 py-4 flex flex-col justify-center items-center hover:scale-105 transition-all duration-200"
-                >
-                  <Link to={`/product/${item.id}`}>
-                    <div>
-                      <img
-                        src={`${process.env.REACT_APP_API_URL}/storage/${item.image}`}
-                        alt="almond"
-                      />
-                      <div className="mt-3">
-                        <h1 className="">{item.name}</h1>
-                        <p className="text-gray-700 text-sm">₱{item.price}</p>
+            <div className="grid md:grid-cols-4 md:gap-3 gap-5 my-3">
+              {allProducts &&
+                allProducts.map((item, index) => (
+                  <div
+                    key={index}
+                    className="shadow-md px-4 py-4 flex flex-col justify-center items-center hover:scale-105 transition-all duration-200 bg-white rounded"
+                  >
+                    <Link to={`/product/${item.id}`}>
+                      <div>
+                        <img
+                          src={`${process.env.REACT_APP_API_URL}/storage/${item.image}`}
+                          alt="almond"
+                        />
+                        <div className="mt-3">
+                          <h1 className="font-bold text-xl">{item.name}</h1>
+                          <p className="">₱{item.price}</p>
+                        </div>
                       </div>
-                    </div>
-                  </Link>
-                </div>
-              ))}
+                    </Link>
+                  </div>
+                ))}
+            </div>
           </div>
         </div>
       </div>
