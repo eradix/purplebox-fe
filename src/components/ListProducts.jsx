@@ -7,8 +7,10 @@ import { useEffect } from "react";
 import { fetchProducts } from "../store/product-slice";
 import { useState } from "react";
 import banner from "../assets/img/banner.jpg";
+import { useAuth } from "../App";
 
 const ListProducts = () => {
+  const token = useAuth();
   const dispatch = useDispatch();
   const [products, setProducts] = useState([]);
   const [showCake, setshowCake] = useState(true);
@@ -59,7 +61,7 @@ const ListProducts = () => {
             </div>
             {showCake && (
               <div>
-                <Link to={`/customize-cake`}>
+                <Link to={!token ? `/login` : `/customize-cake`}>
                   <button className="bg-indigo-500 py-3 px-6 text-white my-3 hover:bg-green-500">
                     Customize Cake +
                   </button>
