@@ -1,4 +1,10 @@
-import { FaImage, FaUser, FaDollarSign, FaVrCardboard, FaAudioDescription } from "react-icons/fa";
+import {
+  FaImage,
+  FaUser,
+  FaCoins,
+  FaVrCardboard,
+  FaAudioDescription,
+} from "react-icons/fa";
 
 export const productFields = [
   {
@@ -10,12 +16,13 @@ export const productFields = [
     ph: "Type",
     icon: <FaVrCardboard />,
     field: "type",
-    dropdown: ["Cakes", "Drinks", "Pastries"],
+    dropdown: ["Cakes", "Drinks"],
   },
   {
-    ph: "Price",
-    icon: <FaDollarSign />,
+    ph: "Price (php)",
+    icon: <FaCoins />,
     field: "price",
+    type: "number",
   },
   {
     ph: "Description",
