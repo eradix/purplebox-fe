@@ -32,12 +32,13 @@ export const userFields = [
     ph: "Role",
     icon: <FaAdjust />,
     field: "role",
-    dropdown: ["Admin", "User"]
+    dropdown: ["Admin", "User"],
   },
   {
     ph: "Contact Number",
     icon: <FaPhone />,
     field: "contact_num",
+    type: "number",
   },
   {
     ph: "Email",
@@ -48,5 +49,6 @@ export const userFields = [
     ph: "Password",
     icon: <FaLock />,
     field: "password",
+    type: "password",
   },
 ];

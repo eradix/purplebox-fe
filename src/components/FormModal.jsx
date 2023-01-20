@@ -1,13 +1,14 @@
 import React, { useEffect } from "react";
 import { motion } from "framer-motion";
 import TextBox from "./TextBox";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { fetchUsers, saveUser, updateUser } from "../store/user-slice";
 import { saveProduct, updateProduct } from "../store/product-slice";
 import { useState } from "react";
 
 const FormModal = ({ addTitle, updateTitle, fields, actions, form, edit }) => {
   const dispatch = useDispatch();
+  const { errors, loading } = useSelector((state) => state.user);
 
   const handleChange = (e) => {
     e.preventDefault();
@@ -28,16 +29,21 @@ const FormModal = ({ addTitle, updateTitle, fields, actions, form, edit }) => {
     await formData.append("image", e.target.files[0]);
   };
 
-  const save = () => {
-    if (addTitle.includes("User")) dispatch(saveUser(form));
-    else if (addTitle.includes("Product")) {
-      Object.keys(form).map((item) => {
-        if (item !== "image") formData.append(item, form[item]);
-      });
-      formData.append("enctype", "multipart/form-data");
-      dispatch(saveProduct(formData));
+  const save = async () => {
+    try {
+      dispatch(actions.setLoading(true));
+      if (addTitle.includes("User")) await dispatch(saveUser(form));
+      else if (addTitle.includes("Product")) {
+        Object.keys(form).map((item) => {
+          if (item !== "image") formData.append(item, form[item]);
+        });
+        formData.append("enctype", "multipart/form-data");
+        dispatch(saveProduct(formData));
 
-      dispatch(actions.resetForm());
+        dispatch(actions.resetErrors());
+      }
+    } catch (e) {
+      dispatch(actions.setLoading(false));
     }
   };
 
@@ -80,11 +86,13 @@ const FormModal = ({ addTitle, updateTitle, fields, actions, form, edit }) => {
               <div key={index} className="mb-2">
                 {!item.file && !item.dropdown && (
                   <TextBox
+                    type={item?.type}
                     placeholder={item.ph}
                     icon={item.icon}
                     field={item.field}
                     value={form[item.field]}
                     handleChange={handleChange}
+                    errorMsg={errors[item.field] ? errors[item.field] : ""}
                   />
                 )}
                 {item.file && (

@@ -11,9 +11,7 @@ import { useEffect } from "react";
 const User = () => {
   const header = ["Name", "Contacts", "Address", "Email", "Actions"];
 
-  const showModal = useSelector((state) => state.user.showModal);
-  const success = useSelector((state) => state.user.success);
-  const allUsers = useSelector((state) => state.user.allUsers);
+  const { showModal, success, allUsers } = useSelector((state) => state.user);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -45,7 +43,7 @@ const User = () => {
     dispatch(userActions.setShowModal(true));
     dispatch(userActions.resetForm());
   };
-  
+
   return (
     <>
       {showModal && (

@@ -1,4 +1,4 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice, current } from "@reduxjs/toolkit";
 import axios from "axios";
 
 export const fetchUsers = createAsyncThunk(
@@ -24,7 +24,12 @@ export const saveUser = createAsyncThunk(
         payload
       );
       thunkAPI.dispatch(fetchUsers());
-      return resp.data;
+      return {
+        response: {
+          status: 201,
+          data: resp.data,
+        },
+      };
     } catch (err) {
       return err;
     }
@@ -65,8 +70,29 @@ const userSlice = createSlice({
     showModal: false,
     edit: false,
     success: false,
+    loading: false,
+    errors: {
+      first_name: "",
+      last_name: "",
+      address: "",
+      role: "",
+      contact_num: "",
+      email: "",
+      password: "",
+    },
   },
   reducers: {
+    resetErrors(state) {
+      state.errors = {
+        first_name: "",
+        last_name: "",
+        address: "",
+        role: "",
+        contact_num: "",
+        email: "",
+        password: "",
+      };
+    },
     save(state, action) {
       axios
         .post(`${process.env.REACT_APP_API_URL}/api/users`, action.payload.form)
@@ -122,6 +148,9 @@ const userSlice = createSlice({
     setSuccess(state, action) {
       state.success = action.payload;
     },
+    setLoading(state, action) {
+      state.loading = action.payload;
+    },
   },
   extraReducers: {
     [fetchUsers.pending]: (state) => {
@@ -137,7 +166,14 @@ const userSlice = createSlice({
       console.log("loading");
     },
     [saveUser.fulfilled]: (state, action) => {
-      state.showModal = false;
+      state.errors = {}
+      const { data, status } = action.payload.response;
+      if (status === 201) state.showModal = false;
+      else if (status === 422) {
+        Object.keys(data.errors).map((item) => {
+          state.errors[item] = data.errors[item][0];
+        });
+      }
     },
     [saveUser.rejected]: (state) => {
       console.log("rejected");
