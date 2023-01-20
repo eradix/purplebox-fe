@@ -14,6 +14,11 @@ import Modal from "./AlertModal";
 const Sidebar = () => {
   const navs = [
     {
+      name: "Orders",
+      logo: <FaHandHolding className="text-md" />,
+      path: "/orders",
+    },
+    {
       name: "Users",
       logo: <FaUserFriends className="text-md" />,
       path: "/users",
@@ -22,11 +27,6 @@ const Sidebar = () => {
       name: "Products",
       logo: <FaBirthdayCake className="text-md" />,
       path: "/list-products",
-    },
-    {
-      name: "Orders",
-      logo: <FaHandHolding className="text-md" />,
-      path: "/orders",
     },
   ];
 

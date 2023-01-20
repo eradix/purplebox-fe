@@ -32,7 +32,7 @@ const Login = () => {
         setFailed(false);
         setSuccess(false);
         dispatch(authActions.resetLoginForm());
-        if (res.data.data.role === "Admin") navigate("/users");
+        if (res.data.data.role === "Admin") navigate("/orders");
         else navigate("/");
         window.location.reload()
       })
