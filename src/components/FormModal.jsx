@@ -20,6 +20,7 @@ const FormModal = ({ addTitle, updateTitle, fields, actions, form, edit }) => {
     dispatch(actions.setShowModal(false));
     dispatch(actions.setEdit(false));
     dispatch(actions.resetForm());
+    dispatch(actions.resetErrors());
   };
 
   const formData = new FormData();
