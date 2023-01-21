@@ -97,8 +97,12 @@ const productSlice = createSlice({
     showModal: false,
     edit: false,
     success: false,
+    errors: {},
   },
   reducers: {
+    resetErrors(state) {
+      state.errors = {};
+    },
     fillForm(state, action) {
       Object.keys(action.payload).forEach((item) => {
         state.form[item] = action.payload[item];
