@@ -15,6 +15,7 @@ import {
 import {
   getAllOrders,
   getOrder,
+  getQtyEachOrder,
   orderActions,
   updateOrder,
 } from "../store/order-slice";
@@ -53,7 +54,7 @@ const Order = () => {
     setStatsField(e.target.value);
   };
 
-  const { showModal, form, allOrders, status } = useSelector(
+  const { showModal, form, allOrders, status, qtyEachOrder } = useSelector(
     (state) => state.order
   );
   const { allCustomCakes, customCake, customCakeModal } = useSelector(
@@ -63,6 +64,8 @@ const Order = () => {
   useEffect(() => {
     dispatch(getAllOrders(status));
     dispatch(fetchAllCustomCake(status));
+    dispatch(getQtyEachOrder())
+    console.log(qtyEachOrder)
   }, [status]);
 
   const navigate = (e, stats) => {
@@ -113,7 +116,7 @@ const Order = () => {
             }`}
             onClick={(e) => navigate(e, "To-Pay")}
           >
-            To Pay
+            To Pay ({qtyEachOrder.topay})
           </li>
 
           <li
@@ -122,7 +125,7 @@ const Order = () => {
             }`}
             onClick={(e) => navigate(e, "Processing")}
           >
-            Processing
+            Processing ({qtyEachOrder.processing})
           </li>
 
           <li
@@ -131,7 +134,7 @@ const Order = () => {
             }`}
             onClick={(e) => navigate(e, "Ready-For-Delivery")}
           >
-            Delivery
+            Delivery ({qtyEachOrder.delivery})
           </li>
 
           <li
@@ -140,7 +143,7 @@ const Order = () => {
             }`}
             onClick={(e) => navigate(e, "Completed")}
           >
-            Completed
+            Completed ({qtyEachOrder.completed})
           </li>
         </ul>
 
