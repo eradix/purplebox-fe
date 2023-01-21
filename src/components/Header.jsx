@@ -115,7 +115,7 @@ const Header = () => {
 
             {token && authUser?.role !== "Admin" ? (
               <div className="ml-8 relative">
-                <Link to={`/cart/1`}>
+                <Link to={`/cart/${authUser.id}`}>
                   <FaCartPlus className="text-2xl" />
                 </Link>
                 <p className=" text-white bg-red-500 rounded-full text-center text-sm absolute -top-3 -right-2 font-bold px-1">

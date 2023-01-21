@@ -12,13 +12,11 @@ const ViewProductModal = ({ actions }) => {
   const { order, status } = useSelector((state) => state.order);
   const [statusField, setstatusField] = useState("");
 
-  console.log(status)
-
   const handleSave = (e, id) => {
     e.preventDefault();
     dispatch(updateOrder({ id, status: statusField }));
     dispatch(actions.setShowModal(false));
-    dispatch(actions.setStatus(status))
+    dispatch(actions.setStatus(status));
   };
 
   const closeModal = () => {
@@ -27,7 +25,7 @@ const ViewProductModal = ({ actions }) => {
 
   const handleSelect = (e) => {
     e.preventDefault();
-    setstatusField(e.target.value)
+    setstatusField(e.target.value);
   };
 
   return (
@@ -37,9 +35,9 @@ const ViewProductModal = ({ actions }) => {
           initial={{ y: "-1000px" }}
           animate={{ y: "-50px" }}
           transition={{ type: "spring", duration: 0.5 }}
-          className="bg-white rounded-xl py-6 px-6 w-6/12"
+          className="bg-white rounded-xl py-6 px-6 w-5/12"
         >
-          <div className="flex items-center gap-6">
+          <div className="flex items-center justify-center gap-6">
             <img
               src={`${process.env.REACT_APP_API_URL}/storage/${order?.product?.image}`}
               alt=""
@@ -101,7 +99,9 @@ const ViewProductModal = ({ actions }) => {
                     className="text-yellow-500 text-center border py-3 px-1 rounded-md shadow-md w-full focus:outline-none"
                     onChange={(e) => handleSelect(e)}
                   >
-                    <option defaultValue={order?.status}>{order?.status}</option>
+                    <option defaultValue={order?.status}>
+                      {order?.status}
+                    </option>
                     <option value="To-Pay">To-Pay</option>
                     <option value="Processing">Processing</option>
                     <option value="Ready-For-Delivery">

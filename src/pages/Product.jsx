@@ -15,6 +15,7 @@ import { getProduct } from "../store/product-slice";
 
 const Product = () => {
   let token = useAuth();
+  const authUser = JSON.parse(localStorage.getItem("authUser"));
   const navigate = useNavigate();
   const { product_id } = useParams();
   const dispatch = useDispatch();
@@ -37,19 +38,25 @@ const Product = () => {
 
   const addCart = async (e) => {
     e.preventDefault();
-    if (!token) navigate("/login");
-    else {
-      const isExist = await usersCart.find(
-        (item) => item.product_id === parseInt(product_id)
-      );
-      if (!isExist) dispatch(addToCart(form));
-      else dispatch(updateOrderIfExist(form));
+    try {
+      if (!token) navigate("/login");
+      else {
+        const isExist = await usersCart.find(
+          (item) => item.product_id === parseInt(product_id)
+        );
+        if (!isExist) dispatch(addToCart(form));
+        else dispatch(updateOrderIfExist(form));
 
-      dispatch(orderActions.setSuccess(true));
-      setTimeout(() => {
-        dispatch(orderActions.resetForm());
-        dispatch(orderActions.setSuccess(false));
-      }, 1000);
+        dispatch(orderActions.setSuccess(true));
+        setTimeout(() => {
+          dispatch(orderActions.resetForm());
+          dispatch(orderActions.setSuccess(false));
+        }, 1000);
+
+        navigate(`/cart/${authUser?.id}`)
+      }
+    } catch (e) {
+      console.log("Failed!")
     }
   };
 
@@ -71,20 +78,17 @@ const Product = () => {
             className="mb-3 md:mb-0"
           />
           <div className="self-start w-full">
-            <p className="font-bold text-2xl text-indigo-500 mb-3">
-              {product.name}
+            <p className="font-bold text-2xl text-indigo-500">{product.name}</p>
+
+            <p className="text-gray-500 my-3">
+              <span className="font-bold">Description:</span>{" "}
+              {product.description}
             </p>
 
-            <div>
-              <input
-                type="number"
-                placeholder="Quantity"
-                name="quantity"
-                value={form.quantity}
-                className="py-3 px-5 border w-full placeholder-black"
-                onChange={(e) => handleChange(e)}
-              />
-            </div>
+            <p className="text-gray-500">
+              <span className="font-bold">Price:</span> ₱{product.price}.00
+            </p>
+
             {product.type === "Cakes" && (
               <div className="my-3">
                 <input
@@ -98,13 +102,19 @@ const Product = () => {
               </div>
             )}
 
-            <div className="my-3">
-              <p className="text-gray-500">{product.description}</p>
-            </div>
-            <div>
+            <div className="mt-3 flex justify-between">
+              <input
+                type="number"
+                placeholder="Quantity"
+                name="quantity"
+                value={form.quantity}
+                className="py-3 px-5 border w-9/12 placeholder-black"
+                onChange={(e) => handleChange(e)}
+              />
+
               <button
                 onClick={(e) => addCart(e)}
-                className="py-3 px-5 bg-indigo-500 text-white w-full "
+                className="py-3 px-5 bg-indigo-500 text-white w-2/12 "
               >
                 Add to Cart
               </button>
