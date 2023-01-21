@@ -50,10 +50,12 @@ const Product = () => {
         dispatch(orderActions.setSuccess(true));
         setTimeout(() => {
           dispatch(orderActions.resetForm());
-          dispatch(orderActions.setSuccess(false));
         }, 1000);
 
-        navigate(`/cart/${authUser?.id}`)
+        setTimeout(() => {
+          dispatch(orderActions.setSuccess(false))
+          navigate(`/cart/${authUser?.id}`)
+        }, 1000);
       }
     } catch (e) {
       console.log("Failed!")
