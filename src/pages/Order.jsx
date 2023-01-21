@@ -19,6 +19,7 @@ import {
   orderActions,
   updateOrder,
 } from "../store/order-slice";
+import useAuth from "../App";
 
 const Order = () => {
   const header = [
@@ -29,7 +30,7 @@ const Order = () => {
     "Total Price",
     "Actions",
   ];
-
+  const token = useAuth();
   const selectRef = useRef([]);
   const buttonRef = useRef([]);
 
@@ -61,9 +62,9 @@ const Order = () => {
   );
 
   useEffect(() => {
+    dispatch(getQtyEachOrder(token));
     dispatch(getAllOrders(status));
     dispatch(fetchAllCustomCake(status));
-    dispatch(getQtyEachOrder());
   }, [status]);
 
   const navigate = (e, stats) => {
@@ -114,7 +115,7 @@ const Order = () => {
             }`}
             onClick={(e) => navigate(e, "To-Pay")}
           >
-            To Pay ({qtyEachOrder.topay})
+            To Pay ({qtyEachOrder?.topay})
           </li>
 
           <li
@@ -123,7 +124,7 @@ const Order = () => {
             }`}
             onClick={(e) => navigate(e, "Processing")}
           >
-            Processing ({qtyEachOrder.processing})
+            Processing ({qtyEachOrder?.processing})
           </li>
 
           <li
@@ -132,7 +133,7 @@ const Order = () => {
             }`}
             onClick={(e) => navigate(e, "Ready-For-Delivery")}
           >
-            Delivery ({qtyEachOrder.delivery})
+            Delivery ({qtyEachOrder?.delivery})
           </li>
 
           <li
@@ -141,7 +142,7 @@ const Order = () => {
             }`}
             onClick={(e) => navigate(e, "Completed")}
           >
-            Completed ({qtyEachOrder.completed})
+            Completed ({qtyEachOrder?.completed})
           </li>
         </ul>
 

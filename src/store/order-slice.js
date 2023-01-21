@@ -139,13 +139,13 @@ export const getOrder = createAsyncThunk(
 
 export const getQtyEachOrder = createAsyncThunk(
   "order/getQtyEachOrder",
-  async (thunkAPI) => {
+  async (token, thunkAPI) => {
     try {
       const resp = await axios.get(
         `${process.env.REACT_APP_API_URL}/api/orders/quantity`,
         {},
         {
-          headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
+          headers: { Authorization: `Bearer ${token}` },
         }
       );
       return resp.data;
