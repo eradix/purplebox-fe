@@ -129,7 +129,7 @@ const Header = () => {
             {authUser?.role === "User" && (
               <li
                 onClick={logout}
-                className="cursor-pointer my-7 md:my-0 md:ml-8 text-md text-gray-600 hover:text-green-500 transition-all duration-100 font-thin"
+                className="cursor-pointer my-7 md:my-0 md:ml-8 text-md text-white hover:text-green-500 transition-all duration-100 font-thin"
               >
                 Logout
               </li>

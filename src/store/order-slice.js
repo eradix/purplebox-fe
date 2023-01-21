@@ -94,6 +94,7 @@ export const updateOrder = createAsyncThunk(
         }
       );
         dispatch(getAllOrders(getState().order.status))
+        dispatch(getQtyEachOrder())
       return resp.data;
     } catch (err) {
       return err;

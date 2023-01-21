@@ -44,7 +44,8 @@ const Product = () => {
         const isExist = await usersCart.find(
           (item) => item.product_id === parseInt(product_id)
         );
-        if (!isExist) dispatch(addToCart(form));
+        console.log(isExist)
+        if (!isExist || isExist === "To-Pay") dispatch(addToCart(form));
         else dispatch(updateOrderIfExist(form));
 
         dispatch(orderActions.setSuccess(true));
