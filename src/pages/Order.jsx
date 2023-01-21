@@ -27,7 +27,6 @@ const Order = () => {
     "Product Name",
     "Quantity",
     "Total Price",
-    "Status",
     "Actions",
   ];
 
@@ -64,8 +63,7 @@ const Order = () => {
   useEffect(() => {
     dispatch(getAllOrders(status));
     dispatch(fetchAllCustomCake(status));
-    dispatch(getQtyEachOrder())
-    console.log(qtyEachOrder)
+    dispatch(getQtyEachOrder());
   }, [status]);
 
   const navigate = (e, stats) => {
@@ -185,9 +183,7 @@ const Order = () => {
                         <td className="px-6 py-4 text-sm text-gray-800 whitespace-nowrap">
                           {item?.total_price}
                         </td>
-                        <td className="px-6 py-4 text-sm text-yellow-500 whitespace-nowrap">
-                          {item?.status}
-                        </td>
+
                         <td className="px-6 py-4 text-sm font-medium whitespace-nowrap">
                           <button
                             onClick={(e) => viewOrder(e, item.id)}
@@ -221,9 +217,7 @@ const Order = () => {
                         <td className="px-6 py-4 text-sm text-gray-800 whitespace-nowrap">
                           {item?.quantity * item?.price}
                         </td>
-                        <td className="px-6 py-4 text-sm text-yellow-500 whitespace-nowrap">
-                          {item?.status}
-                        </td>
+
                         <td className="px-6 py-4 text-sm font-medium whitespace-nowrap">
                           <button
                             onClick={(e) => viewCustomOrder(e, item.id)}
