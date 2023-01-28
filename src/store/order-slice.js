@@ -104,10 +104,10 @@ export const updateOrder = createAsyncThunk(
 
 export const getTotalPriceAllItems = createAsyncThunk(
   "order/getTotalPriceAllItems",
-  async (thunkAPI) => {
+  async (status, thunkAPI) => {
     try {
       const resp = await axios.get(
-        `${process.env.REACT_APP_API_URL}/api/orders/get-total-price`,
+        `${process.env.REACT_APP_API_URL}/api/orders/get-total-price?status=${status}`,
         {
           headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
         }

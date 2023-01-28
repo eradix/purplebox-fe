@@ -23,10 +23,12 @@ const Cart = () => {
   ];
   const dispatch = useDispatch();
 
+  const [status, setStatus] = useState("onCart");
+
   useEffect((e) => {
-    dispatch(getUserCart("onCart"));
-    dispatch(fetchUsersCake("onCart"));
-    dispatch(getTotalPriceAllItems());
+    dispatch(getUserCart(status));
+    dispatch(fetchUsersCake(status));
+    dispatch(getTotalPriceAllItems(status));
   }, []);
 
   const { showModal, usersCart, getItemsByStatus, totalPrice } = useSelector(
@@ -45,12 +47,11 @@ const Cart = () => {
     dispatch(deleteCakeOnCart(id));
   };
 
-  const [status, setStatus] = useState("onCart");
-
   const navigate = (e, status) => {
     setStatus(status);
     dispatch(getUserCart(status));
     dispatch(fetchUsersCake(status));
+    dispatch(getTotalPriceAllItems(status));
   };
 
   const cartItems = status === "onCart" ? usersCart : getItemsByStatus;
@@ -207,20 +208,24 @@ const Cart = () => {
                   </tbody>
                 </table>
               </div>
-              {status === "onCart" && (
-                <div className="float-right mt-3">
+
+              <div className="float-right mt-3">
+                {totalPrice !== 0 && (
                   <p className="mr-2 mb-2">
                     Total:{" "}
-                    <span className="text-red-500">₱{totalPrice}.00</span>
+                    <span className="text-red-500">₱{totalPrice || 0}.00</span>
                   </p>
+                )}
+
+                {status === "onCart" && (
                   <button
                     onClick={() => dispatch(orderActions.setShowModal(true))}
                     className="bg-indigo-500 text-white py-2 rounded px-14"
                   >
                     Checkout
                   </button>
-                </div>
-              )}
+                )}
+              </div>
             </div>
           </div>
         </div>
