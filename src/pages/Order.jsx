@@ -22,7 +22,7 @@ import {
 import useAuth from "../App";
 
 const Order = () => {
-  const header = [
+  const headers = [
     "Customer Name",
     "Customer Number",
     "Product Name",
@@ -30,7 +30,6 @@ const Order = () => {
     "Total Price",
     "Delivery Date",
     "Delivery Address",
-    "Actions",
   ];
   const token = useAuth();
   const selectRef = useRef([]);
@@ -62,6 +61,8 @@ const Order = () => {
   const { allCustomCakes, customCake, customCakeModal } = useSelector(
     (state) => state.customCake
   );
+
+  const header = status === "Completed" ? headers : [...headers, "Actions"];
 
   useEffect(() => {
     dispatch(getQtyEachOrder(token));
@@ -196,17 +197,19 @@ const Order = () => {
                           {item?.delivery_address}
                         </td>
 
-                        <td className="px-6 py-4 text-sm font-medium whitespace-nowrap">
-                          <button
-                            onClick={(e) => viewOrder(e, item.id)}
-                            className="text-green-500 hover:text-red-700 mr-3"
-                            href="#"
-                            id={item?.id}
-                            ref={(el) => (buttonRef.current[item.id] = el)}
-                          >
-                            View
-                          </button>
-                        </td>
+                        {status !== "Completed" && (
+                          <td className="px-6 py-4 text-sm font-medium whitespace-nowrap">
+                            <button
+                              onClick={(e) => viewOrder(e, item.id)}
+                              className="text-green-500 hover:text-red-700 mr-3"
+                              href="#"
+                              id={item?.id}
+                              ref={(el) => (buttonRef.current[item.id] = el)}
+                            >
+                              View
+                            </button>
+                          </td>
+                        )}
                       </tr>
                     ))}
 
@@ -230,17 +233,19 @@ const Order = () => {
                           {item?.quantity * item?.price}
                         </td>
 
-                        <td className="px-6 py-4 text-sm font-medium whitespace-nowrap">
-                          <button
-                            onClick={(e) => viewCustomOrder(e, item.id)}
-                            className="text-green-500 hover:text-red-700 mr-3"
-                            href="#"
-                            id={item?.id}
-                            ref={(el) => (buttonRef.current[item.id] = el)}
-                          >
-                            View
-                          </button>
-                        </td>
+                        {status !== "Completed" && (
+                          <td className="px-6 py-4 text-sm font-medium whitespace-nowrap">
+                            <button
+                              onClick={(e) => viewCustomOrder(e, item.id)}
+                              className="text-green-500 hover:text-red-700 mr-3"
+                              href="#"
+                              id={item?.id}
+                              ref={(el) => (buttonRef.current[item.id] = el)}
+                            >
+                              View
+                            </button>
+                          </td>
+                        )}
                       </tr>
                     ))}
                   </tbody>
