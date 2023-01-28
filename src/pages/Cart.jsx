@@ -17,18 +17,25 @@ import AlertModal from "../components/AlertModal";
 import { FaSkullCrossbones } from "react-icons/fa";
 
 const Cart = () => {
-  const header = [
+  const headers = [
     "",
     "Product",
     "Name",
     "Unit Price",
     "Quantity",
     "Total Price",
-    "Actions",
   ];
-  const dispatch = useDispatch();
 
   const [status, setStatus] = useState("onCart");
+  const addHeaderStatus = ["Status"];
+  const addHeaderActions = ["Actions"];
+
+  let header = [];
+  if (status === "onCart") header = [...headers, addHeaderActions];
+  else if (status === "Paid") header = [...headers, addHeaderStatus];
+
+  const dispatch = useDispatch();
+
   const [isChecked, setiIsChecked] = useState(false);
 
   const {
@@ -67,7 +74,7 @@ const Cart = () => {
     setStatus(status);
     dispatch(getUserCart(status));
     dispatch(fetchUsersCake(status));
-    dispatch(orderActions.setTotalPrice(0))
+    dispatch(orderActions.setTotalPrice(0));
     if (status !== "onCart") dispatch(getTotalPriceAllItems(status));
   };
 
@@ -256,6 +263,11 @@ const Cart = () => {
                         <td className="px-6 py-4 text-sm text-gray-800 whitespace-nowrap">
                           {item.total_price}
                         </td>
+                        {status === "Paid" && (
+                          <td className="px-6 py-4 text-sm text-yellow-500 whitespace-nowrap">
+                            {item.status === "Paid" ? "For Confirmation" : ""}
+                          </td>
+                        )}
                         <td className="px-6 py-4 text-sm font-medium whitespace-nowrap">
                           {status === "onCart" && (
                             <button
