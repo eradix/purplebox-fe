@@ -6,26 +6,41 @@ import { getAllOrders, updateOrder } from "../store/order-slice";
 import { fetchAllCustomCake } from "../store/custom-cake-slice";
 import { useState } from "react";
 import { act } from "react-dom/test-utils";
+import { useEffect } from "react";
 
 const ViewProductModal = ({ actions }) => {
   const dispatch = useDispatch();
-  const { order, status } = useSelector((state) => state.order);
+  const { order, status, form } = useSelector((state) => state.order);
   const [statusField, setstatusField] = useState("");
+  const [deliveryDate, setDeliveryDate] = useState("");
 
   const handleSave = (e, id) => {
     e.preventDefault();
-    dispatch(updateOrder({ id, status: statusField }));
+    dispatch(
+      updateOrder({ id, status: statusField, delivery_date: deliveryDate })
+    );
     dispatch(actions.setShowModal(false));
     dispatch(actions.setStatus(status));
   };
 
   const closeModal = () => {
     dispatch(actions.setShowModal(false));
+    setDeliveryDate(order?.delivery_date);
   };
 
   const handleSelect = (e) => {
     e.preventDefault();
     setstatusField(e.target.value);
+  };
+
+  useEffect(() => {
+    setDeliveryDate(order?.delivery_date);
+    setstatusField(order?.status);
+  }, []);
+
+  const changeDeliveryDate = (e) => {
+    e.preventDefault();
+    setDeliveryDate(e.target.value);
   };
 
   return (
@@ -87,6 +102,21 @@ const ViewProductModal = ({ actions }) => {
                   <span className="text-gray-500">{order?.total_price}</span>
                 </p>
                 <p className="text-500-gray">
+                  Delivery Date:{" "}
+                  <input
+                    type="date"
+                    value={deliveryDate || ""}
+                    onChange={(e) => changeDeliveryDate(e)}
+                    className="text-500-gray"
+                  />
+                </p>
+                <p className="text-500-gray">
+                  Delivery Address:{" "}
+                  <span className="text-gray-500">
+                    {order?.delivery_address}
+                  </span>
+                </p>
+                <p className="text-500-gray">
                   Remarks:{" "}
                   <span className="text-gray-500">
                     Please be careful! lorem
@@ -102,12 +132,9 @@ const ViewProductModal = ({ actions }) => {
                     <option defaultValue={order?.status}>
                       {order?.status}
                     </option>
-                    <option value="To-Pay">To-Pay</option>
-                    <option value="Processing">Processing</option>
-                    <option value="Ready-For-Delivery">
-                      Ready-For-Delivery
-                    </option>
-                    <option value="Completed">Completed</option>
+                    {order?.status !== "To-Pay" && <option value="To-Pay">To-Pay</option>}
+                    {order?.status !== "Processing"  && <option value="Processing">Processing</option>}
+                    {order?.status !== "Ready-For-Delivery" && <option value="Ready-For-Delivery">Ready-For-Delivery</option>}
                   </select>
                 </p>
               </div>

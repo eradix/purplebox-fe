@@ -28,6 +28,8 @@ const Order = () => {
     "Product Name",
     "Quantity",
     "Total Price",
+    "Delivery Date",
+    "Delivery Address",
     "Actions",
   ];
   const token = useAuth();
@@ -181,8 +183,17 @@ const Order = () => {
                         <td className="px-6 py-4 text-sm text-gray-800 whitespace-nowrap">
                           {item?.quantity}
                         </td>
+
                         <td className="px-6 py-4 text-sm text-gray-800 whitespace-nowrap">
                           {item?.total_price}
+                        </td>
+
+                        <td className="px-6 py-4 text-sm text-gray-800 whitespace-nowrap">
+                          {item?.delivery_date}
+                        </td>
+
+                        <td className="px-6 py-4 text-sm text-gray-800 whitespace-nowrap">
+                          {item?.delivery_address}
                         </td>
 
                         <td className="px-6 py-4 text-sm font-medium whitespace-nowrap">
