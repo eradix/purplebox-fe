@@ -32,7 +32,6 @@ const FormModal = ({ addTitle, updateTitle, fields, actions, form, edit }) => {
 
   const save = async () => {
     try {
-      dispatch(actions.setLoading(true));
       if (addTitle.includes("User")) await dispatch(saveUser(form));
       else if (addTitle.includes("Product")) {
         Object.keys(form).map((item) => {
@@ -44,7 +43,7 @@ const FormModal = ({ addTitle, updateTitle, fields, actions, form, edit }) => {
         dispatch(actions.resetErrors());
       }
     } catch (e) {
-      dispatch(actions.setLoading(false));
+      console.log(e)
     }
   };
 

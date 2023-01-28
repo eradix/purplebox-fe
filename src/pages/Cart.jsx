@@ -7,6 +7,7 @@ import PaymentModal from "../components/PaymentModal";
 import { deleteCakeOnCart, fetchUsersCake } from "../store/custom-cake-slice";
 import {
   deleteOnCart,
+  getOrder,
   getTotalPriceAllItems,
   getUserCart,
   orderActions,
@@ -14,6 +15,7 @@ import {
 
 const Cart = () => {
   const header = [
+    "",
     "Product",
     "Name",
     "Unit Price",
@@ -24,18 +26,20 @@ const Cart = () => {
   const dispatch = useDispatch();
 
   const [status, setStatus] = useState("onCart");
+  const [isChecked, setiIsChecked] = useState(false);
 
-  useEffect((e) => {
-    dispatch(getUserCart(status));
-    dispatch(fetchUsersCake(status));
-    dispatch(getTotalPriceAllItems(status));
-  }, []);
-
-  const { showModal, usersCart, getItemsByStatus, totalPrice } = useSelector(
-    (state) => state.order
-  );
+  const { loading, order, showModal, usersCart, getItemsByStatus, totalPrice } =
+    useSelector((state) => state.order);
 
   const { usersCakes, cakeItems } = useSelector((state) => state.customCake);
+
+  useEffect(
+    (e) => {
+      dispatch(getUserCart(status));
+      dispatch(fetchUsersCake(status));
+    },
+    [loading]
+  );
 
   const cartDelete = (e, id) => {
     e.preventDefault();
@@ -56,6 +60,15 @@ const Cart = () => {
 
   const cartItems = status === "onCart" ? usersCart : getItemsByStatus;
   const customCakeItems = status === "onCart" ? usersCakes : cakeItems;
+
+  const checkboxOnChange = (e) => {
+    const { id, checked } = e.target;
+    const item = usersCart.find((item) => item.id === parseInt(id));
+
+    dispatch(
+      orderActions.setTotalPrice({ totalPrice: item.total_price, checked })
+    );
+  };
 
   return (
     <>
@@ -138,6 +151,15 @@ const Cart = () => {
                     {cartItems?.map((item, index) => (
                       <tr key={index}>
                         <td className="px-6 py-4 text-sm font-medium text-gray-800 whitespace-nowrap">
+                          <input
+                            type="checkbox"
+                            name="checkbox"
+                            value={isChecked}
+                            id={item.id}
+                            onChange={checkboxOnChange}
+                          />
+                        </td>
+                        <td className="px-6 py-4 text-sm font-medium text-gray-800 whitespace-nowrap">
                           <img
                             src={`${process.env.REACT_APP_API_URL}/storage/${item.product.image}`}
                             className="w-24 h-24"
@@ -210,12 +232,10 @@ const Cart = () => {
               </div>
 
               <div className="float-right mt-3">
-                {totalPrice !== 0 && (
-                  <p className="mr-2 mb-2">
-                    Total:{" "}
-                    <span className="text-red-500">₱{totalPrice || 0}.00</span>
-                  </p>
-                )}
+                <p className="mr-2 mb-2">
+                  Total:{" "}
+                  <span className="text-red-500">₱{totalPrice || 0}.00</span>
+                </p>
 
                 {status === "onCart" && (
                   <button

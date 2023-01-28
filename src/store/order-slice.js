@@ -179,6 +179,10 @@ const orderSlice = createSlice({
   name: "order",
   initialState,
   reducers: {
+    setTotalPrice(state, action) {
+      if(action.payload.checked) state.totalPrice += action.payload.totalPrice
+      if(!action.payload.checked) state.totalPrice -= action.payload.totalPrice
+    },
     setStatus(state, action) {
       state.status = action.payload;
     },
