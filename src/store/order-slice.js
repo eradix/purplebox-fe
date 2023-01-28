@@ -185,9 +185,6 @@ const orderSlice = createSlice({
   name: "order",
   initialState,
   reducers: {
-    setTotalPrice(state, action) {
-      state.totalPrice = action.payload;
-    },
     setToBeCheckout(state, action) {
       if (action.payload.checked) state.toBeCheckout.push(action.payload.item);
       if (!action.payload.checked) {
@@ -210,8 +207,9 @@ const orderSlice = createSlice({
       state.err = action.payload;
     },
     setTotalPrice(state, action) {
+      if (action.payload?.checked === "zero") state.totalPrice = 0;
       if (action.payload.checked) state.totalPrice += action.payload.totalPrice;
-      if (!action.payload.checked)
+      else if (!action.payload.checked)
         state.totalPrice -= action.payload.totalPrice;
     },
     setStatus(state, action) {

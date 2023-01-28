@@ -77,7 +77,9 @@ const Cart = () => {
     setStatus(status);
     dispatch(getUserCart(status));
     dispatch(fetchUsersCake(status));
-    dispatch(orderActions.setTotalPrice(0));
+    dispatch(
+      orderActions.setTotalPrice({ totalPrice: 0, checked: "zero" })
+    );
     if (status !== "onCart") dispatch(getTotalPriceAllItems(status));
   };
 
