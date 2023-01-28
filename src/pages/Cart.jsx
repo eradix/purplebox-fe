@@ -24,15 +24,18 @@ const Cart = () => {
     "Unit Price",
     "Quantity",
     "Total Price",
+    "Status",
   ];
 
   const [status, setStatus] = useState("onCart");
   const addHeaderStatus = ["Status"];
+  const addHeaderBlank = [""];
   const addHeaderActions = ["Actions"];
 
   let header = [];
-  if (status === "onCart") header = [...headers, addHeaderActions];
-  else if (status === "Paid") header = [...headers, addHeaderStatus];
+  if (status === "onCart" || status === "Ready-For-Delivery") {
+    header = [...headers, addHeaderActions];
+  } else header = [...headers];
 
   const dispatch = useDispatch();
 
@@ -119,6 +122,18 @@ const Cart = () => {
         );
       });
     }
+  };
+
+  const delivered = (e, id) => {
+    e.preventDefault();
+    console.log(id);
+    dispatch(
+      updateOrder({
+        id: id,
+        status: "Completed",
+      })
+    );
+    dispatch(getUserCart(status));
   };
 
   return (
@@ -235,15 +250,19 @@ const Cart = () => {
                   <tbody className="divide-y divide-gray-200 relative">
                     {cartItems?.map((item, index) => (
                       <tr key={index}>
-                        <td className="px-6 py-4 text-sm font-medium text-gray-800 whitespace-nowrap">
-                          <input
-                            type="checkbox"
-                            name="checkbox"
-                            value={isChecked}
-                            id={item.id}
-                            onChange={checkboxOnChange}
-                          />
-                        </td>
+                        {status === "onCart" ? (
+                          <td className="px-6 py-4 text-sm font-medium text-gray-800 whitespace-nowrap">
+                            <input
+                              type="checkbox"
+                              name="checkbox"
+                              value={isChecked}
+                              id={item.id}
+                              onChange={checkboxOnChange}
+                            />
+                          </td>
+                        ) : (
+                          <td></td>
+                        )}
                         <td className="px-6 py-4 text-sm font-medium text-gray-800 whitespace-nowrap">
                           <img
                             src={`${process.env.REACT_APP_API_URL}/storage/${item.product.image}`}
@@ -263,13 +282,13 @@ const Cart = () => {
                         <td className="px-6 py-4 text-sm text-gray-800 whitespace-nowrap">
                           {item.total_price}
                         </td>
-                        {status === "Paid" && (
-                          <td className="px-6 py-4 text-sm text-yellow-500 whitespace-nowrap">
-                            {item.status === "Paid" ? "For Confirmation" : ""}
-                          </td>
-                        )}
-                        <td className="px-6 py-4 text-sm font-medium whitespace-nowrap">
-                          {status === "onCart" && (
+                        <td className="px-6 py-4 text-sm text-yellow-500 whitespace-nowrap">
+                          {item.status === "Paid"
+                            ? "For Confirmation"
+                            : item.status}
+                        </td>
+                        {status === "onCart" && (
+                          <td className="px-6 py-4 text-sm font-medium whitespace-nowrap">
                             <button
                               onClick={(e) => cartDelete(e, item.id)}
                               className="text-red-500 hover:text-red-700"
@@ -277,8 +296,19 @@ const Cart = () => {
                             >
                               Cancel
                             </button>
-                          )}
-                        </td>
+                          </td>
+                        )}
+                        {status === "Ready-For-Delivery" && (
+                          <td className="px-6 py-4 text-sm font-medium whitespace-nowrap">
+                            <button
+                              onClick={(e) => delivered(e, item.id)}
+                              className="bg-violet-500 py-3 px-4 text-white"
+                              href="#"
+                            >
+                              Delivered
+                            </button>
+                          </td>
+                        )}
                       </tr>
                     ))}
 
@@ -322,10 +352,12 @@ const Cart = () => {
               </div>
 
               <div className="float-right mt-3">
-                <p className="mr-2 mb-2">
-                  Total:{" "}
-                  <span className="text-red-500">₱{totalPrice || 0}.00</span>
-                </p>
+                {status !== "Completed" && (
+                  <p className="mr-2 mb-2">
+                    Total:{" "}
+                    <span className="text-red-500">₱{totalPrice || 0}.00</span>
+                  </p>
+                )}
 
                 {status === "onCart" && (
                   <button
