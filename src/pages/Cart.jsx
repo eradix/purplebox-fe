@@ -39,6 +39,7 @@ const Cart = () => {
     totalPrice,
     err,
     deliveryDetails,
+    toBeCheckout
   } = useSelector((state) => state.order);
 
   const { usersCakes, cakeItems } = useSelector((state) => state.customCake);
@@ -78,6 +79,10 @@ const Cart = () => {
     dispatch(
       orderActions.setTotalPrice({ totalPrice: item.total_price, checked })
     );
+
+    dispatch(
+      orderActions.setToBeCheckout({ item, checked })
+    );
   };
 
   const handleChange = (e) => {
@@ -88,7 +93,7 @@ const Cart = () => {
   };
 
   const checkout = () => {
-    if (!deliveryDetails.delivery_date || !deliveryDetails.delivery_address) {
+    if (!deliveryDetails.delivery_date || !deliveryDetails.delivery_address || toBeCheckout.length === 0) {
       dispatch(orderActions.setErr(true));
     } else {
       dispatch(orderActions.setShowModal(true));

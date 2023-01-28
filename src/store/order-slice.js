@@ -1,4 +1,4 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice, current } from "@reduxjs/toolkit";
 import axios from "axios";
 
 export const getAllOrders = createAsyncThunk(
@@ -178,12 +178,20 @@ const initialState = {
     delivery_date: "",
     delivery_address: "",
   },
+  toBeCheckout: [],
 };
 
 const orderSlice = createSlice({
   name: "order",
   initialState,
   reducers: {
+    setToBeCheckout(state, action) {
+      if(action.payload.checked) state.toBeCheckout.push(action.payload.item);
+      if(!action.payload.checked) {
+        const index = state.toBeCheckout.findIndex(item => item.id === action.payload.item.id)
+        if(index > -1) state.toBeCheckout.splice(index, 1)
+      }
+    },
     setDeliveryDetails(state, action) {
       state.deliveryDetails[action.payload.name] = action.payload.value;
     },
