@@ -55,7 +55,7 @@ const Cart = () => {
     setStatus(status);
     dispatch(getUserCart(status));
     dispatch(fetchUsersCake(status));
-    dispatch(getTotalPriceAllItems(status));
+    if (status !== "onCart") dispatch(getTotalPriceAllItems(status));
   };
 
   const cartItems = status === "onCart" ? usersCart : getItemsByStatus;
