@@ -113,11 +113,11 @@ const Order = () => {
         <ul className="flex justify-between items-center px-2 text-center">
           <li
             className={`py-2 px-4 border-l w-full cursor-pointer hover:bg-indigo-500 hover:text-white ${
-              status === "To-Pay" ? "bg-indigo-500 text-white" : ""
+              status === "Paid" ? "bg-indigo-500 text-white" : ""
             }`}
-            onClick={(e) => navigate(e, "To-Pay")}
+            onClick={(e) => navigate(e, "Paid")}
           >
-            To Pay ({qtyEachOrder?.topay})
+            Paid ({qtyEachOrder?.topay})
           </li>
 
           <li

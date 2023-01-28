@@ -27,7 +27,7 @@ const Product = () => {
     const value = product_id;
     const name = "product_id";
     dispatch(orderActions.setForm({ name, value }));
-    dispatch(getUserCart("To-Pay"));
+    dispatch(getUserCart("Paid"));
   }, []);
 
   const handleChange = (e) => {
@@ -44,8 +44,8 @@ const Product = () => {
         const isExist = await usersCart.find(
           (item) => item.product_id === parseInt(product_id)
         );
-        console.log(isExist)
-        if (!isExist || isExist === "To-Pay") dispatch(addToCart(form));
+        console.log(isExist);
+        if (!isExist || isExist === "Paid") dispatch(addToCart(form));
         else dispatch(updateOrderIfExist(form));
 
         dispatch(orderActions.setSuccess(true));
@@ -54,12 +54,12 @@ const Product = () => {
         }, 1000);
 
         setTimeout(() => {
-          dispatch(orderActions.setSuccess(false))
-          navigate(`/cart/${authUser?.id}`)
+          dispatch(orderActions.setSuccess(false));
+          navigate(`/cart/${authUser?.id}`);
         }, 1000);
       }
     } catch (e) {
-      console.log("Failed!")
+      console.log("Failed!");
     }
   };
 

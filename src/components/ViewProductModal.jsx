@@ -132,9 +132,17 @@ const ViewProductModal = ({ actions }) => {
                     <option defaultValue={order?.status}>
                       {order?.status}
                     </option>
-                    {order?.status !== "To-Pay" && <option value="To-Pay">To-Pay</option>}
-                    {order?.status !== "Processing"  && <option value="Processing">Processing</option>}
-                    {order?.status !== "Ready-For-Delivery" && <option value="Ready-For-Delivery">Ready-For-Delivery</option>}
+                    {order?.status !== "Paid" && (
+                      <option value="Paid">Paid</option>
+                    )}
+                    {order?.status !== "Processing" && (
+                      <option value="Processing">Processing</option>
+                    )}
+                    {order?.status !== "Ready-For-Delivery" && (
+                      <option value="Ready-For-Delivery">
+                        Ready-For-Delivery
+                      </option>
+                    )}
                   </select>
                 </p>
               </div>

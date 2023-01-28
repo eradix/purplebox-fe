@@ -130,7 +130,7 @@ const FormModal = ({ addTitle, updateTitle, fields, actions, form, edit }) => {
                     className="text-gray-500 border py-3 pr-3 pl-10 rounded-md shadow-md w-full focus:outline-none"
                   >
                     <option defaultValue="Select Status">Select Status</option>
-                    <option value="saab">To Pay</option>
+                    <option value="saab">Paid</option>
                     <option value="mercedes">Pending</option>
                     <option value="audi">Completed</option>
                   </select>

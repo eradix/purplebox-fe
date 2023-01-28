@@ -37,7 +37,7 @@ const CustomizeCake = () => {
       Object.keys(form).map((item) => {
         if (item !== "image") formData.append(item, form[item]);
       });
-      formData.append("status", "To-Pay");
+      formData.append("status", "Paid");
       dispatch(saveCustomCake(formData));
       dispatch(customCakeActions.resetForm());
       dispatch(customCakeActions.setSuccess(true));

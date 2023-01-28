@@ -25,8 +25,8 @@ const Cart = () => {
   const dispatch = useDispatch();
 
   useEffect((e) => {
-    dispatch(getUserCart("To-Pay"));
-    dispatch(fetchUsersCake("To-Pay"));
+    dispatch(getUserCart("Paid"));
+    dispatch(fetchUsersCake("Paid"));
     dispatch(getTotalPriceAllItems());
   }, []);
 
@@ -46,7 +46,7 @@ const Cart = () => {
     dispatch(deleteCakeOnCart(id));
   };
 
-  const [status, setStatus] = useState("To-Pay");
+  const [status, setStatus] = useState("Paid");
 
   const navigate = (e, status) => {
     setStatus(status);
@@ -55,8 +55,8 @@ const Cart = () => {
     console.log(status);
   };
 
-  const cartItems = status === "To-Pay" ? usersCart : getItemsByStatus;
-  const customCakeItems = status === "To-Pay" ? usersCakes : cakeItems;
+  const cartItems = status === "Paid" ? usersCart : getItemsByStatus;
+  const customCakeItems = status === "Paid" ? usersCakes : cakeItems;
 
   return (
     <>
@@ -73,9 +73,9 @@ const Cart = () => {
         <ul className="flex justify-between items-center px-2 text-center">
           <li
             className={`py-2 px-4 border-l w-full cursor-pointer hover:bg-indigo-500 hover:text-white ${
-              status === "To-Pay" ? "bg-indigo-500 text-white" : ""
+              status === "Paid" ? "bg-indigo-500 text-white" : ""
             }`}
-            onClick={(e) => navigate(e, "To-Pay")}
+            onClick={(e) => navigate(e, "Paid")}
           >
             On Cart
           </li>
@@ -152,7 +152,7 @@ const Cart = () => {
                           {item.status}
                         </td>
                         <td className="px-6 py-4 text-sm font-medium whitespace-nowrap">
-                          {status === "To-Pay" && (
+                          {status === "Paid" && (
                             <button
                               onClick={(e) => cartDelete(e, item.id)}
                               className="text-red-500 hover:text-red-700"
@@ -203,7 +203,7 @@ const Cart = () => {
                   </tbody>
                 </table>
               </div>
-              {status === "To-Pay" && (
+              {status === "Paid" && (
                 <div className="float-right mt-3">
                   <p className="mr-2 mb-2">
                     Total:{" "}

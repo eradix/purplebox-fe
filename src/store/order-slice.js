@@ -26,7 +26,7 @@ export const addToCart = createAsyncThunk(
         `${process.env.REACT_APP_API_URL}/api/orders`,
         payload
       );
-      thunkAPI.dispatch(getUserCart('To-Pay'));
+      thunkAPI.dispatch(getUserCart("Paid"));
       return resp.data;
     } catch (err) {
       return err;
@@ -41,7 +41,7 @@ export const deleteOnCart = createAsyncThunk(
       const resp = await axios.delete(
         `${process.env.REACT_APP_API_URL}/api/orders/${id}`
       );
-      thunkAPI.dispatch(getUserCart('To-Pay'));
+      thunkAPI.dispatch(getUserCart("Paid"));
       return resp.data;
     } catch (err) {
       return err;
@@ -74,7 +74,7 @@ export const updateOrderIfExist = createAsyncThunk(
         `${process.env.REACT_APP_API_URL}/api/orders/cart/${payload.product_id}`,
         payload
       );
-      thunkAPI.dispatch(getUserCart('To-Pay'));
+      thunkAPI.dispatch(getUserCart("Paid"));
       return resp.data;
     } catch (err) {
       return err;
@@ -93,8 +93,8 @@ export const updateOrder = createAsyncThunk(
           headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
         }
       );
-        dispatch(getAllOrders(getState().order.status))
-        dispatch(getQtyEachOrder())
+      dispatch(getAllOrders(getState().order.status));
+      dispatch(getQtyEachOrder());
       return resp.data;
     } catch (err) {
       return err;
@@ -130,7 +130,7 @@ export const getOrder = createAsyncThunk(
           headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
         }
       );
-      thunkAPI.dispatch(getAllOrders('To-Pay'));
+      thunkAPI.dispatch(getAllOrders("Paid"));
       return resp.data;
     } catch (err) {
       return err;
@@ -164,15 +164,15 @@ const initialState = {
   form: {
     product_id: "",
     quantity: "",
-    status: "To-Pay",
+    status: "Paid",
     message: "",
   },
-  status: "To-Pay",
+  status: "Paid",
   showModal: false,
   edit: true,
   success: false,
   totalPrice: 0,
-  qtyEachOrder: {}
+  qtyEachOrder: {},
 };
 
 const orderSlice = createSlice({
@@ -180,7 +180,7 @@ const orderSlice = createSlice({
   initialState,
   reducers: {
     setStatus(state, action) {
-      state.status = action.payload
+      state.status = action.payload;
     },
     setForm(state, action) {
       state.form[action.payload.name] = action.payload.value;
@@ -189,7 +189,7 @@ const orderSlice = createSlice({
       state.form = {
         product_id: "",
         quantity: "",
-        status: "To-Pay",
+        status: "Paid",
         message: "",
       };
     },
@@ -225,8 +225,9 @@ const orderSlice = createSlice({
       console.log("loading");
     },
     [getUserCart.fulfilled]: (state, action) => {
-      if(action.payload.status === 'To-Pay') state.usersCart = action.payload.data;
-      else state.getItemsByStatus = action.payload.data
+      if (action.payload.status === "Paid")
+        state.usersCart = action.payload.data;
+      else state.getItemsByStatus = action.payload.data;
     },
     [getUserCart.rejected]: (state) => {
       console.log("rejected");

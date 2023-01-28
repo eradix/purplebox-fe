@@ -3,7 +3,10 @@ import { motion } from "framer-motion";
 import { useDispatch, useSelector } from "react-redux";
 import almond from "../assets/img/almond.jpg";
 import { useState } from "react";
-import { customCakeActions, updateCustomCake } from "../store/custom-cake-slice";
+import {
+  customCakeActions,
+  updateCustomCake,
+} from "../store/custom-cake-slice";
 import { useEffect } from "react";
 
 const CustomCakeModal = () => {
@@ -12,21 +15,28 @@ const CustomCakeModal = () => {
     (state) => state.customCake
   );
 
-  const { status } = useSelector(state => state.order)
+  const { status } = useSelector((state) => state.order);
 
   const [statusField, setstatusField] = useState("");
   const [price, setPrice] = useState(0);
 
   const handleSave = (e, id) => {
     e.preventDefault();
-    const parsePrice = price ? parseFloat(price) : customCake?.price
-    dispatch(updateCustomCake({ id, price: parsePrice, status: statusField ? statusField : customCake?.status, fetchStatus: status }))
+    const parsePrice = price ? parseFloat(price) : customCake?.price;
+    dispatch(
+      updateCustomCake({
+        id,
+        price: parsePrice,
+        status: statusField ? statusField : customCake?.status,
+        fetchStatus: status,
+      })
+    );
     dispatch(customCakeActions.setCustomCakeModal(false));
   };
 
   const closeModal = () => {
     dispatch(customCakeActions.setCustomCakeModal(false));
-    dispatch(customCakeActions.resetForm())
+    dispatch(customCakeActions.resetForm());
   };
 
   const handleSelect = (e) => {
@@ -35,9 +45,8 @@ const CustomCakeModal = () => {
   };
 
   useEffect(() => {
-    setstatusField(customCake?.status)
-  }, [])
-  
+    setstatusField(customCake?.status);
+  }, []);
 
   return (
     <div className="bg-zinc-200 opacity-90 fixed inset-0 z-50">
@@ -85,9 +94,7 @@ const CustomCakeModal = () => {
                 {customCake?.price ? (
                   <p className="text-500-gray">
                     Price:{" "}
-                    <span className="text-gray-500">
-                      {customCake?.price}
-                    </span>
+                    <span className="text-gray-500">{customCake?.price}</span>
                   </p>
                 ) : (
                   <div className="text-500-gray">
@@ -124,7 +131,7 @@ const CustomCakeModal = () => {
                     <option defaultValue={customCake?.status}>
                       {customCake?.status}
                     </option>
-                    <option value="To-Pay">To-Pay</option>
+                    <option value="Paid">Paid</option>
                     <option value="Processing">Processing</option>
                     <option value="Ready-For-Delivery">
                       Ready-For-Delivery

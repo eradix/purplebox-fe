@@ -79,7 +79,7 @@ export const updateCustomCake = createAsyncThunk(
         `${process.env.REACT_APP_API_URL}/api/custom-cakes/${payload.id}`,
         payload
       );
-      thunkAPI.dispatch(fetchAllCustomCake(payload.fetchStatus))
+      thunkAPI.dispatch(fetchAllCustomCake(payload.fetchStatus));
       return resp.data;
     } catch (err) {
       return err;
@@ -94,7 +94,7 @@ export const deleteCakeOnCart = createAsyncThunk(
       const resp = await axios.delete(
         `${process.env.REACT_APP_API_URL}/api/custom-cakes/${id}`
       );
-      thunkAPI.dispatch(fetchUsersCake('To-Pay'));
+      thunkAPI.dispatch(fetchUsersCake("Paid"));
       return resp.data;
     } catch (err) {
       return err;
@@ -117,7 +117,7 @@ const customCakeSlice = createSlice({
       message: "",
       remarks: "",
       price: "",
-      status: "To-Pay",
+      status: "Paid",
     },
   },
   reducers: {
@@ -140,7 +140,7 @@ const customCakeSlice = createSlice({
         message: "",
         remarks: "",
         price: "",
-        status: "To-Pay",
+        status: "Paid",
       };
     },
   },
@@ -160,7 +160,7 @@ const customCakeSlice = createSlice({
     },
     [fetchUsersCake.fulfilled]: (state, action) => {
       console.log("fulfilled");
-      if (action.payload.status === "To-Pay")
+      if (action.payload.status === "Paid")
         state.usersCakes = action.payload.data;
       else state.cakeItems = action.payload.data;
     },
