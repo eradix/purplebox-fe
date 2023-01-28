@@ -11,6 +11,7 @@ import {
   getTotalPriceAllItems,
   getUserCart,
   orderActions,
+  updateOrder,
 } from "../store/order-slice";
 import AlertModal from "../components/AlertModal";
 import { FaSkullCrossbones } from "react-icons/fa";
@@ -39,7 +40,7 @@ const Cart = () => {
     totalPrice,
     err,
     deliveryDetails,
-    toBeCheckout
+    toBeCheckout,
   } = useSelector((state) => state.order);
 
   const { usersCakes, cakeItems } = useSelector((state) => state.customCake);
@@ -49,7 +50,7 @@ const Cart = () => {
       dispatch(getUserCart(status));
       dispatch(fetchUsersCake(status));
     },
-    [loading]
+    [showModal]
   );
 
   const cartDelete = (e, id) => {
@@ -66,6 +67,7 @@ const Cart = () => {
     setStatus(status);
     dispatch(getUserCart(status));
     dispatch(fetchUsersCake(status));
+    dispatch(orderActions.setTotalPrice(0))
     if (status !== "onCart") dispatch(getTotalPriceAllItems(status));
   };
 
@@ -80,9 +82,7 @@ const Cart = () => {
       orderActions.setTotalPrice({ totalPrice: item.total_price, checked })
     );
 
-    dispatch(
-      orderActions.setToBeCheckout({ item, checked })
-    );
+    dispatch(orderActions.setToBeCheckout({ item, checked }));
   };
 
   const handleChange = (e) => {
@@ -93,10 +93,24 @@ const Cart = () => {
   };
 
   const checkout = () => {
-    if (!deliveryDetails.delivery_date || !deliveryDetails.delivery_address || toBeCheckout.length === 0) {
+    if (
+      !deliveryDetails.delivery_date ||
+      !deliveryDetails.delivery_address ||
+      toBeCheckout.length === 0
+    ) {
       dispatch(orderActions.setErr(true));
     } else {
       dispatch(orderActions.setShowModal(true));
+      toBeCheckout.forEach((item) => {
+        dispatch(
+          updateOrder({
+            id: item.id,
+            status: "Paid",
+            delivery_date: deliveryDetails.delivery_date,
+            delivery_address: deliveryDetails.delivery_address,
+          })
+        );
+      });
     }
   };
 

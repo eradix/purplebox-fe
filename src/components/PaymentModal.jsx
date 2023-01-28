@@ -22,11 +22,14 @@ const PaymentModal = () => {
           className="bg-white rounded-xl py-6 px-24 flex flex-col justify-center items-center w-4/12"
         >
           <p className="font-bold text-2xl text-gray-900 mb-3">Gcash Payment</p>
+          <p className="text-gray-700 my-3 text-sm text-center font-bold">
+            Pay using this QR code
+          </p>
           <img src={qr} alt="QR" />
-          <p className="text-gray-700 my-3 text-md text-center">
-            Please wait for the store confirmation for your orders. Please email
-            us at purplebox@gmail.com or call us at +639262522057 if you have
-            any questions. Thank you.
+          <p className="text-gray-700 my-3 text-sm text-center">
+            After your payment, please wait for the store confirmation for your
+            orders. Please email us at purplebox@gmail.com or call us at
+            +639262522057 if you have any questions. Thank you.
           </p>
 
           <div>

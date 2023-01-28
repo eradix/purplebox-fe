@@ -185,11 +185,16 @@ const orderSlice = createSlice({
   name: "order",
   initialState,
   reducers: {
+    setTotalPrice(state, action) {
+      state.totalPrice = action.payload;
+    },
     setToBeCheckout(state, action) {
-      if(action.payload.checked) state.toBeCheckout.push(action.payload.item);
-      if(!action.payload.checked) {
-        const index = state.toBeCheckout.findIndex(item => item.id === action.payload.item.id)
-        if(index > -1) state.toBeCheckout.splice(index, 1)
+      if (action.payload.checked) state.toBeCheckout.push(action.payload.item);
+      if (!action.payload.checked) {
+        const index = state.toBeCheckout.findIndex(
+          (item) => item.id === action.payload.item.id
+        );
+        if (index > -1) state.toBeCheckout.splice(index, 1);
       }
     },
     setDeliveryDetails(state, action) {
