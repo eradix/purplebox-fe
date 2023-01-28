@@ -26,7 +26,7 @@ export const addToCart = createAsyncThunk(
         `${process.env.REACT_APP_API_URL}/api/orders`,
         payload
       );
-      thunkAPI.dispatch(getUserCart("Paid"));
+      thunkAPI.dispatch(getUserCart("onCart"));
       return resp.data;
     } catch (err) {
       return err;
@@ -41,7 +41,7 @@ export const deleteOnCart = createAsyncThunk(
       const resp = await axios.delete(
         `${process.env.REACT_APP_API_URL}/api/orders/${id}`
       );
-      thunkAPI.dispatch(getUserCart("Paid"));
+      thunkAPI.dispatch(getUserCart("onCart"));
       return resp.data;
     } catch (err) {
       return err;
@@ -74,7 +74,7 @@ export const updateOrderIfExist = createAsyncThunk(
         `${process.env.REACT_APP_API_URL}/api/orders/cart/${payload.product_id}`,
         payload
       );
-      thunkAPI.dispatch(getUserCart("Paid"));
+      thunkAPI.dispatch(getUserCart("onCart"));
       return resp.data;
     } catch (err) {
       return err;
@@ -130,7 +130,7 @@ export const getOrder = createAsyncThunk(
           headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
         }
       );
-      thunkAPI.dispatch(getAllOrders("Paid"));
+      thunkAPI.dispatch(getAllOrders("onCart"));
       return resp.data;
     } catch (err) {
       return err;
@@ -164,10 +164,10 @@ const initialState = {
   form: {
     product_id: "",
     quantity: "",
-    status: "Paid",
+    status: "onCart",
     message: "",
   },
-  status: "Paid",
+  status: "onCart",
   showModal: false,
   edit: true,
   success: false,
@@ -189,7 +189,7 @@ const orderSlice = createSlice({
       state.form = {
         product_id: "",
         quantity: "",
-        status: "Paid",
+        status: "onCart",
         message: "",
       };
     },
@@ -225,7 +225,7 @@ const orderSlice = createSlice({
       console.log("loading");
     },
     [getUserCart.fulfilled]: (state, action) => {
-      if (action.payload.status === "Paid")
+      if (action.payload.status === "onCart")
         state.usersCart = action.payload.data;
       else state.getItemsByStatus = action.payload.data;
     },

@@ -19,14 +19,13 @@ const Cart = () => {
     "Unit Price",
     "Quantity",
     "Total Price",
-    "Status",
     "Actions",
   ];
   const dispatch = useDispatch();
 
   useEffect((e) => {
-    dispatch(getUserCart("Paid"));
-    dispatch(fetchUsersCake("Paid"));
+    dispatch(getUserCart("onCart"));
+    dispatch(fetchUsersCake("onCart"));
     dispatch(getTotalPriceAllItems());
   }, []);
 
@@ -46,17 +45,16 @@ const Cart = () => {
     dispatch(deleteCakeOnCart(id));
   };
 
-  const [status, setStatus] = useState("Paid");
+  const [status, setStatus] = useState("onCart");
 
   const navigate = (e, status) => {
     setStatus(status);
     dispatch(getUserCart(status));
     dispatch(fetchUsersCake(status));
-    console.log(status);
   };
 
-  const cartItems = status === "Paid" ? usersCart : getItemsByStatus;
-  const customCakeItems = status === "Paid" ? usersCakes : cakeItems;
+  const cartItems = status === "onCart" ? usersCart : getItemsByStatus;
+  const customCakeItems = status === "onCart" ? usersCakes : cakeItems;
 
   return (
     <>
@@ -73,11 +71,20 @@ const Cart = () => {
         <ul className="flex justify-between items-center px-2 text-center">
           <li
             className={`py-2 px-4 border-l w-full cursor-pointer hover:bg-indigo-500 hover:text-white ${
+              status === "onCart" ? "bg-indigo-500 text-white" : ""
+            }`}
+            onClick={(e) => navigate(e, "onCart")}
+          >
+            On Cart
+          </li>
+
+          <li
+            className={`py-2 px-4 border-l w-full cursor-pointer hover:bg-indigo-500 hover:text-white ${
               status === "Paid" ? "bg-indigo-500 text-white" : ""
             }`}
             onClick={(e) => navigate(e, "Paid")}
           >
-            On Cart
+            Paid
           </li>
 
           <li
@@ -148,17 +155,14 @@ const Cart = () => {
                         <td className="px-6 py-4 text-sm text-gray-800 whitespace-nowrap">
                           {item.total_price}
                         </td>
-                        <td className="px-6 py-4 text-sm text-yellow-500 whitespace-nowrap">
-                          {item.status}
-                        </td>
                         <td className="px-6 py-4 text-sm font-medium whitespace-nowrap">
-                          {status === "Paid" && (
+                          {status === "onCart" && (
                             <button
                               onClick={(e) => cartDelete(e, item.id)}
                               className="text-red-500 hover:text-red-700"
                               href="#"
                             >
-                              Delete
+                              Cancel
                             </button>
                           )}
                         </td>
@@ -203,7 +207,7 @@ const Cart = () => {
                   </tbody>
                 </table>
               </div>
-              {status === "Paid" && (
+              {status === "onCart" && (
                 <div className="float-right mt-3">
                   <p className="mr-2 mb-2">
                     Total:{" "}
