@@ -12,6 +12,8 @@ import {
   getUserCart,
   orderActions,
 } from "../store/order-slice";
+import AlertModal from "../components/AlertModal";
+import { FaSkullCrossbones } from "react-icons/fa";
 
 const Cart = () => {
   const header = [
@@ -28,8 +30,16 @@ const Cart = () => {
   const [status, setStatus] = useState("onCart");
   const [isChecked, setiIsChecked] = useState(false);
 
-  const { loading, order, showModal, usersCart, getItemsByStatus, totalPrice } =
-    useSelector((state) => state.order);
+  const {
+    loading,
+    order,
+    showModal,
+    usersCart,
+    getItemsByStatus,
+    totalPrice,
+    err,
+    deliveryDetails,
+  } = useSelector((state) => state.order);
 
   const { usersCakes, cakeItems } = useSelector((state) => state.customCake);
 
@@ -70,9 +80,34 @@ const Cart = () => {
     );
   };
 
+  const handleChange = (e) => {
+    e.preventDefault();
+    const { name, value } = e.target;
+
+    dispatch(orderActions.setDeliveryDetails({ name, value }));
+  };
+
+  const checkout = () => {
+    if (!deliveryDetails.delivery_date || !deliveryDetails.delivery_address) {
+      dispatch(orderActions.setErr(true));
+    } else {
+      dispatch(orderActions.setShowModal(true));
+    }
+  };
+
   return (
     <>
       {showModal && <PaymentModal />}
+
+      {err && (
+        <AlertModal
+          icon={<FaSkullCrossbones className="text-red-500 text-4xl" />}
+          status={"Error"}
+          message={"Please enter delivery date/address."}
+          button={"Okay"}
+          actions={orderActions}
+        />
+      )}
 
       <div className="md:w-full md:pr-10 md:pl-5 h-screen my-12 overflow-y-auto">
         <div className="flex items-center font-bold cursor-pointer text-xl mb-3 ml-3">
@@ -131,6 +166,30 @@ const Cart = () => {
 
         <div className="flex flex-col">
           <div className="overflow-x-auto">
+            <div className="my-6 ml-2 flex">
+              <div className="mr-3">
+                <label htmlFor="">Delivery date: </label>
+                <input
+                  type="date"
+                  className="border px-3 py-2"
+                  onChange={handleChange}
+                  value={deliveryDetails.delivery_date}
+                  name="delivery_date"
+                  required
+                />
+              </div>
+              <div>
+                <label htmlFor="">Delivery Address: </label>
+                <input
+                  type="text"
+                  className="border px-3 py-2"
+                  onChange={handleChange}
+                  value={deliveryDetails.delivery_address}
+                  name="delivery_address"
+                  required
+                />
+              </div>
+            </div>
             <div className="p-1.5 w-full inline-block align-middle">
               <div className="overflow-hidden border rounded-lg ">
                 <table className="min-w-full divide-y divide-gray-200">
@@ -239,7 +298,7 @@ const Cart = () => {
 
                 {status === "onCart" && (
                   <button
-                    onClick={() => dispatch(orderActions.setShowModal(true))}
+                    onClick={checkout}
                     className="bg-indigo-500 text-white py-2 rounded px-14"
                   >
                     Checkout

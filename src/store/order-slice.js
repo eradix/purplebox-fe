@@ -173,15 +173,33 @@ const initialState = {
   success: false,
   totalPrice: 0,
   qtyEachOrder: {},
+  err: false,
+  deliveryDetails: {
+    delivery_date: "",
+    delivery_address: "",
+  },
 };
 
 const orderSlice = createSlice({
   name: "order",
   initialState,
   reducers: {
+    setDeliveryDetails(state, action) {
+      state.deliveryDetails[action.payload.name] = action.payload.value;
+    },
+    resetDeliveryDetails(state) {
+      state.deliveryDetails = {
+        delivery_date: "",
+        delivery_address: "",
+      };
+    },
+    setErr(state, action) {
+      state.err = action.payload;
+    },
     setTotalPrice(state, action) {
-      if(action.payload.checked) state.totalPrice += action.payload.totalPrice
-      if(!action.payload.checked) state.totalPrice -= action.payload.totalPrice
+      if (action.payload.checked) state.totalPrice += action.payload.totalPrice;
+      if (!action.payload.checked)
+        state.totalPrice -= action.payload.totalPrice;
     },
     setStatus(state, action) {
       state.status = action.payload;
