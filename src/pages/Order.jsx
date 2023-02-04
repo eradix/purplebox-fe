@@ -38,6 +38,7 @@ const Order = () => {
   const dispatch = useDispatch();
 
   const [statsField, setStatsField] = useState("");
+  const [st, setSt] = useState("");
 
   const editSaveOrder = (e, id) => {
     e.preventDefault();
@@ -71,6 +72,7 @@ const Order = () => {
   }, [status]);
 
   const navigate = (e, stats) => {
+    setSt(stats);
     dispatch(orderActions.setStatus(stats));
     dispatch(getAllOrders(stats));
     dispatch(fetchAllCustomCake(stats));
@@ -78,7 +80,8 @@ const Order = () => {
 
   const viewOrder = (e, id) => {
     e.preventDefault();
-    dispatch(getOrder(id));
+    console.log(st)
+    dispatch(getOrder({ id, status: st }));
     dispatch(orderActions.setShowModal(true));
   };
 
@@ -112,6 +115,14 @@ const Order = () => {
         </div>
 
         <ul className="flex justify-between items-center px-2 text-center">
+          <li
+            className={`py-2 px-4 border-l w-full cursor-pointer hover:bg-indigo-500 hover:text-white ${
+              status === "onCart" ? "bg-indigo-500 text-white" : ""
+            }`}
+            onClick={(e) => navigate(e, "onCart")}
+          >
+            onCart (no-price) ({qtyEachOrder?.oncart})
+          </li>
           <li
             className={`py-2 px-4 border-l w-full cursor-pointer hover:bg-indigo-500 hover:text-white ${
               status === "Paid" ? "bg-indigo-500 text-white" : ""
@@ -178,7 +189,9 @@ const Order = () => {
                         </td>
 
                         <td className="px-6 py-4 text-sm text-gray-800 whitespace-nowrap">
-                          {item?.product?.name}
+                          {item.type === "normal"
+                            ? item?.product?.name
+                            : item.type}
                         </td>
 
                         <td className="px-6 py-4 text-sm text-gray-800 whitespace-nowrap">
@@ -201,42 +214,6 @@ const Order = () => {
                           <td className="px-6 py-4 text-sm font-medium whitespace-nowrap">
                             <button
                               onClick={(e) => viewOrder(e, item.id)}
-                              className="text-green-500 hover:text-red-700 mr-3"
-                              href="#"
-                              id={item?.id}
-                              ref={(el) => (buttonRef.current[item.id] = el)}
-                            >
-                              View
-                            </button>
-                          </td>
-                        )}
-                      </tr>
-                    ))}
-
-                    {allCustomCakes?.map((item, index) => (
-                      <tr key={index}>
-                        <td className="px-6 py-4 text-sm text-gray-800 whitespace-nowrap">
-                          {item?.user?.first_name} {item?.user?.last_name}
-                        </td>
-                        <td className="px-6 py-4 text-sm text-gray-800 whitespace-nowrap">
-                          {item?.user?.contact_num}
-                        </td>
-
-                        <td className="px-6 py-4 text-sm text-indigo-800 font-bold whitespace-nowrap">
-                          Customize
-                        </td>
-
-                        <td className="px-6 py-4 text-sm text-gray-800 whitespace-nowrap">
-                          {item?.quantity}
-                        </td>
-                        <td className="px-6 py-4 text-sm text-gray-800 whitespace-nowrap">
-                          {item?.quantity * item?.price}
-                        </td>
-
-                        {status !== "Completed" && (
-                          <td className="px-6 py-4 text-sm font-medium whitespace-nowrap">
-                            <button
-                              onClick={(e) => viewCustomOrder(e, item.id)}
                               className="text-green-500 hover:text-red-700 mr-3"
                               href="#"
                               id={item?.id}

@@ -121,16 +121,16 @@ export const getTotalPriceAllItems = createAsyncThunk(
 
 export const getOrder = createAsyncThunk(
   "order/getOrder",
-  async (id, thunkAPI) => {
+  async (payload, thunkAPI) => {
     try {
       const resp = await axios.get(
-        `${process.env.REACT_APP_API_URL}/api/orders/get/${id}`,
+        `${process.env.REACT_APP_API_URL}/api/orders/get/${payload.id}`,
         {},
         {
           headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
         }
       );
-      thunkAPI.dispatch(getAllOrders("onCart"));
+      thunkAPI.dispatch(getAllOrders(payload.status));
       return resp.data;
     } catch (err) {
       return err;
@@ -156,6 +156,24 @@ export const getQtyEachOrder = createAsyncThunk(
   }
 );
 
+export const getQtyEachUserOrder = createAsyncThunk(
+  "order/getQtyEachUserOrder",
+  async (token, thunkAPI) => {
+    try {
+      const resp = await axios.get(
+        `${process.env.REACT_APP_API_URL}/api/user/orders/quantity`,
+        {},
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
+      return resp.data;
+    } catch (err) {
+      return err;
+    }
+  }
+);
+
 const initialState = {
   allOrders: [],
   usersCart: [],
@@ -166,17 +184,19 @@ const initialState = {
     quantity: "",
     status: "onCart",
     message: "",
-    type: "",
+    type: "normal",
     image: "",
     remarks: "",
+    unit_price: "",
   },
-  status: "Paid",
+  status: "onCart",
   showModal: false,
   edit: true,
   success: false,
   failed: false,
   totalPrice: 0,
   qtyEachOrder: {},
+  qtyEachUserOrder: {},
   err: false,
   deliveryDetails: {
     delivery_date: "",
@@ -226,7 +246,16 @@ const orderSlice = createSlice({
       state.form[action.payload.name] = action.payload.value;
     },
     resetForm(state) {
-      state.form = {};
+      state.form = {
+        product_id: "",
+        quantity: "",
+        status: "onCart",
+        message: "",
+        type: "",
+        image: "",
+        remarks: "",
+        unit_price: "",
+      };
     },
     setShowModal(state, action) {
       state.showModal = action.payload;
@@ -315,6 +344,16 @@ const orderSlice = createSlice({
       state.qtyEachOrder = action.payload.data;
     },
     [getQtyEachOrder.rejected]: (state) => {
+      console.log("rejected");
+    },
+
+    [getQtyEachUserOrder.pending]: (state) => {
+      console.log("loading");
+    },
+    [getQtyEachUserOrder.fulfilled]: (state, action) => {
+      state.qtyEachUserOrder = action.payload;
+    },
+    [getQtyEachUserOrder.rejected]: (state) => {
       console.log("rejected");
     },
   },

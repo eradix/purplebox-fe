@@ -1,8 +1,8 @@
 import React from "react";
-import { motion } from "framer-motion";
+import { calcLength, motion } from "framer-motion";
 import { useDispatch, useSelector } from "react-redux";
 import almond from "../assets/img/almond.jpg";
-import { getAllOrders, updateOrder } from "../store/order-slice";
+import { getAllOrders, orderActions, updateOrder } from "../store/order-slice";
 import { fetchAllCustomCake } from "../store/custom-cake-slice";
 import { useState } from "react";
 import { act } from "react-dom/test-utils";
@@ -10,14 +10,20 @@ import { useEffect } from "react";
 
 const ViewProductModal = ({ actions }) => {
   const dispatch = useDispatch();
-  const { order, status, form } = useSelector((state) => state.order);
+  const { order, status, form, showModal } = useSelector((state) => state.order);
   const [statusField, setstatusField] = useState("");
   const [deliveryDate, setDeliveryDate] = useState("");
+  const [price, setPrice] = useState(0);
 
   const handleSave = (e, id) => {
     e.preventDefault();
     dispatch(
-      updateOrder({ id, status: statusField, delivery_date: deliveryDate })
+      updateOrder({
+        id,
+        status: statusField,
+        unit_price: price,
+        delivery_date: deliveryDate,
+      })
     );
     dispatch(actions.setShowModal(false));
     dispatch(actions.setStatus(status));
@@ -36,11 +42,18 @@ const ViewProductModal = ({ actions }) => {
   useEffect(() => {
     setDeliveryDate(order?.delivery_date);
     setstatusField(order?.status);
-  }, []);
+  }, [showModal, status]);
 
   const changeDeliveryDate = (e) => {
     e.preventDefault();
     setDeliveryDate(e.target.value);
+  };
+
+  const handleChange = (e) => {
+    e.preventDefault();
+    const { name, value } = e.target;
+    setPrice(value);
+    console.log(price);
   };
 
   return (
@@ -54,7 +67,9 @@ const ViewProductModal = ({ actions }) => {
         >
           <div className="flex items-center justify-center gap-6">
             <img
-              src={`${process.env.REACT_APP_API_URL}/storage/${order?.product?.image}`}
+              src={`${process.env.REACT_APP_API_URL}/storage/${
+                order.type === "normal" ? order?.product?.image : order.image
+              }`}
               alt=""
               style={{ width: "250px", height: "100%" }}
             />
@@ -91,7 +106,21 @@ const ViewProductModal = ({ actions }) => {
                 </p>
                 <p className="text-500-gray">
                   Unit Price:{" "}
-                  <span className="text-gray-500">{order?.product?.price}</span>
+                  {order.type === "normal" ? (
+                    <span className="text-gray-500">
+                      {order?.product?.price}
+                    </span>
+                  ) : (
+                    <>
+                      <input
+                        type="number"
+                        name="unit_price"
+                        className="border p-1"
+                        value={price}
+                        onChange={handleChange}
+                      />
+                    </>
+                  )}
                 </p>
                 <p className="text-500-gray">
                   Quantity:{" "}

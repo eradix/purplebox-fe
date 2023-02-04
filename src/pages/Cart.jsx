@@ -8,6 +8,7 @@ import { deleteCakeOnCart, fetchUsersCake } from "../store/custom-cake-slice";
 import {
   deleteOnCart,
   getOrder,
+  getQtyEachUserOrder,
   getTotalPriceAllItems,
   getUserCart,
   orderActions,
@@ -15,8 +16,10 @@ import {
 } from "../store/order-slice";
 import AlertModal from "../components/AlertModal";
 import { FaSkullCrossbones } from "react-icons/fa";
+import { useAuth } from "../App";
 
 const Cart = () => {
+  const token = useAuth();
   const headers = [
     "",
     "Product",
@@ -51,14 +54,17 @@ const Cart = () => {
     err,
     deliveryDetails,
     toBeCheckout,
+    qtyEachUserOrder,
   } = useSelector((state) => state.order);
 
   const { usersCakes, cakeItems } = useSelector((state) => state.customCake);
 
   useEffect(
     (e) => {
+      dispatch(getQtyEachUserOrder(token));
       dispatch(getUserCart(status));
       dispatch(fetchUsersCake(status));
+      console.log(qtyEachUserOrder);
     },
     [showModal]
   );
@@ -66,6 +72,7 @@ const Cart = () => {
   const cartDelete = (e, id) => {
     e.preventDefault();
     dispatch(deleteOnCart(id));
+    dispatch(getQtyEachUserOrder(token));
   };
 
   const cakeCartDelete = (e, id) => {
@@ -116,11 +123,14 @@ const Cart = () => {
           updateOrder({
             id: item.id,
             status: "Paid",
+            unit_price: item.unit_price,
             delivery_date: deliveryDetails.delivery_date,
             delivery_address: deliveryDetails.delivery_address,
           })
         );
       });
+      dispatch(getQtyEachUserOrder(token));
+      dispatch(orderActions.setTotalPrice({ totalPrice: 0, checked: "zero" }));
     }
   };
 
@@ -133,7 +143,9 @@ const Cart = () => {
         status: "Completed",
       })
     );
+    dispatch(orderActions.setTotalPrice({ totalPrice: 0, checked: "zero" }));
     dispatch(getUserCart(status));
+    dispatch(getQtyEachUserOrder(token));
   };
 
   return (
@@ -165,7 +177,7 @@ const Cart = () => {
             }`}
             onClick={(e) => navigate(e, "onCart")}
           >
-            On Cart
+            On Cart ({qtyEachUserOrder.oncart})
           </li>
 
           <li
@@ -174,7 +186,7 @@ const Cart = () => {
             }`}
             onClick={(e) => navigate(e, "Paid")}
           >
-            Paid
+            Paid ({qtyEachUserOrder.paid})
           </li>
 
           <li
@@ -183,7 +195,7 @@ const Cart = () => {
             }`}
             onClick={(e) => navigate(e, "Processing")}
           >
-            Processing
+            Processing (({qtyEachUserOrder.process}))
           </li>
 
           <li
@@ -192,7 +204,7 @@ const Cart = () => {
             }`}
             onClick={(e) => navigate(e, "Ready-For-Delivery")}
           >
-            Delivery
+            Delivery ({qtyEachUserOrder.delivery})
           </li>
 
           <li
@@ -201,7 +213,7 @@ const Cart = () => {
             }`}
             onClick={(e) => navigate(e, "Completed")}
           >
-            Completed
+            Completed ({qtyEachUserOrder.completed})
           </li>
         </ul>
 
@@ -253,6 +265,12 @@ const Cart = () => {
                         {status === "onCart" ? (
                           <td className="px-6 py-4 text-sm font-medium text-gray-800 whitespace-nowrap">
                             <input
+                              className={`px-6 py-4 text-sm font-medium text-gray-800 whitespace-nowrap ${
+                                item.type === "customized-cake" &&
+                                item.unit_price === 0
+                                  ? "hidden"
+                                  : "block"
+                              }`}
                               type="checkbox"
                               name="checkbox"
                               value={isChecked}
@@ -272,21 +290,29 @@ const Cart = () => {
                             alt="product"
                           />
                         </td>
-                        <td className="px-6 py-4 text-sm text-gray-800 whitespace-nowrap">
+                        <td className="px-6 py-4 text-sm text-gray-800 font-bold whitespace-nowrap">
                           {item.type === "normal"
                             ? item?.product?.name
                             : item.type}
                         </td>
-                        <td className="px-6 py-4 text-sm text-gray-800 whitespace-nowrap">
+                        <td
+                          className={`px-6 py-4 text-sm  whitespace-nowrap ${
+                            item.type === "customized-cake" &&
+                            item.unit_price === 0
+                              ? "text-red-500 font-bold"
+                              : "text-gray-800"
+                          }`}
+                        >
                           {item.type === "normal"
                             ? item?.product?.price
                             : item.unit_price}
+                          .00
                         </td>
                         <td className="px-6 py-4 text-sm text-gray-800 whitespace-nowrap">
                           {item.quantity}
                         </td>
                         <td className="px-6 py-4 text-sm text-gray-800 whitespace-nowrap">
-                          {item.total_price}
+                          {item.total_price}.00
                         </td>
                         <td className="px-6 py-4 text-sm text-yellow-500 whitespace-nowrap">
                           {item.status === "Paid"

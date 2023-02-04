@@ -19,6 +19,8 @@ const CustomizeCake = () => {
   const requiredFields = ["quantity", "message", "remarks", "image"];
   var formData = new FormData();
 
+  useEffect(() => {}, [success, failed]);
+
   const handleChange = (e) => {
     e.preventDefault();
     const { name, value } = e.target;
@@ -40,10 +42,21 @@ const CustomizeCake = () => {
       });
       formData.append("status", "onCart");
       formData.append("type", "customized-cake");
+
+      await validate();
+    }
+  };
+
+  const goAddCart = (isValidData) => {
+    if (isValidData) {
       dispatch(addToCart(formData));
       dispatch(orderActions.resetForm());
       dispatch(orderActions.setSuccess(true));
-      formData.resetForm();
+
+      setTimeout(() => {
+        dispatch(orderActions.setSuccess(false));
+        navigate(`/cart/${authUser?.id}`);
+      }, 1000);
     }
   };
 
@@ -51,9 +64,14 @@ const CustomizeCake = () => {
     let isValidData = true;
     await requiredFields.forEach((item, index) => {
       if (index < requiredFields.length && isValidData) {
-        console.log(formData.has(item));
+        if (!formData.get(item)) {
+          isValidData = false;
+          dispatch(orderActions.setFailed(true));
+        }
       }
     });
+
+    goAddCart(isValidData);
   };
 
   return (
