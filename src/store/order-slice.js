@@ -1,4 +1,4 @@
-import { createAsyncThunk, createSlice, current } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 
 export const getAllOrders = createAsyncThunk(
@@ -166,11 +166,15 @@ const initialState = {
     quantity: "",
     status: "onCart",
     message: "",
+    type: "",
+    image: "",
+    remarks: "",
   },
-  status: "onCart",
+  status: "Paid",
   showModal: false,
   edit: true,
   success: false,
+  failed: false,
   totalPrice: 0,
   qtyEachOrder: {},
   err: false,
@@ -185,6 +189,9 @@ const orderSlice = createSlice({
   name: "order",
   initialState,
   reducers: {
+    setFailed(state, action) {
+      state.failed = action.payload;
+    },
     setToBeCheckout(state, action) {
       if (action.payload.checked) state.toBeCheckout.push(action.payload.item);
       if (!action.payload.checked) {
@@ -219,12 +226,7 @@ const orderSlice = createSlice({
       state.form[action.payload.name] = action.payload.value;
     },
     resetForm(state) {
-      state.form = {
-        product_id: "",
-        quantity: "",
-        status: "onCart",
-        message: "",
-      };
+      state.form = {};
     },
     setShowModal(state, action) {
       state.showModal = action.payload;

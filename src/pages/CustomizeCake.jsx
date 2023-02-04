@@ -1,27 +1,28 @@
 import React from "react";
-import { FaCheck } from "react-icons/fa";
+import { FaCheck, FaSkull } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
-import unknown from "../assets/img/unknown.jpg";
 import { customCakeActions, saveCustomCake } from "../store/custom-cake-slice";
 import AlertModal from "../components/AlertModal";
-import { useState } from "react";
 import { useAuth } from "../App";
 import { useNavigate } from "react-router";
 import { Link } from "react-router-dom";
 import { FaArrowLeft } from "react-icons/fa";
+import { addToCart, orderActions } from "../store/order-slice";
+import { useEffect } from "react";
 
 const CustomizeCake = () => {
   let token = useAuth();
   const navigate = useNavigate();
-  const { form, success } = useSelector((state) => state.customCake);
+  const authUser = JSON.parse(localStorage.getItem("authUser"));
+  const { form, success, failed } = useSelector((state) => state.order);
   const dispatch = useDispatch();
-
+  const requiredFields = ["quantity", "message", "remarks", "image"];
   var formData = new FormData();
 
   const handleChange = (e) => {
     e.preventDefault();
     const { name, value } = e.target;
-    dispatch(customCakeActions.setForm({ name, value }));
+    dispatch(orderActions.setForm({ name, value }));
   };
 
   const getFile = async (e) => {
@@ -29,7 +30,7 @@ const CustomizeCake = () => {
     await formData.append("image", e.target.files[0]);
   };
 
-  const addCart = (e) => {
+  const addCart = async (e) => {
     e.preventDefault();
 
     if (!token) navigate("/login");
@@ -37,11 +38,22 @@ const CustomizeCake = () => {
       Object.keys(form).map((item) => {
         if (item !== "image") formData.append(item, form[item]);
       });
-      formData.append("status", "Paid");
-      dispatch(saveCustomCake(formData));
-      dispatch(customCakeActions.resetForm());
-      dispatch(customCakeActions.setSuccess(true));
+      formData.append("status", "onCart");
+      formData.append("type", "customized-cake");
+      dispatch(addToCart(formData));
+      dispatch(orderActions.resetForm());
+      dispatch(orderActions.setSuccess(true));
+      formData.resetForm();
     }
+  };
+
+  const validate = async () => {
+    let isValidData = true;
+    await requiredFields.forEach((item, index) => {
+      if (index < requiredFields.length && isValidData) {
+        console.log(formData.has(item));
+      }
+    });
   };
 
   return (
@@ -54,7 +66,17 @@ const CustomizeCake = () => {
             "Item added to cart. The seller will update the price for this customize cake."
           }
           button={"Okay"}
-          actions={customCakeActions}
+          actions={orderActions}
+        />
+      )}
+
+      {failed && (
+        <AlertModal
+          icon={<FaSkull className="text-red-500 text-4xl" />}
+          status={"Failed"}
+          message={"Please complete all required fields."}
+          button={"Okay"}
+          actions={orderActions}
         />
       )}
 

@@ -9,6 +9,7 @@ const Modal = ({ icon, status, message, button, actions }) => {
   const handleClick = () => {
     dispatch(actions.setSuccess(false));
     dispatch(actions?.setErr(false));
+    dispatch(actions?.setFailed(false));
   };
 
   return (

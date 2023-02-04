@@ -77,9 +77,7 @@ const Cart = () => {
     setStatus(status);
     dispatch(getUserCart(status));
     dispatch(fetchUsersCake(status));
-    dispatch(
-      orderActions.setTotalPrice({ totalPrice: 0, checked: "zero" })
-    );
+    dispatch(orderActions.setTotalPrice({ totalPrice: 0, checked: "zero" }));
     if (status !== "onCart") dispatch(getTotalPriceAllItems(status));
   };
 
@@ -267,16 +265,22 @@ const Cart = () => {
                         )}
                         <td className="px-6 py-4 text-sm font-medium text-gray-800 whitespace-nowrap">
                           <img
-                            src={`${process.env.REACT_APP_API_URL}/storage/${item.product.image}`}
+                            src={`${process.env.REACT_APP_API_URL}/storage/${
+                              item.image || item.product.image
+                            }`}
                             className="w-24 h-24"
                             alt="product"
                           />
                         </td>
                         <td className="px-6 py-4 text-sm text-gray-800 whitespace-nowrap">
-                          {item.product.name}
+                          {item.type === "normal"
+                            ? item?.product?.name
+                            : item.type}
                         </td>
                         <td className="px-6 py-4 text-sm text-gray-800 whitespace-nowrap">
-                          {item.product.price}
+                          {item.type === "normal"
+                            ? item?.product?.price
+                            : item.unit_price}
                         </td>
                         <td className="px-6 py-4 text-sm text-gray-800 whitespace-nowrap">
                           {item.quantity}
