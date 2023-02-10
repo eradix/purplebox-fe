@@ -93,7 +93,7 @@ export const updateOrder = createAsyncThunk(
           headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
         }
       );
-      dispatch(getAllOrders(getState().order.status));
+      dispatch(getAllOrders(getState().order.status) || "onCart");
       dispatch(getQtyEachOrder());
       return resp.data;
     } catch (err) {
@@ -130,7 +130,7 @@ export const getOrder = createAsyncThunk(
           headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
         }
       );
-      thunkAPI.dispatch(getAllOrders(payload.status));
+      // thunkAPI.dispatch(getAllOrders(payload.status));
       return resp.data;
     } catch (err) {
       return err;
@@ -188,6 +188,8 @@ const initialState = {
     image: "",
     remarks: "",
     unit_price: "",
+    delivery_date: "",
+    delivery_address: "",
   },
   status: "onCart",
   showModal: false,
@@ -243,6 +245,7 @@ const orderSlice = createSlice({
       state.status = action.payload;
     },
     setForm(state, action) {
+      console.log(action.payload.value)
       state.form[action.payload.name] = action.payload.value;
     },
     resetForm(state) {
@@ -251,10 +254,12 @@ const orderSlice = createSlice({
         quantity: "",
         status: "onCart",
         message: "",
-        type: "",
+        type: "normal",
         image: "",
         remarks: "",
         unit_price: "",
+        delivery_date: "",
+        delivery_address: "",
       };
     },
     setShowModal(state, action) {
@@ -354,6 +359,16 @@ const orderSlice = createSlice({
       state.qtyEachUserOrder = action.payload;
     },
     [getQtyEachUserOrder.rejected]: (state) => {
+      console.log("rejected");
+    },
+    
+    [updateOrder.pending]: (state) => {
+      console.log("loading");
+    },
+    [updateOrder.fulfilled]: (state, action) => {
+      state.success = true
+    },
+    [updateOrder.rejected]: (state) => {
       console.log("rejected");
     },
   },

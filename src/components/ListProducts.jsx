@@ -8,12 +8,13 @@ import { fetchProducts } from "../store/product-slice";
 import { useState } from "react";
 import banner from "../assets/img/banner.jpg";
 import { useAuth } from "../App";
+import ListOfCustomCakes from "../components/ListOfCustomCakes";
 
 const ListProducts = () => {
   const token = useAuth();
   const dispatch = useDispatch();
   const [products, setProducts] = useState([]);
-  const [showCake, setshowCake] = useState(true);
+  const [showCake, setshowCake] = useState(false);
 
   useEffect(() => {
     dispatch(fetchProducts("All"));
@@ -24,8 +25,11 @@ const ListProducts = () => {
   const handleSelect = (e) => {
     e.preventDefault();
     let select = e.target.value;
-    if(select === "Cakes") setshowCake(true)
-    else if(select === "Beverages") setshowCake(false)
+    if (select === "Cakes") setshowCake(false);
+    else if (select === "Beverages") setshowCake(false);
+    else if (select === "CustomCakes") {
+      setshowCake(true);
+    }
     dispatch(fetchProducts(select));
   };
 
@@ -56,17 +60,22 @@ const ListProducts = () => {
                 >
                   <option value="Cakes">Cakes</option>
                   <option value="Beverages">Beverages </option>
+                  <option value="CustomCakes">Customized Cakes </option>
                 </select>
               </div>
             </div>
             {showCake && (
-              <div>
-                <Link to={!token ? `/login` : `/customize-cake`}>
-                  <button className="bg-indigo-500 py-3 px-6 text-white my-3 hover:bg-green-500">
-                    Customize Cake +
-                  </button>
-                </Link>
-              </div>
+              <>
+                <div>
+                  <Link to={!token ? `/login` : `/customize-cake`}>
+                    <button className="bg-indigo-500 py-3 px-6 text-white my-3 hover:bg-green-500">
+                      Customize Cake +
+                    </button>
+                  </Link>
+                </div>
+
+                <ListOfCustomCakes />
+              </>
             )}
             <div className="grid md:grid-cols-4 md:gap-3 gap-5 my-3">
               {allProducts &&

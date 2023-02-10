@@ -175,7 +175,7 @@ const Cart = () => {
             className={`py-2 px-4 border-l w-full cursor-pointer hover:bg-indigo-500 hover:text-white ${
               status === "onCart" ? "bg-indigo-500 text-white" : ""
             }`}
-            onClick={(e) => navigate(e, "onCart")}
+            onClick={(e) => navigate(e, "onCart") || 0}
           >
             On Cart ({qtyEachUserOrder.oncart})
           </li>
@@ -184,9 +184,9 @@ const Cart = () => {
             className={`py-2 px-4 border-l w-full cursor-pointer hover:bg-indigo-500 hover:text-white ${
               status === "Paid" ? "bg-indigo-500 text-white" : ""
             }`}
-            onClick={(e) => navigate(e, "Paid")}
+            onClick={(e) => navigate(e, "Paid") || 0}
           >
-            Paid ({qtyEachUserOrder.paid})
+            Paid ({qtyEachUserOrder.paid || 0})
           </li>
 
           <li
@@ -195,7 +195,7 @@ const Cart = () => {
             }`}
             onClick={(e) => navigate(e, "Processing")}
           >
-            Processing (({qtyEachUserOrder.process}))
+            Processing ({qtyEachUserOrder.process || 0})
           </li>
 
           <li
@@ -204,7 +204,7 @@ const Cart = () => {
             }`}
             onClick={(e) => navigate(e, "Ready-For-Delivery")}
           >
-            Delivery ({qtyEachUserOrder.deliver})
+            Delivery ({qtyEachUserOrder.deliver || 0})
           </li>
 
           <li
@@ -213,7 +213,7 @@ const Cart = () => {
             }`}
             onClick={(e) => navigate(e, "Completed")}
           >
-            Completed ({qtyEachUserOrder.completed})
+            Completed ({qtyEachUserOrder.completed || 0})
           </li>
         </ul>
 

@@ -27,7 +27,7 @@ const Header = () => {
   useEffect(() => {
     dispatch(getUserCart("onCart"));
     dispatch(fetchUsersCake("onCart"));
-    console.log(usersCart)
+    console.log(usersCart);
   }, [token]);
 
   const [open, setOpen] = useState(false);
@@ -114,6 +114,15 @@ const Header = () => {
               </li>
             ))}
 
+            {authUser?.role === "User" && (
+              <li
+                onClick={logout}
+                className="cursor-pointer my-7 md:my-0 md:ml-8 text-md text-white hover:text-green-500 transition-all duration-100 font-thin"
+              >
+                Logout
+              </li>
+            )}
+
             {token && authUser?.role !== "Admin" ? (
               <div className="ml-8 relative">
                 <Link to={`/cart/${authUser.id}`}>
@@ -125,15 +134,6 @@ const Header = () => {
               </div>
             ) : (
               ""
-            )}
-
-            {authUser?.role === "User" && (
-              <li
-                onClick={logout}
-                className="cursor-pointer my-7 md:my-0 md:ml-8 text-md text-white hover:text-green-500 transition-all duration-100 font-thin"
-              >
-                Logout
-              </li>
             )}
           </ul>
         </div>

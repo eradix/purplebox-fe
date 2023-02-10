@@ -7,13 +7,17 @@ import { fetchAllCustomCake } from "../store/custom-cake-slice";
 import { useState } from "react";
 import { act } from "react-dom/test-utils";
 import { useEffect } from "react";
+import { FaPencilAlt } from "react-icons/fa";
 
 const ViewProductModal = ({ actions }) => {
   const dispatch = useDispatch();
-  const { order, status, form, showModal } = useSelector((state) => state.order);
+  const { order, status, form, showModal } = useSelector(
+    (state) => state.order
+  );
   const [statusField, setstatusField] = useState("");
   const [deliveryDate, setDeliveryDate] = useState("");
   const [price, setPrice] = useState(0);
+  const [edit, setEdit] = useState(false);
 
   const handleSave = (e, id) => {
     e.preventDefault();
@@ -23,16 +27,18 @@ const ViewProductModal = ({ actions }) => {
         status: statusField,
         unit_price: price,
         delivery_date: deliveryDate,
-        user: order.user
+        user_id: order.user.id,
       })
     );
     dispatch(actions.setShowModal(false));
     dispatch(actions.setStatus(status));
+    setEdit(false);
   };
 
   const closeModal = () => {
     dispatch(actions.setShowModal(false));
     setDeliveryDate(order?.delivery_date);
+    setEdit(false);
   };
 
   const handleSelect = (e) => {
@@ -41,7 +47,6 @@ const ViewProductModal = ({ actions }) => {
   };
 
   useEffect(() => {
-    setDeliveryDate(order?.delivery_date);
     setstatusField(order?.status);
   }, [showModal, status]);
 
@@ -113,13 +118,19 @@ const ViewProductModal = ({ actions }) => {
                     </span>
                   ) : (
                     <>
-                      <input
-                        type="number"
-                        name="unit_price"
-                        className="border p-1"
-                        value={price}
-                        onChange={handleChange}
-                      />
+                      {order?.unit_price ? (
+                        <span className="text-gray-500">
+                          {order?.unit_price}
+                        </span>
+                      ) : (
+                        <input
+                          type="number"
+                          name="unit_price"
+                          className="border p-1"
+                          value={price}
+                          onChange={handleChange}
+                        />
+                      )}
                     </>
                   )}
                 </p>
@@ -131,13 +142,24 @@ const ViewProductModal = ({ actions }) => {
                   Total Price:{" "}
                   <span className="text-gray-500">{order?.total_price}</span>
                 </p>
-                <p className="text-500-gray">
+                <p className="text-500-gray flex items-center">
                   Delivery Date:{" "}
-                  <input
-                    type="date"
-                    value={deliveryDate || ""}
-                    onChange={(e) => changeDeliveryDate(e)}
-                    className="text-500-gray"
+                  {!edit && (
+                    <span className="text-gray-500 ml-1 mr-2">
+                      {order?.delivery_date}
+                    </span>
+                  )}
+                  {edit && (
+                    <input
+                      type="date"
+                      value={deliveryDate}
+                      onChange={(e) => changeDeliveryDate(e)}
+                      className="text-500-gray mr-2"
+                    />
+                  )}
+                  <FaPencilAlt
+                    className="cursor-pointer hover:scale-105"
+                    onClick={() => setEdit(true)}
                   />
                 </p>
                 <p className="text-500-gray">
@@ -152,29 +174,31 @@ const ViewProductModal = ({ actions }) => {
                     Please be careful! lorem
                   </span>
                 </p>
-                <p className="text-500-gray">
-                  <select
-                    name="status"
-                    id={order?.id}
-                    className="text-yellow-500 text-center border py-3 px-1 rounded-md shadow-md w-full focus:outline-none"
-                    onChange={(e) => handleSelect(e)}
-                  >
-                    <option defaultValue={order?.status}>
-                      {order?.status}
-                    </option>
-                    {order?.status !== "Paid" && (
-                      <option value="Paid">Paid</option>
-                    )}
-                    {order?.status !== "Processing" && (
-                      <option value="Processing">Processing</option>
-                    )}
-                    {order?.status !== "Ready-For-Delivery" && (
-                      <option value="Ready-For-Delivery">
-                        Ready-For-Delivery
+                {order?.status !== "onCart" && (
+                  <p className="text-500-gray">
+                    <select
+                      name="status"
+                      id={order?.id}
+                      className="text-yellow-500 text-center border py-3 px-1 rounded-md shadow-md w-full focus:outline-none"
+                      onChange={(e) => handleSelect(e)}
+                    >
+                      <option defaultValue={order?.status}>
+                        {order?.status}
                       </option>
-                    )}
-                  </select>
-                </p>
+                      {order?.status !== "Paid" && (
+                        <option value="Paid">Paid</option>
+                      )}
+                      {order?.status !== "Processing" && (
+                        <option value="Processing">Processing</option>
+                      )}
+                      {order?.status !== "Ready-For-Delivery" && (
+                        <option value="Ready-For-Delivery">
+                          Ready-For-Delivery
+                        </option>
+                      )}
+                    </select>
+                  </p>
+                )}
               </div>
             </div>
           </div>

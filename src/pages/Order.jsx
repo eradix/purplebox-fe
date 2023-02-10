@@ -20,6 +20,7 @@ import {
   updateOrder,
 } from "../store/order-slice";
 import useAuth from "../App";
+import AlertModal from "../components/AlertModal"
 
 const Order = () => {
   const headers = [
@@ -56,7 +57,7 @@ const Order = () => {
     setStatsField(e.target.value);
   };
 
-  const { showModal, form, allOrders, status, qtyEachOrder } = useSelector(
+  const { showModal, form, allOrders, status, qtyEachOrder, success } = useSelector(
     (state) => state.order
   );
   const { allCustomCakes, customCake, customCakeModal } = useSelector(
@@ -67,7 +68,7 @@ const Order = () => {
 
   useEffect(() => {
     dispatch(getQtyEachOrder(token));
-    dispatch(getAllOrders(status));
+    dispatch(getAllOrders(status || "onCart"));
     dispatch(fetchAllCustomCake(status));
   }, [status]);
 
@@ -81,7 +82,7 @@ const Order = () => {
   const viewOrder = (e, id) => {
     e.preventDefault();
     console.log(st)
-    dispatch(getOrder({ id, status: st }));
+    dispatch(getOrder({ id, status: st || "onCart" }));
     dispatch(orderActions.setShowModal(true));
   };
 
@@ -93,6 +94,18 @@ const Order = () => {
 
   return (
     <>
+      {success && (
+        <AlertModal
+          icon={<FaCheck className="text-green-500 text-4xl" />}
+          status={"Success"}
+          message={
+            "Item has been updated."
+          }
+          button={"Okay"}
+          actions={orderActions}
+        />
+      )}
+
       {showModal && (
         <ViewProductModal
           icon={<FaCheck className="text-green-500 text-4xl" />}

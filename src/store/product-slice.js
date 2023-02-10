@@ -171,6 +171,7 @@ const productSlice = createSlice({
       console.log("loading");
     },
     [updateProduct.fulfilled]: (state, action) => {
+      state.edit = false
       state.showModal = false;
     },
     [updateProduct.rejected]: (state) => {

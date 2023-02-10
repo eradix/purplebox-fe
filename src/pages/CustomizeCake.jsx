@@ -16,7 +16,14 @@ const CustomizeCake = () => {
   const authUser = JSON.parse(localStorage.getItem("authUser"));
   const { form, success, failed } = useSelector((state) => state.order);
   const dispatch = useDispatch();
-  const requiredFields = ["quantity", "message", "remarks", "image"];
+  const requiredFields = [
+    "delivery_date",
+    "delivery_address",
+    "quantity",
+    "message",
+    "remarks",
+    "image",
+  ];
   var formData = new FormData();
 
   useEffect(() => {}, [success, failed]);
@@ -38,6 +45,7 @@ const CustomizeCake = () => {
     if (!token) navigate("/login");
     else {
       Object.keys(form).map((item) => {
+        console.log(form[item])
         if (item !== "image") formData.append(item, form[item]);
       });
       formData.append("status", "onCart");
@@ -111,6 +119,28 @@ const CustomizeCake = () => {
             <p className="font-bold text-2xl text-indigo-500 mb-3">
               Customize Cake
             </p>
+
+            <div className="my-3">
+              <div className="flex">
+                <input
+                  type="date"
+                  placeholder="Delivery Date"
+                  name="delivery_date"
+                  className="py-3 px-5 border w-full text-gray-500 mr-3"
+                  value={form.delivery_date}
+                  onChange={(e) => handleChange(e)}
+                />
+
+                <input
+                  type="text"
+                  placeholder="Delivery Address"
+                  name="delivery_address"
+                  className="py-3 px-5 border w-full text-gray-500"
+                  value={form.delivery_address}
+                  onChange={(e) => handleChange(e)}
+                />
+              </div>
+            </div>
 
             <div>
               <input
