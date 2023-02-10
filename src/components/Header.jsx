@@ -25,8 +25,9 @@ const Header = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    dispatch(getUserCart("Paid"));
-    dispatch(fetchUsersCake("Paid"));
+    dispatch(getUserCart("onCart"));
+    dispatch(fetchUsersCake("onCart"));
+    console.log(usersCart)
   }, [token]);
 
   const [open, setOpen] = useState(false);
@@ -119,7 +120,7 @@ const Header = () => {
                   <FaCartPlus className="text-2xl" />
                 </Link>
                 <p className=" text-white bg-red-500 rounded-full text-center text-sm absolute -top-3 -right-2 font-bold px-1">
-                  {usersCart?.length + usersCakes?.length}
+                  {usersCart?.length}
                 </p>
               </div>
             ) : (

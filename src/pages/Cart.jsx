@@ -204,7 +204,7 @@ const Cart = () => {
             }`}
             onClick={(e) => navigate(e, "Ready-For-Delivery")}
           >
-            Delivery ({qtyEachUserOrder.delivery})
+            Delivery ({qtyEachUserOrder.deliver})
           </li>
 
           <li

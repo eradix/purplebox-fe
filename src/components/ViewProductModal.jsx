@@ -23,6 +23,7 @@ const ViewProductModal = ({ actions }) => {
         status: statusField,
         unit_price: price,
         delivery_date: deliveryDate,
+        user: order.user
       })
     );
     dispatch(actions.setShowModal(false));
