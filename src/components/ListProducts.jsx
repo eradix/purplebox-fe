@@ -49,7 +49,7 @@ const ListProducts = () => {
               <div className="flex items-center">
                 <FaFunnelDollar className="text-white mr-1" />
                 <p className="text-white">
-                  Choose your desired Cake / Beverages
+                  Choose your desired Cake / Pastries / Beverages
                 </p>
               </div>
               <div>
@@ -59,6 +59,7 @@ const ListProducts = () => {
                   className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                 >
                   <option value="Cakes">Cakes</option>
+                  <option value="Pastries">Pastries</option>
                   <option value="Beverages">Beverages </option>
                   <option value="CustomCakes">Customized Cakes </option>
                 </select>

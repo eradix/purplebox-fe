@@ -16,7 +16,7 @@ export const productFields = [
     ph: "Type",
     icon: <FaVrCardboard />,
     field: "type",
-    dropdown: ["Cakes", "Beverages"],
+    dropdown: ["Cakes", "Beverages", "Pastries"],
   },
   {
     ph: "Price (php)",
