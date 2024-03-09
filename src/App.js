@@ -18,6 +18,7 @@ import Order from "./pages/Order";
 import axios from "axios";
 import CustomizeCake from "./pages/CustomizeCake";
 import About from "./pages/About";
+import Gallery from "./pages/Gallery";
 
 export const useAuth = () => {
   const token = localStorage.getItem("token");
@@ -53,6 +54,7 @@ function App() {
           <Routes>
             <Route path="/" element={<Index />}></Route>
             <Route path="/about-us" element={<About />}></Route>
+            <Route path="/gallery" element={<Gallery />}></Route>
             <Route path="product/:product_id" element={<Product />}></Route>
             <Route path="/customize-cake" element={<CustomizeCake />} />
             <Route path="/cart/:user_id" element={<Cart />}></Route>

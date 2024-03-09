@@ -48,6 +48,7 @@ const Header = () => {
 
   const allRoutes = [
     { name: "About Us", link: "/about-us" },
+    { name: "Gallery", link: "/gallery" },
     {
       name: "Contacts",
       link: "",
