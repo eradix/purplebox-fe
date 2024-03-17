@@ -35,4 +35,10 @@ export const productFields = [
     field: "image",
     file: true,
   },
+  {
+    ph: "Best seller",
+    icon: <FaImage />,
+    field: "is_best_seller",
+    options: ["No", "Yes"],
+  },
 ];

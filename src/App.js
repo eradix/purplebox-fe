@@ -19,6 +19,7 @@ import axios from "axios";
 import CustomizeCake from "./pages/CustomizeCake";
 import About from "./pages/About";
 import Gallery from "./pages/Gallery";
+import Calendar from "./pages/Calendar";
 
 export const useAuth = () => {
   const token = localStorage.getItem("token");
@@ -63,7 +64,7 @@ function App() {
               <Route path="/users" element={<User />} />
               <Route path="/list-products" element={<ListProducts />} />
               <Route path="/orders" element={<Order />} />
-              
+              <Route path="/calendars" element={<Calendar />} />
             </Route>
 
             <Route element={<PublicRoutes />}>

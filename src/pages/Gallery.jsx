@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import bg from "../assets/img/banner.jpg";
 import none from "../assets/img/none.jpg";
 import { productFields } from '../helper/ProductField';
+import { Link } from "react-router-dom";
 
 const Gallery = () => {
 
@@ -78,10 +79,10 @@ const Gallery = () => {
           backgroundSize: "cover",
         }}
       >
-        <h1 className='text-center text-4xl font-bold my-5'>Gallery</h1>
+        <h1 className='text-center text-3xl font-bold my-5'>Gallery</h1>
         <div className='text-center py-3'>
             <input 
-                className='border rounded py-3 px-5 bg-slate-200 text-xl'
+                className='border rounded py-3 px-5 bg-slate-200 text-lg'
                 type="text"
                 placeholder='Search product ...'
                 value={query}
@@ -91,8 +92,8 @@ const Gallery = () => {
         </div>
 
         <div className='text-right mr-12 xl:mr-48'>
-            <label className='text-xl font-bold'>Sort by type: </label>
-            <select className='border rounded px-3 py-2 bg-slate-200 text-xl' id="type" value={selectedType} onChange={handleSelectChange} >
+            <label className='text-lg font-bold'>Sort by type: </label>
+            <select className='border rounded px-3 py-2 bg-slate-200 text-lg' id="type" value={selectedType} onChange={handleSelectChange} >
                 <option value=""></option>
                 {productFields[1].dropdown.map((type, index) => (
                 <option key={index} value={type}>
@@ -119,16 +120,18 @@ const Gallery = () => {
             {data.length > 0 ? (
                 <div className='gallery grid grid-cols-2 md:grid-cols-4 gap-2 '>
                     {data.map((item) => (
-                        <div key={item.id} className='gallery-img border border-slate-500 pb-3 bg-slate-500'>
-                            {item.image? 
-                                <img className='h-96 max-w-full' src={`${process.env.REACT_APP_API_URL}/storage/${item.image}`} alt="" />
-                                : <img src={none} className="" alt="" />
-                            }
-                            
-                            <p className='text-center pt-3'><span className='text-white bg-violet-900 px-3 py-1 text-lg rounded font-bold '>{item.type}</span> </p>
-                            <h3 className='text-2xl text-center font-bold mt-3'>{item.name.toUpperCase()}</h3>
-                            <p className='text-center text-xl text-purple-900'><strong>PHP {item.price}</strong></p>
-                        </div>
+                        <Link to={`/product/${item.id}`}>
+                            <div key={item.id} className='gallery-img border border-slate-500 pb-3 bg-slate-500'>
+                                {item.image? 
+                                    <img className='h-80 max-w-full' src={`${process.env.REACT_APP_API_URL}/storage/${item.image}`} alt="" />
+                                    : <img src={none} className="" alt="" />
+                                }
+                                
+                                <p className='text-center pt-3'><span className='text-white bg-violet-900 px-3 py-1 text-lg rounded font-bold '>{item.type}</span> </p>
+                                <h3 className='text-xl text-center font-bold mt-3'>{item.name.toUpperCase()}</h3>
+                                <p className='text-center text-lg text-purple-900'><strong>PHP {item.price}</strong></p>
+                            </div>
+                        </Link>
                     ))}
                 </div>
             )

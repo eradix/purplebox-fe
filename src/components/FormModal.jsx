@@ -62,10 +62,10 @@ const FormModal = ({ addTitle, updateTitle, fields, actions, form, edit }) => {
     }
   };
 
-  const handleSelect = (e) => {
+  const handleSelect = (e, dropdownType='Type') => {
     const value = e.target.value;
     if (addTitle.includes("User")) dispatch(actions.updateRole(value));
-    else if (addTitle.includes("Product")) dispatch(actions.setType(value));
+    else if (addTitle.includes("Product")) dispatch(dropdownType == 'Type' ? actions.setType(value) : actions.setIsBestSeller(value));
   };
 
   return (
@@ -84,7 +84,7 @@ const FormModal = ({ addTitle, updateTitle, fields, actions, form, edit }) => {
           <div>
             {fields.map((item, index) => (
               <div key={index} className="mb-2">
-                {!item.file && !item.dropdown && (
+                {!item.file && !item.dropdown && !item.options && (
                   <TextBox
                     type={item?.type}
                     placeholder={item.ph}
@@ -116,6 +116,22 @@ const FormModal = ({ addTitle, updateTitle, fields, actions, form, edit }) => {
                     <option value="Select Status">Select {item.ph}</option>
                     {item.dropdown.map((data, id) => (
                       <option key={id} value={data}>
+                        {data}
+                      </option>
+                    ))}
+                  </select>
+                )}
+
+                {item.options && (
+                  <select
+                    name="is_best_seller"
+                    value={form.field}
+                    onChange={(e) => handleSelect(e, item.ph)}
+                    className="text-gray-500 border py-3 pr-3 pl-10 rounded-md shadow-md w-full focus:outline-none"
+                  >
+                    <option value="">{item.ph}</option>
+                    {item.options.map((data, id) => (
+                      <option key={id} value={id}>
                         {data}
                       </option>
                     ))}

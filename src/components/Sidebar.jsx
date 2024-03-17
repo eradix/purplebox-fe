@@ -5,6 +5,7 @@ import {
   FaBirthdayCake,
   FaPowerOff,
   FaCheck,
+  FaRegCalendarAlt
 } from "react-icons/fa";
 import { useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
@@ -13,6 +14,11 @@ import Modal from "./AlertModal";
 
 const Sidebar = () => {
   const navs = [
+    {
+      name: "Calendar",
+      logo: <FaRegCalendarAlt className="text-md" />,
+      path: "/calendars",
+    },
     {
       name: "Orders",
       logo: <FaHandHolding className="text-md" />,

@@ -26,6 +26,49 @@
   /* filter: grayscale(70%); */
 }
 
+.slick-prev {
+  left: 3% !important;
+  z-index: 1;
+}
+.slick-next {
+  right: 3% !important;
+  z-index: 1;
+}
+
+.overlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 100%;
+  width: 100%;
+  opacity: 0;
+  transition: .5s ease;
+}
+
+.bestsellerdiv:hover .overlay {
+  opacity: 1;
+}
+
+.text {
+  color: #222;
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  -webkit-transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+  text-align: center;
+  background-color: transparent;
+  width: 100%;
+}
+
+.bestsellerdiv:hover .image {
+  opacity: 0.5;
+  transition: 0.3s ease-in-out;
+}
+
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;

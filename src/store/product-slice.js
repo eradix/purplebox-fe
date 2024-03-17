@@ -19,7 +19,7 @@ export const saveProduct = createAsyncThunk(
   "product/saveProducts",
   async (payload, thunkAPI) => {
     try {
-      // console.log(payload.get("image"));
+// console.log(payload.get("image"));
       const resp = await axios.post(
         `${process.env.REACT_APP_API_URL}/api/products`,
         payload,
@@ -93,6 +93,7 @@ const productSlice = createSlice({
       description: "",
       price: "",
       type: "",
+      is_best_seller: ""
     },
     showModal: false,
     edit: false,
@@ -130,10 +131,14 @@ const productSlice = createSlice({
         description: "",
         price: "",
         type: "",
+        is_best_seller: "",
       };
     },
     setType(state, action) {
       state.form["type"] = action.payload;
+    },
+    setIsBestSeller(state, action) {
+      state.form["is_best_seller"] = action.payload;
     },
   },
   extraReducers: {
